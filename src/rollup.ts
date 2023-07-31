@@ -1,5 +1,4 @@
 import json from "@rollup/plugin-json";
-import run from "@rollup/plugin-run";
 import typescript from "@rollup/plugin-typescript";
 import { externals } from "rollup-plugin-node-externals";
 import {
@@ -10,19 +9,23 @@ import {
 } from "rollup";
 import { getDestination, getFormat, getInfo } from "./package.js";
 import { CliOption } from "./command.js";
+import { clean } from "./fs.js";
 
 export async function createConfig(filename: string, option: CliOption) {
   const pkg = getInfo();
+  const dir = getDestination(pkg);
+  if (option.clean) {
+    clean(dir);
+  }
   const plugins = [
     json(),
     externals(),
     typescript({
       outputToFilesystem: true,
-      resolveJsonModule: true,
-      allowSyntheticDefaultImports: true,
     }),
   ];
   if (option.run) {
+    const { default: run } = await import("@rollup/plugin-run");
     plugins.push(
       run({
         allowRestarts: true,
@@ -32,7 +35,8 @@ export async function createConfig(filename: string, option: CliOption) {
   const config: RollupOptions = {
     input: filename,
     output: {
-      dir: getDestination(pkg),
+      dir,
+      sourcemap: option.sourcemap,
       format: getFormat(pkg),
       esModule: true,
       chunkFileNames,
@@ -45,9 +49,13 @@ export async function createConfig(filename: string, option: CliOption) {
 
 export function watch(config: RollupOptions) {
   console.clear();
-  rollupWatch(config).on("restart", () => {
-    console.clear();
-  });
+  rollupWatch(config)
+    .on("restart", () => {
+      // console.clear();
+    })
+    .on("change", (id, evt) => {
+      console.log("changed", id);
+    });
 }
 
 export async function build(config: RollupOptions) {

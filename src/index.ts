@@ -1,9 +1,13 @@
 import { CliOption, onAction } from "./command";
 import { createConfig, build, watch } from "./rollup";
+import { dumpConfig, isTypescript } from "./typescript";
 
-onAction(run);
+onAction(handleAction);
 
-async function run(filename: string, opt: CliOption) {
+async function handleAction(filename: string, opt: CliOption) {
+  if (isTypescript(filename)) {
+    await dumpConfig();
+  }
   const config = await createConfig(filename, opt);
   if (opt.watch) {
     return watch(config);

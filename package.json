@@ -2,10 +2,12 @@
   "name": "nodeup",
   "packageManager": "yarn@3.6.1",
   "type": "module",
+  "main": "cli.js",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c"
   },
+  "bin": "cli.js",
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-run": "^3.0.1",
