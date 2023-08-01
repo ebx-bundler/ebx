@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "incremental": true,
-    "lib": [],
     "target": "ESNext",
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,

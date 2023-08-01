@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "packageManager": "yarn@3.6.1",
   "type": "module",
   "main": "cli.js",
@@ -16,9 +16,7 @@
     "commander": "^11.0.0",
     "rollup": "^3.27.0",
     "rollup-plugin-node-externals": "^6.1.1",
+    "tslib": "^2.6.1",
     "typescript": "^5.1.6"
-  },
-  "devDependencies": {
-    "tslib": "^2.6.1"
   }
 }

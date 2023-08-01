@@ -1,32 +1,27 @@
 import { readFileSync as readFile } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { ensureCase } from "./utils";
 
-interface PackageInfo {
-  name: string;
-  type: string;
-  version: string;
-  main: string;
-  author: string;
-  license: string;
-  packageManager: string;
-  dependencies: Dependencies;
-  devDependencies: Dependencies;
-  scripts: Scripts;
-  bin: string;
-}
-
-interface Scripts {
-  [key: string]: string;
-}
-
-interface Dependencies {
-  [key: string]: string;
+export interface PackageInfo {
+  name?: string;
+  type: "module" | "commonjs";
+  main?: string;
 }
 
 export function getInfo(): PackageInfo {
-  const cwd = process.cwd();
-  const packagePath = join(cwd, "package.json");
-  return JSON.parse(readFile(packagePath, "utf-8"));
+  try {
+    const cwd = process.cwd();
+    const packagePath = join(cwd, "package.json");
+    const info: PackageInfo = JSON.parse(readFile(packagePath, "utf-8"));
+    if (!info.type) {
+      info.type = "commonjs";
+    }
+    return ensureCase(info, "type");
+  } catch (err) {
+    return {
+      type: "commonjs",
+    };
+  }
 }
 
 export function getDestination(info: PackageInfo) {
@@ -37,10 +32,7 @@ export function getDestination(info: PackageInfo) {
 }
 
 export function getFormat(info: PackageInfo) {
-  if (!info.type) {
-    return "cjs";
-  }
-  switch (info.type.toLowerCase()) {
+  switch (info.type) {
     case "module":
       return "es";
     case "commonjs":
