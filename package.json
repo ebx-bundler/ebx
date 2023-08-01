@@ -1,5 +1,6 @@
 {
-  "name": "nodeup",
+  "name": "ebx",
+  "version": "0.0.1",
   "packageManager": "yarn@3.6.1",
   "type": "module",
   "main": "cli.js",
