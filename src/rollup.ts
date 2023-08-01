@@ -57,7 +57,6 @@ export function watch(config: RollupOptions) {
 }
 
 export async function build(config: RollupOptions) {
-  console.log("awesome");
   const output = Array.isArray(config.output) ? config.output : [config.output];
   const bundle = await rollup(config);
   return Promise.all(output.map(bundle.write));
