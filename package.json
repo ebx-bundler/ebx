@@ -1,8 +1,8 @@
 {
   "name": "ebx",
-  "version": "0.0.3",
-  "packageManager": "yarn@3.6.1",
+  "version": "0.0.4",
   "type": "module",
+  "packageManager": "yarn@3.6.1",
   "main": "cli.js",
   "scripts": {
     "dev": "rollup -c -w",
@@ -10,13 +10,18 @@
   },
   "bin": "cli.js",
   "dependencies": {
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-run": "^3.0.1",
     "@rollup/plugin-typescript": "^11.1.2",
-    "commander": "^11.0.0",
     "rollup": "^3.27.0",
-    "rollup-plugin-node-externals": "^6.1.1",
     "tslib": "^2.6.1",
     "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.3",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-run": "^3.0.1",
+    "@rollup/plugin-terser": "^0.4.3",
+    "commander": "^11.0.0",
+    "rollup-plugin-node-externals": "^6.1.1"
   }
 }
