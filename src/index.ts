@@ -7,7 +7,7 @@ onAction(handleAction);
 
 async function handleAction(filename: string, opt: CliOption) {
   const pkg = getInfo();
-  if (isTypescript(filename)) {
+  if (isTypescript(filename) && !opt.tsconfig) {
     await dumpConfig(pkg);
   }
   const config = await createConfig(filename, pkg, opt);

@@ -19,6 +19,7 @@ export async function createConfig(
     json(),
     externals(),
     typescript({
+      tsconfig: option.tsconfig,
       outputToFilesystem: true,
     }),
   ];
@@ -49,9 +50,9 @@ export function watch(config: RollupOptions) {
   console.clear();
   rollupWatch(config)
     .on("restart", () => {
-      // console.clear();
+      console.clear();
     })
-    .on("change", (id, evt) => {
+    .on("change", (id) => {
       console.log("reload", id);
     });
 }

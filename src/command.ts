@@ -5,14 +5,16 @@ export interface CliOption {
   watch: boolean;
   clean: boolean;
   sourcemap: boolean;
+  tsconfig?: string;
 }
 
 type Callback = (filename: string, opt: CliOption) => void;
 
 program.option("-w --watch", "watch changes");
 program.option("-r --run", "run the program");
-program.option("-c --clean", "clean before build");
+program.option("-nc --no-clean", "clean before build");
 program.option("-s --sourcemap", "generate sourcemap");
+program.option("--tsconfig <tsconfig>", "custom ts config path");
 
 program.argument("filename");
 
