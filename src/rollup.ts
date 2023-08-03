@@ -60,7 +60,8 @@ export function watch(config: RollupOptions) {
 export async function build(config: RollupOptions) {
   const output = Array.isArray(config.output) ? config.output : [config.output];
   const bundle = await rollup(config);
-  return Promise.all(output.map(bundle.write));
+  await Promise.all(output.map(bundle.write));
+  console.log("build successfully");
 }
 
 function chunkFileNames() {

@@ -18,7 +18,7 @@ export default defineConfig({
     json(),
     isProduction && terser(),
   ],
-  external: ["typescript", "tslib", "rollup", "@rollup/plugin-typescript"],
+  external: ["typescript", "tslib", "rollup", "resolve"],
   output: {
     format: "es",
     chunkFileNames: "[name].js",

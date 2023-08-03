@@ -10,7 +10,7 @@
   },
   "bin": "cli.js",
   "dependencies": {
-    "@rollup/plugin-typescript": "^11.1.2",
+    "resolve": "^1.22.2",
     "rollup": "^3.27.0",
     "tslib": "^2.6.1",
     "typescript": "^5.1.6"
@@ -21,6 +21,7 @@
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-run": "^3.0.1",
     "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.2",
     "commander": "^11.0.0",
     "rollup-plugin-node-externals": "^6.1.1"
   }
