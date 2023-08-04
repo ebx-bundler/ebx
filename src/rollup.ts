@@ -29,6 +29,10 @@ export async function createConfig(filename: string, option: CliOption) {
       })
     );
   }
+  if (option.minify) {
+    const { default: terser } = await import("@rollup/plugin-terser");
+    plugins.push(terser());
+  }
   const config: RollupOptions = {
     input: filename,
     output: [

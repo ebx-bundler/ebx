@@ -15,6 +15,14 @@
     "tslib": "^2.6.1",
     "typescript": "^5.1.6"
   },
+  "peerDependencies": {
+    "@rollup/plugin-terser": "^0.4.3"
+  },
+  "peerDependenciesMeta": {
+    "@rollup/plugin-terser": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",

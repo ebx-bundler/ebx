@@ -18,10 +18,16 @@ export default defineConfig({
     json(),
     isProduction && terser(),
   ],
-  external: ["typescript", "tslib", "rollup", "resolve"],
+  external: [
+    "typescript",
+    "tslib",
+    "rollup",
+    "resolve",
+    "@rollup/plugin-terser",
+  ],
   output: {
     format: "es",
-    chunkFileNames: "[name].js",
+    chunkFileNames: "[name]-[hash].js",
     dir: "dist",
   },
 });
