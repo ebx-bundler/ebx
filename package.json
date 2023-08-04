@@ -22,7 +22,14 @@
     "@rollup/plugin-run": "^3.0.1",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
+    "colorette": "^2.0.20",
     "commander": "^11.0.0",
+    "date-time": "^4.0.0",
+    "pretty-bytes": "^6.1.1",
+    "pretty-ms": "^8.0.0",
     "rollup-plugin-node-externals": "^6.1.1"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

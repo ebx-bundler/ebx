@@ -1,5 +1,5 @@
 import { readFileSync as readFile } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, resolve, basename } from "node:path";
 import { ensureCase } from "./utils";
 
 export interface PackageInfo {
@@ -8,7 +8,10 @@ export interface PackageInfo {
   main?: string;
 }
 
-export function getInfo(): PackageInfo {
+const info = parseInfo();
+export { info as packageInfo };
+
+function parseInfo(): PackageInfo {
   try {
     const cwd = process.cwd();
     const packagePath = join(cwd, "package.json");
@@ -24,14 +27,15 @@ export function getInfo(): PackageInfo {
   }
 }
 
-export function getDestination(info: PackageInfo) {
+export function getDestination(): [string, string?] {
   if (!info.main) {
-    return "dist";
+    return ["dist"];
   }
-  return dirname(resolve(info.main));
+  const resolved = resolve(info.main);
+  return [dirname(resolved), basename(resolved)];
 }
 
-export function getFormat(info: PackageInfo) {
+export function getFormat() {
   switch (info.type) {
     case "module":
       return "es";
