@@ -38,7 +38,7 @@ export function getDestination(): [string, string?] {
 export function getFormat() {
   switch (info.type) {
     case "module":
-      return "es";
+      return "esm";
     case "commonjs":
       return "cjs";
   }
