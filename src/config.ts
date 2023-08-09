@@ -8,6 +8,7 @@ import { NodeResolvePlugin } from "@esbuild-plugins/node-resolve";
 import { EsmExternalsPlugin } from "@esbuild-plugins/esm-externals";
 import { progress } from "./plugins/progress.js";
 import { run } from "./plugins/run.js";
+import { tscFork } from "./plugins/tsc/index.js";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
@@ -21,6 +22,8 @@ export async function createConfig(
     clean(dir);
   }
   const plugins: Plugin[] = [
+    tscFork(),
+    tsc(),
     NodeResolvePlugin({
       extensions: [".ts", ".js"],
       onResolved: (resolved) => {
@@ -31,8 +34,8 @@ export async function createConfig(
       },
     }),
     EsmExternalsPlugin({ externals: ["express"] }),
-    tsc(),
-    progress(),
+    
+    progress({ dist: dir }),
     run({ filename: "./dist/index.js" }),
   ];
   if (option.run) {
@@ -42,7 +45,7 @@ export async function createConfig(
   const config: ConfigOption = {
     entryPoints: [filename],
     bundle: true,
-    target: "node20",
+    target: "",
     platform: "node",
     format: "esm",
     outdir: dir,

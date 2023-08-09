@@ -1,11 +1,12 @@
+import { spawn } from "child_process";
 import { Plugin } from "esbuild";
 
-interface ProgressOption {
-  message?: string;
-}
-export function tscFork(options: ProgressOption = {}): Plugin {
+export function tscFork(): Plugin {
   return {
-    name: "progress",
-    setup(build) {},
+    name: 'ts-type-check',
+    setup(build) {
+    
+    },
   };
 }
+

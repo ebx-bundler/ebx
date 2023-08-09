@@ -16,7 +16,7 @@ export function run({ filename }: RunOption): Plugin {
           });
         }
         subprocess = execaNode(`${filename}`);
-        subprocess.pipeStdout(process.stdout);
+        subprocess.pipeStdout(process.stdout).pipeStderr(process.stderr);
       });
     },
   };
