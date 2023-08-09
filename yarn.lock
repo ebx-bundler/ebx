@@ -553,6 +553,11 @@ __metadata:
     rollup-plugin-node-externals: ^6.1.1
     tslib: ^2.6.1
     typescript: ^5.1.6
+  peerDependencies:
+    "@rollup/plugin-terser": ^0.4.3
+  peerDependenciesMeta:
+    "@rollup/plugin-terser":
+      optional: true
   bin:
     ebx: cli.js
   languageName: unknown
