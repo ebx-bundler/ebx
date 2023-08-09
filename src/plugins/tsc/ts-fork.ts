@@ -179,10 +179,9 @@ export class ForkTsCheckerWebpackPlugin {
       this.eslintVersion = eslintVersion;
       this.eslintOptions = eslintOptions;
     }
-    this.vue = ForkTsCheckerWebpackPlugin.prepareVueOptions(options.vue);
     this.useTypescriptIncrementalApi =
       options.useTypescriptIncrementalApi === undefined
-        ? semver.gte(this.typescriptVersion, "3.0.0") && !this.vue.enabled
+        ? semver.gte(this.typescriptVersion, "3.0.0")
         : options.useTypescriptIncrementalApi;
     this.measureTime = options.measureCompilationTime === true;
     if (this.measureTime) {
@@ -203,34 +202,16 @@ export class ForkTsCheckerWebpackPlugin {
   private validateTypeScript(
     options: Partial<ForkTsCheckerWebpackPlugin.Options>
   ) {
-    const typescriptPath = options.typescript || require.resolve("typescript");
     const tsconfig = options.tsconfig || "./tsconfig.json";
     const compilerOptions =
       typeof options.compilerOptions === "object"
         ? options.compilerOptions
         : {};
 
-    let typescript, typescriptVersion;
-
-    try {
-      typescript = require(typescriptPath);
-      typescriptVersion = typescript.version;
-    } catch (_ignored) {
-      throw new Error(
-        "When you use this plugin you must install `typescript`."
-      );
-    }
-
-    if (semver.lt(typescriptVersion, "2.1.0")) {
-      throw new Error(
-        `Cannot use current typescript version of ${typescriptVersion}, the minimum required version is 2.1.0`
-      );
-    }
-
     return {
-      typescriptPath,
-      typescript,
-      typescriptVersion,
+      typescriptPath: "typescript",
+      typescript: ts,
+      typescriptVersion: ts.version,
       tsconfig,
       compilerOptions,
     };
@@ -376,7 +357,7 @@ export class ForkTsCheckerWebpackPlugin {
 
   public generateBundle = (pluginContext: PluginContext) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const emit = (compilation: any, callback: () => void) => {
         if (this.isWatching && this.async) {
           resolve();
@@ -466,7 +447,6 @@ export class ForkTsCheckerWebpackPlugin {
       MEMORY_LIMIT: String(this.memoryLimit),
       CHECK_SYNTACTIC_ERRORS: String(this.checkSyntacticErrors),
       USE_INCREMENTAL_API: String(this.useTypescriptIncrementalApi === true),
-      VUE: JSON.stringify(this.vue),
     };
 
     if (typeof this.resolveModuleNameModule !== "undefined") {
