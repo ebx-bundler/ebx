@@ -18,7 +18,7 @@ export default defineConfig({
     json(),
     isProduction && terser(),
   ],
-  external: ["typescript", "tslib", "esbuild", "@esbuild-plugins/node-resolve"],
+  external: ["typescript", "tslib", "esbuild", "esbuild-plugin-tsc"],
   output: {
     format: "es",
     chunkFileNames: "[name].js",

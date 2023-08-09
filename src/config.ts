@@ -2,7 +2,6 @@ import { getDestination, getFormat } from "./package.js";
 import { CliOption } from "./command.js";
 import { clean } from "./fs.js";
 import type { BuildOptions, Plugin } from "esbuild";
-import tsc from "esbuild-plugin-tsc";
 
 import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress.js";
@@ -19,26 +18,33 @@ export async function createConfig(
   if (option.clean) {
     clean(dir);
   }
-  const plugins: Plugin[] = [tsc(), nodeExternalsPlugin(), ];
-  
+
+  const plugins: Plugin[] = [];
+
+  if (option.decorators) {
+    const { default: tsc } = await import("esbuild-plugin-tsc");
+    plugins.push(tsc());
+  }
+
+  plugins.push(nodeExternalsPlugin());
+
   if (option.watch) {
-    plugins.push(
-      progress({ dist: dir })
-    )
+    plugins.push(progress({ dist: dir }));
   }
 
   if (option.run) {
-    plugins.push(run({ filename: "./dist/index.js" }));
+    plugins.push(run());
   }
 
   const config: ConfigOption = {
     entryPoints: [filename],
     bundle: true,
-    target: "",
+    target: "node20",
     platform: "node",
     format: getFormat(),
     outdir: dir,
     minify: option.minify,
+    sourcemap: option.sourcemap,
     plugins,
   };
 

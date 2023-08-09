@@ -13,6 +13,7 @@ interface ProgressOption {
 export function progress(options: ProgressOption): Plugin {
   const message = options.message || "Building";
   const spinner = ora();
+  const dist = relativeId(options.dist);
   return {
     name: "progress",
     setup(build) {
@@ -21,12 +22,12 @@ export function progress(options: ProgressOption): Plugin {
       const input = relativeId(build.initialOptions.entryPoints[0]);
       build.onStart(() => {
         reset();
-        stderr(cyan(`\n${bold(input!)} → ${bold(options.dist)}...`));
+        stderr(cyan(`\n${bold(input!)} → ${bold(dist)}...`));
         spinner.text = message + "\n";
         spinner.start();
-        started = Date.now()
+        started = Date.now();
       });
-      
+
       build.onEnd((result) => {
         result.errors.length
           ? spinner.fail(
@@ -34,7 +35,10 @@ export function progress(options: ProgressOption): Plugin {
                 result.errors.length > 1 ? "s" : ""
               }`
             )
-          : spinner.succeed(green(`created ${bold(options.dist)} in ${ms(Date.now() - started)}`));
+          : spinner.succeed(
+              green(`created ${bold(dist)} in ${ms(Date.now() - started)}`)
+            );
+        console.log("waiting for changes...\n");
       });
     },
   };
