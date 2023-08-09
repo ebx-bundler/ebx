@@ -1,4 +1,4 @@
-import { getDestination } from "./package.js";
+import { getDestination, getFormat } from "./package.js";
 import { CliOption } from "./command.js";
 import { clean } from "./fs.js";
 import type { BuildOptions, Plugin } from "esbuild";
@@ -21,6 +21,7 @@ export async function createConfig(
     clean(dir);
   }
   const plugins: Plugin[] = [
+    tsc(),
     NodeResolvePlugin({
       extensions: [".ts", ".js"],
       onResolved: (resolved) => {
@@ -30,13 +31,12 @@ export async function createConfig(
         return resolved;
       },
     }),
-    EsmExternalsPlugin({ externals: ["express"] }),
-    tsc(),
+    EsmExternalsPlugin({ externals: [] }),
     progress(),
-    run({ filename: "./dist/index.js" }),
   ];
+
   if (option.run) {
-    plugins.push();
+    plugins.push(run({ filename: "./dist/index.js" }));
   }
 
   const config: ConfigOption = {
@@ -44,8 +44,9 @@ export async function createConfig(
     bundle: true,
     target: "node20",
     platform: "node",
-    format: "esm",
+    format: getFormat(),
     outdir: dir,
+    minify: option.minify,
     plugins,
   };
 
