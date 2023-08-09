@@ -19,7 +19,13 @@ export async function createConfig(
   if (option.clean) {
     clean(dir);
   }
-  const plugins: Plugin[] = [tsc(), nodeExternalsPlugin(), progress({ dist: dir })];
+  const plugins: Plugin[] = [tsc(), nodeExternalsPlugin(), ];
+  
+  if (option.watch) {
+    plugins.push(
+      progress({ dist: dir })
+    )
+  }
 
   if (option.run) {
     plugins.push(run({ filename: "./dist/index.js" }));
