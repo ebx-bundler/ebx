@@ -1,5 +1,5 @@
 import { BuildOptions, Plugin } from "esbuild";
-import { ExecaChildProcess, execaNode } from "execa";
+import { ExecaChildProcess as Process, execaNode as node } from "execa";
 import { basename, extname, join } from "node:path";
 
 function getOutputFilename(opt: BuildOptions) {
@@ -15,17 +15,26 @@ export function run({ filename }: RunOption = {}): Plugin {
   return {
     name: "plugin-run",
     async setup(build) {
-      let subprocess: ExecaChildProcess = null;
       const fname = filename ?? getOutputFilename(build.initialOptions);
-      build.onEnd(() => {
-        if (subprocess) {
-          subprocess.kill("SIGTERM", {
-            forceKillAfterTimeout: 2000,
-          });
-        }
-        subprocess = execaNode(fname);
-        subprocess.pipeStdout(process.stdout).pipeStderr(process.stderr);
-      });
+      const execute = createRunner(fname);
+      build.onEnd(execute);
     },
+  };
+}
+
+function createRunner(file: string) {
+  let p: Process = null;
+
+  return function execute() {
+    if (!p) {
+      p = node(file, { stdio: "inherit" });
+      return;
+    }
+    p.kill("SIGTERM", {
+      forceKillAfterTimeout: 2000,
+    });
+    p.on("close", () => {
+      p = node(file, { stdio: "inherit" });
+    });
   };
 }
