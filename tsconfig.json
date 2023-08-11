@@ -4,6 +4,8 @@
     "target": "ES2022",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "moduleResolution": "Bundler"
+    "strict": true,
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true
   }
 }

@@ -5,25 +5,28 @@ import * as semver from "semver";
 import chalk from "chalk";
 import micromatch from "micromatch";
 import { RpcProvider } from "worker-rpc";
-import { PluginContext } from "rollup";
+import { type InputOptions, type PluginContext } from "rollup";
 import { CancellationToken } from "fork-ts-checker-webpack-plugin/lib/CancellationToken";
 import {
-  Formatter,
+  type Formatter,
   createFormatter,
   createRawFormatter,
-  FormatterType,
-  FormatterOptions,
+  type FormatterType,
+  type FormatterOptions,
 } from "fork-ts-checker-webpack-plugin/lib/formatter/index.js";
 import { fileExistsSync } from "fork-ts-checker-webpack-plugin/lib/FsHelper";
-import { Message } from "fork-ts-checker-webpack-plugin/lib/Message";
+import { type Message } from "fork-ts-checker-webpack-plugin/lib/Message";
 import { getForkTsCheckerWebpackPluginHooks } from "fork-ts-checker-webpack-plugin/lib/hooks";
 import {
   RUN,
-  RunPayload,
-  RunResult,
+  type RunPayload,
+  type RunResult,
 } from "fork-ts-checker-webpack-plugin/lib/RpcTypes";
-import { Issue, IssueSeverity } from "fork-ts-checker-webpack-plugin/lib/issue";
-import { Options as EslintOptions } from "fork-ts-checker-webpack-plugin/lib/types/eslint";
+import {
+  type Issue,
+  IssueSeverity,
+} from "fork-ts-checker-webpack-plugin/lib/issue";
+import { type Options as EslintOptions } from "fork-ts-checker-webpack-plugin/lib/types/eslint";
 
 export namespace ForkTsCheckerWebpackPlugin {
   export interface Logger {

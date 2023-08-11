@@ -1,4 +1,4 @@
-import { ConfigOption } from "./config";
+import { type ConfigOption } from "./config";
 import * as esbuild from "esbuild";
 
 export async function watch(options: ConfigOption): Promise<void> {

@@ -1,12 +1,9 @@
 import { spawn } from "child_process";
-import { Plugin } from "esbuild";
+import { type Plugin } from "esbuild";
 
 export function tscFork(): Plugin {
   return {
-    name: 'ts-type-check',
-    setup(build) {
-    
-    },
+    name: "ts-type-check",
+    setup(build) {},
   };
 }
-

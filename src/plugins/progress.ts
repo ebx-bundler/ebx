@@ -1,10 +1,11 @@
-import { Plugin } from "esbuild";
+import { type Plugin } from "esbuild";
 import ora from "ora";
 import { bold, cyan, green } from "../colors";
 import ms from "pretty-ms";
 import { relativeId } from "../path";
 import { getResetScreen } from "../screen";
 import { stderr } from "../logging";
+import { getEntry } from "../utils";
 
 interface ProgressOption {
   message?: string;
@@ -19,7 +20,7 @@ export function progress(options: ProgressOption): Plugin {
     setup(build) {
       let started = 0;
       const reset = getResetScreen();
-      const input = relativeId(build.initialOptions.entryPoints[0]);
+      const input = relativeId(getEntry(build.initialOptions));
       build.onStart(() => {
         reset();
         stderr(cyan(`\nbundles ${bold(input!)} → ${bold(dist)}...`));
@@ -27,7 +28,6 @@ export function progress(options: ProgressOption): Plugin {
         spinner.start();
         started = Date.now();
       });
-
       build.onEnd((result) => {
         result.errors.length
           ? spinner.fail(

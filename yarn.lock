@@ -1035,6 +1035,11 @@ __metadata:
     tslib: ^2.6.1
     typescript: ^5.1.6
     worker-rpc: ^0.2.0
+  peerDependencies:
+    esbuild-plugin-tsc: ^0.4.0
+  peerDependenciesMeta:
+    esbuild-plugin-tsc:
+      optional: true
   bin:
     ebx: cli.js
   languageName: unknown

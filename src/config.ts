@@ -1,5 +1,5 @@
 import { getDestination, getFormat } from "./package.js";
-import { CliOption } from "./command.js";
+import { type CliOption } from "./command.js";
 import { clean } from "./fs.js";
 import type { BuildOptions, Plugin } from "esbuild";
 

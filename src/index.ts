@@ -1,5 +1,5 @@
 import build from "./build";
-import { CliOption, onAction } from "./command";
+import { type CliOption, onAction } from "./command";
 import { createConfig } from "./config";
 import { dumpConfig, isTypescript } from "./typescript";
 import { watch } from "./watch";

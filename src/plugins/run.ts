@@ -1,10 +1,11 @@
-import { BuildOptions, Plugin } from "esbuild";
-import { ExecaChildProcess as Process, execaNode as node } from "execa";
+import type { BuildOptions, Plugin } from "esbuild";
+import { type ExecaChildProcess as Process, execaNode as node } from "execa";
 import { basename, extname, join } from "node:path";
+import { getEntry } from "../utils";
 
 function getOutputFilename(opt: BuildOptions) {
-  const outdir = opt.outdir;
-  let filename = basename((opt.entryPoints as string[])?.at(0), ".js");
+  const outdir = opt.outdir!;
+  let filename = basename(getEntry(opt), ".js");
   filename = filename.replace(extname(filename), ".js");
   return join(outdir, filename);
 }
@@ -23,8 +24,7 @@ export function run({ filename }: RunOption = {}): Plugin {
 }
 
 function createRunner(file: string) {
-  let p: Process = null;
-
+  let p: Process | null = null;
   return function execute() {
     if (!p) {
       p = node(file, { stdio: "inherit" });
@@ -34,7 +34,8 @@ function createRunner(file: string) {
       forceKillAfterTimeout: 2000,
     });
     p.on("close", () => {
-      p = node(file, { stdio: "inherit" });
+      p = null;
+      execute();
     });
   };
 }
