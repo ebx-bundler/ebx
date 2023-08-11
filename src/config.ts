@@ -6,6 +6,7 @@ import type { BuildOptions, Plugin } from "esbuild";
 import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress.js";
 import { run } from "./plugins/run.js";
+import { tscForkPlugin } from "./plugins/tsc/index.js";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
@@ -19,7 +20,7 @@ export async function createConfig(
     clean(dir);
   }
 
-  const plugins: Plugin[] = [];
+  const plugins: Plugin[] = [tscForkPlugin()];
 
   if (option.decorators) {
     const { default: tsc } = await import("esbuild-plugin-tsc");
