@@ -38,6 +38,7 @@ export async function createConfig(
 
   const config: ConfigOption = {
     entryPoints: [filename],
+    splitting: true,
     bundle: true,
     target: "node20",
     platform: "node",
