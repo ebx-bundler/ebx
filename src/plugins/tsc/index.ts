@@ -8,7 +8,6 @@ export function tscForkPlugin(): Plugin {
     name: "ts-type-check",
     async setup() {
       const p = tscPath();
-      console.log({ p });
       const subprocess = node(p, ["--noEmit", "--watch", "--pretty"], {
         shell: true,
         stderr: process.stderr,
