@@ -18,7 +18,7 @@ export default defineConfig({
     json(),
     isProduction && terser(),
   ],
-  external: ["typescript", "tslib", "esbuild", "esbuild-plugin-tsc"],
+  external: ["typescript", "esbuild", "ora"],
   output: {
     format: "cjs",
     chunkFileNames: "[name].js",

@@ -1,19 +1,13 @@
-import { execaNode as node } from "execa";
 import { type Plugin } from "esbuild";
-import { tscPath } from "./tsc.cjs";
 import { Transform, type TransformCallback } from "node:stream";
+import { tsc } from "../../tsc";
 
 export function tscForkPlugin(): Plugin {
   return {
     name: "ts-type-check",
     async setup() {
-      const p = tscPath();
-      const subprocess = node(p, ["--noEmit", "--watch", "--pretty"], {
-        shell: true,
-        stderr: process.stderr,
-        stdin: process.stdin,
-      });
-      subprocess.stdout?.pipe(new Strip()).pipe(process.stdin);
+      const subprocess = tsc({ watch: true });
+      subprocess.pipe(new Strip()).pipe(process.stdin);
     },
   };
 }

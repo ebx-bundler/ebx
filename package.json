@@ -2,24 +2,16 @@
   "name": "ebx",
   "version": "0.0.5",
   "packageManager": "yarn@3.6.1",
-  "main": "cli.js",
+  "main": "cli.cjs",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c"
   },
-  "bin": "cli.js",
+  "bin": "cli.cjs",
   "dependencies": {
     "esbuild": "^0.18.17",
-    "tslib": "^2.6.1",
+    "ora": "^5",
     "typescript": "^5.1.6"
-  },
-  "peerDependencies": {
-    "esbuild-plugin-tsc": "^0.4.0"
-  },
-  "peerDependenciesMeta": {
-    "esbuild-plugin-tsc": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
@@ -35,17 +27,13 @@
     "commander": "^11.0.0",
     "date-time": "^4.0.0",
     "esbuild-node-externals": "^1.8.0",
-    "esbuild-plugin-tsc": "^0.4.0",
     "execa": "^7.2.0",
     "fork-ts-checker-webpack-plugin": "4.1.3",
     "micromatch": "^4.0.5",
-    "ora": "^7.0.1",
     "pretty-bytes": "^6.1.1",
     "pretty-ms": "^8.0.0",
     "rollup": "^3.27.0",
-    "rollup-plugin-node-externals": "^6.1.1",
-    "semver": "^7.5.4",
-    "worker-rpc": "^0.2.0"
+    "rollup-plugin-node-externals": "^6.1.1"
   },
   "files": [
     "dist"
