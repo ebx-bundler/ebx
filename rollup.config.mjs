@@ -10,7 +10,7 @@ try {
   rmSync("dist", { recursive: true });
 } catch (er) {}
 export default defineConfig({
-  input: "./src/index.ts",
+  input: { index: "./src/index.ts", typescript: "./src/typescript/index.ts" },
   plugins: [
     nodeResolve({ exportConditions: ["node"], preferBuiltins: true }),
     commonjs({}),

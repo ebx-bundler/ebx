@@ -1,8 +1,9 @@
-import path from "node:path";
 import { execaNode as node } from "execa";
 
 export const tscPath = () => {
-  return path.join(require.resolve("typescript/lib/tsc.js"));
+  return process.versions.pnp
+    ? require.resolve("./typescript.js")
+    : require.resolve("typescript/lib/tsc.js");
 };
 
 interface TSCOptions {

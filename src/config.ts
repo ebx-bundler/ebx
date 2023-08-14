@@ -2,7 +2,6 @@ import { getDestination, getFormat } from "./package.js";
 import { type CliOption } from "./command.js";
 import { clean } from "./fs.js";
 import type { BuildOptions, Plugin } from "esbuild";
-
 import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress.js";
 import { run } from "./plugins/run.js";

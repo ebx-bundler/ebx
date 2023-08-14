@@ -22,7 +22,7 @@ export function progress(options: ProgressOption): Plugin {
       const reset = getResetScreen();
       const input = relativeId(getEntry(build.initialOptions));
       build.onStart(() => {
-        // reset();
+        reset();
         stderr(cyan(`\nbundles ${bold(input!)} → ${bold(dist)}...`));
         spinner.text = message + "\n";
         spinner.start();

@@ -9,7 +9,7 @@
   },
   "bin": "cli.cjs",
   "dependencies": {
-    "esbuild": "^0.18.17",
+    "esbuild": "^0.19.2",
     "ora": "^5",
     "typescript": "^5.1.6"
   },
@@ -33,7 +33,8 @@
     "pretty-bytes": "^6.1.1",
     "pretty-ms": "^8.0.0",
     "rollup": "^3.27.0",
-    "rollup-plugin-node-externals": "^6.1.1"
+    "rollup-plugin-node-externals": "^6.1.1",
+    "tslib": "^2.6.1"
   },
   "files": [
     "dist"
