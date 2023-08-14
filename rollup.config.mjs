@@ -13,12 +13,12 @@ export default defineConfig({
   input: { index: "./src/index.ts", typescript: "./src/typescript/index.ts" },
   plugins: [
     nodeResolve({ exportConditions: ["node"], preferBuiltins: true }),
-    commonjs({}),
+    commonjs(),
     typescript(),
     json(),
     isProduction && terser(),
   ],
-  external: ["typescript", "esbuild", "ora"],
+  external: ["typescript", "esbuild"],
   output: {
     format: "cjs",
     chunkFileNames: "[name].js",

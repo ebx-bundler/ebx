@@ -10,10 +10,10 @@
   "bin": "cli.cjs",
   "dependencies": {
     "esbuild": "^0.19.2",
-    "ora": "^5",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
+    "ora": "^5",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
