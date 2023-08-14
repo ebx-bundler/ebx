@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-import "./dist/index.js";
+const { run } = require("./dist/index.js");
+run();

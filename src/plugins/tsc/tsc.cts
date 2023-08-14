@@ -1,4 +1,5 @@
+import path from "node:path";
+
 export const tscPath = () => {
-  process.env.NODE_OPTIONS = `--experimental-import-meta-resolve ${process.env.NODE_OPTIONS}`;
-  return import.meta.resolve!("typescript") + "/lib/tsc.js";
+  return path.join(require.resolve("typescript/lib/tsc.js"));
 };
