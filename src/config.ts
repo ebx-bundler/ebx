@@ -20,16 +20,12 @@ export async function createConfig(
     clean(dir);
   }
 
-  const plugins: Plugin[] = [tscForkPlugin()];
-
-  if (option.decorators) {
-    const { default: tsc } = await import("esbuild-plugin-tsc");
-    plugins.push(tsc());
-  }
+  const plugins: Plugin[] = [];
 
   plugins.push(nodeExternalsPlugin());
 
   if (option.watch) {
+    plugins.push(tscForkPlugin());
     plugins.push(progress({ dist: dir }));
   }
 
@@ -48,6 +44,10 @@ export async function createConfig(
     sourcemap: option.sourcemap,
     plugins,
   };
+
+  if (config.format === "esm") {
+    config.splitting = true;
+  }
 
   return config;
 }

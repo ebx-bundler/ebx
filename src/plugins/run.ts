@@ -33,9 +33,11 @@ function createRunner(file: string) {
     p.kill("SIGTERM", {
       forceKillAfterTimeout: 2000,
     });
-    p.on("close", () => {
-      p = null;
-      execute();
-    });
+    p = null;
+    execute();
+    // p.on("close", () => {
+    //   p = null;
+    //   execute();
+    // });
   };
 }
