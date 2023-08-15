@@ -1,6 +1,7 @@
 import { readFileSync as readFile } from "node:fs";
 import { dirname, join, resolve, basename } from "node:path";
 import { ensureCase } from "./utils";
+import semver from "semver";
 
 export interface PackageInfo {
   name?: string;
@@ -51,7 +52,9 @@ export function getTarget(prefix = "node") {
   if (!info.engines?.node) {
     return;
   }
-  const version = info.engines.node;
-  const [v] = version.split(" ");
-  return prefix + v.replace(">", "").replace("=", "");
+  const version = semver.coerce(info.engines.node);
+  if (!version) {
+    throw new Error(`Invalid node version selected (${info.engines.node})`);
+  }
+  return `${prefix}${version.version}`;
 }
