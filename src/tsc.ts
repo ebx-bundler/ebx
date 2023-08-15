@@ -1,9 +1,7 @@
 import { execaNode as node } from "execa";
 
 export const tscPath = () => {
-  return process.versions.pnp
-    ? require.resolve("./typescript.js")
-    : require.resolve("typescript/lib/tsc.js");
+  return require.resolve("typescript/lib/tsc.js");
 };
 
 interface TSCOptions {
@@ -14,7 +12,8 @@ export function tsc(opt: TSCOptions) {
   const p = tscPath();
   const args = ["--noEmit", "--pretty"];
   if (opt.config) {
-    args.push("-p " + opt.config);
+    args.push("-p");
+    args.push(opt.config);
   }
   if (opt.watch) {
     args.push("--watch");

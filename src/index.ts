@@ -6,7 +6,7 @@ import { watch } from "./watch";
 
 async function handleAction(filename: string, opt: CliOption) {
   if (isTypescript(filename) && !opt.tsconfig) {
-    await dumpConfig();
+    await dumpConfig("tsconfig.json");
   }
   const config = await createConfig(filename, opt);
   if (opt.watch) {
