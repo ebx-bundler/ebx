@@ -1,4 +1,4 @@
-import { getDestination, getFormat } from "./package.js";
+import { getDestination, getFormat, getTarget } from "./package.js";
 import { type CliOption } from "./command.js";
 import { clean } from "./fs.js";
 import type { BuildOptions, Plugin } from "esbuild";
@@ -35,12 +35,13 @@ export async function createConfig(
   const config: ConfigOption = {
     entryPoints: [filename],
     bundle: true,
-    target: "node20",
+    target: getTarget(),
     platform: "node",
     format: getFormat(),
     outdir: dir,
     minify: option.minify,
     sourcemap: option.sourcemap,
+    tsconfig: option.tsconfig,
     plugins,
   };
 

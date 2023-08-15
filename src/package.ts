@@ -6,6 +6,9 @@ export interface PackageInfo {
   name?: string;
   type: "module" | "commonjs";
   main?: string;
+  engines?: {
+    node?: string;
+  };
 }
 
 const info = parseInfo();
@@ -42,4 +45,13 @@ export function getFormat() {
     case "commonjs":
       return "cjs";
   }
+}
+
+export function getTarget(prefix = "node") {
+  if (!info.engines?.node) {
+    return;
+  }
+  const version = info.engines.node;
+  const [v] = version.split(" ");
+  return prefix + v.replace(">", "").replace("=", "");
 }

@@ -10,8 +10,9 @@ import { getEntry } from "../utils";
 interface ProgressOption {
   message?: string;
   dist: string;
+  clear?: boolean;
 }
-export function progress(options: ProgressOption): Plugin {
+export function progress({ clear = true, ...options }: ProgressOption): Plugin {
   const message = options.message || "Building";
   const spinner = ora();
   const dist = relativeId(options.dist);
@@ -22,7 +23,7 @@ export function progress(options: ProgressOption): Plugin {
       const reset = getResetScreen();
       const input = relativeId(getEntry(build.initialOptions));
       build.onStart(() => {
-        reset();
+        clear && reset();
         stderr(cyan(`\nbundles ${bold(input!)} → ${bold(dist)}...`));
         spinner.text = message + "\n";
         spinner.start();

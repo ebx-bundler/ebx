@@ -13,13 +13,11 @@ interface TSCOptions {
 export function tsc(opt: TSCOptions) {
   const p = tscPath();
   const args = ["--noEmit", "--pretty"];
-
-  if (opt.watch) {
-    args.push("--watch");
-  }
-
   if (opt.config) {
     args.push("-p " + opt.config);
+  }
+  if (opt.watch) {
+    args.push("--watch");
   }
 
   const subprocess = node(p, args, {
