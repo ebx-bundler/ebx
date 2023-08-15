@@ -379,6 +379,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/semver@npm:^7.5.0":
+  version: 7.5.0
+  resolution: "@types/semver@npm:7.5.0"
+  checksum: 0a64b9b9c7424d9a467658b18dd70d1d781c2d6f033096a6e05762d20ebbad23c1b69b0083b0484722aabf35640b78ccc3de26368bcae1129c87e9df028a22e2
+  languageName: node
+  linkType: hard
+
 "abbrev@npm:^1.0.0":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -753,6 +760,7 @@ __metadata:
     "@rollup/plugin-terser": ^0.4.3
     "@rollup/plugin-typescript": ^11.1.2
     "@types/node": ^20.4.8
+    "@types/semver": ^7.5.0
     colorette: ^2.0.20
     commander: ^11.0.0
     date-time: ^4.0.0
@@ -763,6 +771,7 @@ __metadata:
     pretty-bytes: ^6.1.1
     pretty-ms: ^8.0.0
     rollup: ^3.27.0
+    semver: ^7.5.4
     tslib: ^2.6.1
     typescript: ^5.1.6
   bin:
@@ -1827,7 +1836,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.5":
+"semver@npm:^7.3.5, semver@npm:^7.5.4":
   version: 7.5.4
   resolution: "semver@npm:7.5.4"
   dependencies:
