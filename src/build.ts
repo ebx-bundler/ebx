@@ -8,6 +8,7 @@ import { getEntry } from "./utils";
 import { tsc } from "./tsc";
 import ora from "ora";
 import { EOL } from "os";
+import type { CliOption } from "./command";
 
 async function typecheck(config?: string) {
   let hasError = false;
@@ -20,15 +21,20 @@ async function typecheck(config?: string) {
   }
 }
 
-export default async function build(inputOptions: ConfigOption): Promise<any> {
+export default async function build(
+  inputOptions: ConfigOption,
+  option: CliOption
+): Promise<any> {
   const start = Date.now();
   const files = inputOptions.outdir!;
   let inputFiles = relativeId(getEntry(inputOptions));
   const spinner = ora();
   stderr(cyan(`\n${bold(inputFiles!)} → ${bold(files)}...`));
   spinner.start();
-  spinner.text = "checking types..." + EOL;
-  await typecheck(inputOptions.tsconfig);
+  if (!option.ignoreTypes) {
+    spinner.text = "checking types..." + EOL;
+    await typecheck(inputOptions.tsconfig);
+  }
   spinner.text = "bundling..." + EOL;
   await esbuild.build(inputOptions);
   spinner.succeed(

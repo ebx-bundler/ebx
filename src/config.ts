@@ -24,7 +24,9 @@ export async function createConfig(
   plugins.push(nodeExternalsPlugin());
 
   if (option.watch) {
-    plugins.push(tscForkPlugin());
+    if (!option.ignoreTypes) {
+      plugins.push(tscForkPlugin());
+    }
     plugins.push(progress({ dist: dir }));
   }
 

@@ -7,6 +7,7 @@ export interface CliOption {
   sourcemap: boolean;
   tsconfig?: string;
   minify?: boolean;
+  ignoreTypes: boolean;
 }
 program.version(version);
 
@@ -33,6 +34,7 @@ program.option(
   "Path to a custom TypeScript configuration file (tsconfig.json)."
 );
 program.option("-m --minify", "Minify the output JavaScript code.");
+program.option("--ignore-types", "Ignores type errors.", false);
 
 program.argument("filename");
 
