@@ -6,7 +6,7 @@ EBX is a command-line tool designed to simplify the process of building and runn
 
 ## Installation
 
-To use EBX, you need to have Node.js and npm (Node Package Manager) installed on your system. You can install EBX globally using the following command:
+You can install EBX globally using the following command:
 
 ```bash
 npm install -g ebx
