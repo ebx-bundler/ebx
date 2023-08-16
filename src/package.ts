@@ -33,7 +33,7 @@ function parseInfo(): PackageInfo {
 
 export function getDestination(): [string, string?] {
   if (!info.main) {
-    return ["dist"];
+    return [resolve("dist")];
   }
   const resolved = resolve(info.main);
   return [dirname(resolved), basename(resolved)];

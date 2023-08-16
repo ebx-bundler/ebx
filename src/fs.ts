@@ -10,9 +10,6 @@ export function write(name: string, content: string) {
 }
 
 export function clean(dest: string) {
-  if (process.cwd() === resolve(dest)) {
-    return;
-  }
   try {
     rmSync(dest, { recursive: true });
     mkdirSync(dest);

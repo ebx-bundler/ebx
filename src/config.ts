@@ -10,11 +10,13 @@ import { tscForkPlugin } from "./plugins/tsc/index.js";
 export type ConfigOption = BuildOptions;
 export type { Plugin };
 
-export async function createConfig(
-  filename: string,
-  option: CliOption
-): Promise<ConfigOption> {
+export async function createConfig(filename: string, option: CliOption) {
   const [dir] = getDestination();
+
+  if (process.cwd() === dir) {
+    option.clean = false;
+  }
+
   if (option.clean) {
     clean(dir);
   }
