@@ -2,12 +2,13 @@
   "name": "ebx",
   "version": "0.0.6",
   "packageManager": "yarn@3.6.1",
-  "main": "cli.cjs",
+  "type": "module",
+  "main": "cli.js",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c"
   },
-  "bin": "cli.cjs",
+  "bin": "cli.js",
   "dependencies": {
     "esbuild": "^0.19.2",
     "typescript": "^5.1.6"
@@ -25,7 +26,7 @@
     "date-time": "^4.0.0",
     "esbuild-node-externals": "^1.8.0",
     "execa": "^7.2.0",
-    "ora": "^5.4.1",
+    "ora": "^7.0.1",
     "pretty-bytes": "^6.1.1",
     "pretty-ms": "^8.0.0",
     "rollup": "^3.27.0",

@@ -1,5 +1,6 @@
 import { execaNode as node } from "execa";
-
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 export const tscPath = () => {
   return require.resolve("typescript/lib/tsc.js");
 };

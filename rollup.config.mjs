@@ -20,7 +20,7 @@ export default defineConfig({
   ],
   external: ["typescript", "esbuild"],
   output: {
-    format: "cjs",
+    format: "esm",
     chunkFileNames: "[name].js",
     dir: "dist",
   },
