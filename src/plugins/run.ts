@@ -19,8 +19,18 @@ export function run({ filename }: RunOption = {}): Plugin {
       const fname = filename ?? getOutputFilename(build.initialOptions);
       const execute = createRunner(fname, build.initialOptions);
       build.onEnd(execute);
+      onRestart(execute);
     },
   };
+}
+
+function onRestart(execute: ReturnType<typeof createRunner>) {
+  process.stdout.on("data", (buf) => {
+    const txt = buf.toString().trim();
+    if (txt === "rs") {
+      execute();
+    }
+  });
 }
 
 function createRunner(file: string, opt: BuildOptions) {

@@ -10,7 +10,8 @@
     "esbuild",
     "bundler",
     "es6",
-    "modules"
+    "modules",
+    "nodejs"
   ],
   "scripts": {
     "dev": "rollup -c -w",

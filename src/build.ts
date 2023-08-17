@@ -10,7 +10,7 @@ import ora from "ora";
 import { EOL } from "os";
 import type { CliOption } from "./command";
 
-async function typecheck(config?: string) {
+async function typeCheck(config?: string) {
   let hasError = false;
   for await (const log of tsc({ config })) {
     hasError = true;
@@ -33,7 +33,7 @@ export default async function build(
   spinner.start();
   if (!option.ignoreTypes) {
     spinner.text = "checking types..." + EOL;
-    await typecheck(inputOptions.tsconfig);
+    await typeCheck(inputOptions.tsconfig);
   }
   spinner.text = "bundling..." + EOL;
   await esbuild.build(inputOptions);
