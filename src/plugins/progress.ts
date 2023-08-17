@@ -39,7 +39,7 @@ export function progress({ clear = true, ...options }: ProgressOption): Plugin {
           : spinner.succeed(
               green(`created ${bold(dist)} in ${ms(Date.now() - started)}`)
             );
-        console.log(`  waiting for changes... ${bold("rs")}↵ to restart.\n`);
+        console.log(`  waiting for changes... ${bold("rs")} ↵ to restart.\n`);
       });
     },
   };

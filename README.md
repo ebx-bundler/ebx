@@ -8,7 +8,7 @@
 
 **EBX** takes advantage of the lightning-fast build tool [esbuild](https://esbuild.github.io/) as its foundation.
 
-The standout feature of **EBX** is its asynchronous type checking mechanism. Unlike traditional methods that halt the development process until type checking completes, our approach offloads type checking to a child process. This asynchronous approach frees developers to continue working on their code without interruptions.
+The standout feature of **EBX** is its parallel type checking mechanism. Unlike traditional methods that halt the development process until type checking completes, our approach offloads type checking to a child process. This asynchronous approach frees developers to continue working on their code without interruptions.
 
 ## Installation
 
