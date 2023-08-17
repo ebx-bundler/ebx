@@ -1,10 +1,15 @@
 {
   "name": "ebx",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "packageManager": "yarn@3.6.1",
   "type": "module",
   "main": "cli.js",
   "description": "Command Line Tool for Building and Running TypeScript Code",
+  "homepage": "https://github.com/md-adil/ebx.git",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/md-adil/ebx.git"
+  },
   "keywords": [
     "typescript",
     "esbuild",
