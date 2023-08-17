@@ -26,7 +26,7 @@ export default async function build(
   option: CliOption
 ): Promise<any> {
   const start = Date.now();
-  const files = inputOptions.outdir!;
+  const files = relativeId(inputOptions.outdir!);
   let inputFiles = relativeId(getEntry(inputOptions));
   const spinner = ora();
   stderr(cyan(`\n${bold(inputFiles!)} → ${bold(files)}...`));
