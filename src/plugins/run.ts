@@ -17,25 +17,45 @@ export function run({ filename }: RunOption = {}): Plugin {
     name: "plugin-run",
     async setup(build) {
       const fname = filename ?? getOutputFilename(build.initialOptions);
-      const execute = createRunner(fname);
+      const execute = createRunner(fname, build.initialOptions);
       build.onEnd(execute);
+      onRestart(execute);
     },
   };
 }
 
-function createRunner(file: string) {
+function onRestart(execute: ReturnType<typeof createRunner>) {
+  process.stdout.on("data", (buf) => {
+    const txt = buf.toString().trim();
+    if (txt === "rs") {
+      execute();
+    }
+  });
+}
+
+function createRunner(file: string, opt: BuildOptions) {
   let p: Process | null = null;
+
+  function run() {
+    const nodeOptions: string[] = [];
+    if (opt.sourcemap) {
+      nodeOptions.push("--enable-source-maps");
+    }
+    return node(file, {
+      stdio: "inherit",
+      nodeOptions,
+    });
+  }
+
   return function execute() {
     if (!p) {
-      p = node(file, { stdio: "inherit" });
+      p = run();
       return;
     }
     p.kill("SIGTERM", {
       forceKillAfterTimeout: 2000,
     });
-    p.on("close", () => {
-      p = null;
-      execute();
-    });
+    p = null;
+    execute();
   };
 }

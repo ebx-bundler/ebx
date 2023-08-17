@@ -13,14 +13,14 @@ export default defineConfig({
   input: "./src/index.ts",
   plugins: [
     nodeResolve({ exportConditions: ["node"], preferBuiltins: true }),
-    commonjs({}),
+    commonjs(),
     typescript(),
     json(),
     isProduction && terser(),
   ],
-  external: ["typescript", "tslib", "esbuild", "esbuild-plugin-tsc"],
+  external: ["typescript", "esbuild"],
   output: {
-    format: "es",
+    format: "esm",
     chunkFileNames: "[name].js",
     dir: "dist",
   },

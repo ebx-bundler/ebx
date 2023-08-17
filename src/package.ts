@@ -1,11 +1,15 @@
 import { readFileSync as readFile } from "node:fs";
 import { dirname, join, resolve, basename } from "node:path";
 import { ensureCase } from "./utils";
+import semver from "semver";
 
 export interface PackageInfo {
   name?: string;
   type: "module" | "commonjs";
   main?: string;
+  engines?: {
+    node?: string;
+  };
 }
 
 const info = parseInfo();
@@ -29,7 +33,7 @@ function parseInfo(): PackageInfo {
 
 export function getDestination(): [string, string?] {
   if (!info.main) {
-    return ["dist"];
+    return [resolve("dist")];
   }
   const resolved = resolve(info.main);
   return [dirname(resolved), basename(resolved)];
@@ -42,4 +46,15 @@ export function getFormat() {
     case "commonjs":
       return "cjs";
   }
+}
+
+export function getTarget(prefix = "node") {
+  if (!info.engines?.node) {
+    return;
+  }
+  const version = semver.coerce(info.engines.node);
+  if (!version) {
+    throw new Error(`Invalid node version selected (${info.engines.node})`);
+  }
+  return `${prefix}${version.version}`;
 }

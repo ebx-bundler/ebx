@@ -1,4 +1,5 @@
 import { existsSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
+import { resolve } from "node:path";
 
 export function isExists(f: string) {
   return existsSync(f);

@@ -1,5 +1,5 @@
 import { type ConfigOption } from "./config";
-import * as esbuild from "esbuild";
+import esbuild from "esbuild";
 
 export async function watch(options: ConfigOption): Promise<void> {
   await start(options);

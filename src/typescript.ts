@@ -6,11 +6,11 @@ export function isTypescript(fname: string) {
   return extname(fname) === ".ts";
 }
 
-export async function dumpConfig() {
-  if (isExists("tsconfig.json")) return;
+export async function dumpConfig(name: string) {
+  if (isExists(name)) return;
   const { default: stub }: any = await import("./tsconfig.stub.json");
   if (packageInfo.type === "module") {
     stub.compilerOptions.module = "ESNext";
   }
-  write("tsconfig.json", JSON.stringify(stub, null, 2));
+  write(name, JSON.stringify(stub, null, 2));
 }

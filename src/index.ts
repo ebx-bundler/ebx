@@ -4,15 +4,21 @@ import { createConfig } from "./config";
 import { dumpConfig, isTypescript } from "./typescript";
 import { watch } from "./watch";
 
-onAction(handleAction);
-
 async function handleAction(filename: string, opt: CliOption) {
-  if (isTypescript(filename) && !opt.tsconfig) {
-    await dumpConfig();
+  if (isTypescript(filename)) {
+    if (!opt.tsconfig) {
+      await dumpConfig("tsconfig.json");
+    }
+  } else {
+    opt.ignoreTypes = true;
   }
   const config = await createConfig(filename, opt);
   if (opt.watch) {
     return watch(config);
   }
-  return build(config);
+  return build(config, opt);
+}
+
+export function run() {
+  onAction(handleAction);
 }
