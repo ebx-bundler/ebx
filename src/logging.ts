@@ -1,6 +1,6 @@
-import process from "node:process";
+import { stderr as std } from "node:process";
 
 export const stderr = (...parameters: readonly unknown[]) =>
-  process.stderr.write(`${parameters.join("")}\n`);
+  std.write(`${parameters.join("")}\n`);
 
 export function handleError(error: unknown, recover = false): void {}

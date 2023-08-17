@@ -2,7 +2,10 @@
 
 ## Introduction
 
-EBX is a command-line tool designed to simplify the process of building and running TypeScript code. It provides a set of options and features to streamline the development workflow, including options for watching changes, generating sourcemaps, running the compiled program, and more.
+EBX is a powerful command-line tool designed to simplify the process of building and running TypeScript code within a Node.js environment. With a focus on ECMAScript Modules (ESM), EBX streamlines the development workflow, automating essential tasks while requiring zero configuration from developers.
+
+Built on top of `esbuild` you don't need to care about performance
+and check for type errors asynchronously in a child thread.
 
 ## Installation
 
@@ -32,6 +35,7 @@ EBX provides several options that you can use to customize the build and run pro
 - `-s, --sourcemap`: Generate sourcemaps for the compiled JavaScript code.
 - `--tsconfig <tsconfig>`: Path to a custom TypeScript configuration file (tsconfig.json).
 - `-m, --minify`: Minify the output JavaScript code.
+- `--ignore-types`: Ignore type errors.
 
 ## Example Usage
 
@@ -42,6 +46,9 @@ EBX provides several options that you can use to customize the build and run pro
    ```bash
    ebx -r app.ts
    ```
+
+   to build ES MODULE
+   just add `"type": "module"` in your `package.json` file
 
 2. **Watching Changes:**
 
