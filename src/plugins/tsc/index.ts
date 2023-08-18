@@ -1,6 +1,7 @@
 import { type Plugin } from "esbuild";
 import { Transform, type TransformCallback } from "node:stream";
 import { tsc } from "../../tsc";
+import { EOL } from "node:os";
 
 export function tscForkPlugin(): Plugin {
   return {
@@ -16,18 +17,21 @@ class Strip extends Transform {
   clearBuf = Buffer.from("\x1Bc");
   infoBuf = Buffer.from("[\x1B[90m");
   _transform(
-    chunk: any,
+    chunks: Buffer,
     encoding: BufferEncoding,
     callback: TransformCallback
   ): void {
-    if (this.skip(chunk)) {
-      return callback();
+    const splitted = this.splitChunks(chunks);
+    for (const chunk of splitted) {
+      if (this.skip(chunk)) {
+        continue;
+      }
+      this.push(chunk, encoding);
     }
-    this.push(chunk, encoding);
     callback();
   }
   skip(chunk: Buffer) {
-    if (this.clearBuf.equals(chunk)) {
+    if (this.clearBuf.equals(chunk) || chunk.equals(Buffer.from(EOL))) {
       return true;
     }
     if (this.buffersStartWith(chunk, this.infoBuf)) {
@@ -45,5 +49,18 @@ class Strip extends Transform {
       }
     }
     return true;
+  }
+
+  *splitChunks(chunk: Buffer) {
+    let lineStart = 0;
+    for (let i = 0; i < chunk.length; i++) {
+      if (chunk[i] === 10) {
+        yield chunk.subarray(lineStart, i + 1);
+        lineStart = i + 1;
+      }
+    }
+    if (lineStart < chunk.length) {
+      yield chunk.subarray(lineStart);
+    }
   }
 }
