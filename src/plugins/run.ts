@@ -2,6 +2,8 @@ import type { BuildOptions, Plugin } from "esbuild";
 import { type ExecaChildProcess as Process, execaNode as node } from "execa";
 import { basename, extname, join } from "node:path";
 import { getEntry } from "../utils";
+import { bold, dim } from "../colors";
+import { EOL } from "node:os";
 
 function getOutputFilename(opt: BuildOptions) {
   const outdir = opt.outdir!;
@@ -33,10 +35,25 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
   });
 }
 
+function createOnce(cb: CallableFunction) {
+  let hasRun = false;
+  return function run() {
+    if (hasRun) {
+      return;
+    }
+    hasRun = true;
+    cb();
+  };
+}
+
 function createRunner(file: string, opt: BuildOptions) {
   let p: Process | null = null;
+  const showMessage = createOnce(() => {
+    console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
+  });
 
   function run() {
+    showMessage();
     const nodeOptions: string[] = [];
     if (opt.sourcemap) {
       nodeOptions.push("--enable-source-maps");

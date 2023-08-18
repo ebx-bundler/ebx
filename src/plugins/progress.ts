@@ -1,11 +1,12 @@
 import { type Plugin } from "esbuild";
 import ora from "ora";
-import { bold, cyan, green } from "../colors";
+import { bold, cyan, dim, green } from "../colors";
 import ms from "pretty-ms";
 import { relativeId } from "../path";
 import { getResetScreen } from "../screen";
 import { stderr } from "../logging";
 import { getEntry } from "../utils";
+import chalk from "chalk";
 
 interface ProgressOption {
   message?: string;
@@ -39,7 +40,7 @@ export function progress({ clear = true, ...options }: ProgressOption): Plugin {
           : spinner.succeed(
               green(`created ${bold(dist)} in ${ms(Date.now() - started)}`)
             );
-        console.log(`  waiting for changes... ${bold("rs")} ↵ to restart.\n`);
+        console.log(dim(`⧖ waiting for changes...`));
       });
     },
   };
