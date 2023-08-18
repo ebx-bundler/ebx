@@ -20,7 +20,10 @@ export function run({ filename }: RunOption = {}): Plugin {
     async setup(build) {
       const fname = filename ?? getOutputFilename(build.initialOptions);
       const execute = createRunner(fname, build.initialOptions);
-      build.onEnd(execute);
+      build.onEnd(() => {
+        console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
+        execute();
+      });
       onRestart(execute);
     },
   };
@@ -35,25 +38,9 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
   });
 }
 
-function createOnce(cb: CallableFunction) {
-  let hasRun = false;
-  return function run() {
-    if (hasRun) {
-      return;
-    }
-    hasRun = true;
-    cb();
-  };
-}
-
 function createRunner(file: string, opt: BuildOptions) {
   let p: Process | null = null;
-  const showMessage = createOnce(() => {
-    console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
-  });
-
   function run() {
-    showMessage();
     const nodeOptions: string[] = [];
     if (opt.sourcemap) {
       nodeOptions.push("--enable-source-maps");
