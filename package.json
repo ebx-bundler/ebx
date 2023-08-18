@@ -5,10 +5,14 @@
   "type": "module",
   "main": "cli.js",
   "description": "Command Line Tool for Building and Running TypeScript Code",
-  "homepage": "https://github.com/md-adil/ebx.git",
+  "homepage": "https://github.com/ebx-bundler/ebx.git",
+  "author": {
+    "name": "Adil Shaikh",
+    "email": "adil.sudo@gmail.com"
+  },
   "repository": {
     "type": "github",
-    "url": "https://github.com/md-adil/ebx.git"
+    "url": "https://github.com/ebx-bundler/ebx.git"
   },
   "keywords": [
     "typescript",
@@ -25,7 +29,7 @@
   "bin": "cli.js",
   "dependencies": {
     "esbuild": "^0.19.2",
-    "typescript": "^5.1.6"
+    "typescript": ">=5.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
