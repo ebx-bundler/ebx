@@ -86,6 +86,59 @@ Modern JavaScript development often involves utilizing **ES6** module syntax, wh
 Default output directory is `dist`, if you want to change to something else define main in `package.json`
 ex: `"main": "lib/app.js"` it will now compile and run `app.js` in `lib` directory
 
+### Integration with NestJS
+
+#### Step 1: Installation
+
+To integrate EBX with your NestJS project, follow these steps:
+
+1. Install EBX as a development dependency using the following command:
+
+   ```bash
+   yarn add -D ebx
+   ```
+
+#### Step 2: Configuration
+
+1. Add the following scripts to your `package.json` file:
+
+   ```json
+   {
+     "scripts": {
+       "start:dev": "ebx src/main.ts --watch --run --sourcemap",
+       "build": "ebx src/main.ts"
+     }
+   }
+   ```
+
+2. Update `tsconfig.json` file:
+
+   ```json
+   {
+     "compilerOptions": {
+       "moduleResolution": "Bundler",
+       "module": "ESNext"
+     }
+   }
+   ```
+
+   - The `start:dev` script uses EBX to watch the `src/main.ts` file, run the development server, and generate source maps for debugging purposes.
+   - The `build` script uses EBX to build your project.
+
+3. If you want to use ES modules (ESM), ensure that you have `"type": "module"` in your `package.json` file.
+
+#### Step 3: Example
+
+For a practical example of integrating EBX with NestJS, you can refer to the following GitHub repository:
+
+- [EBX Example NestJS](https://github.com/ebx-bundler/ebx-example-nestjs)
+
+### Integration with ExpressJS
+
+[EBX Example ExpressJS with PNP](https://github.com/ebx-bundler/ebx-example-express-pnp)
+
+Harness the power of EBX to bundle and optimize your Node.js backend applications built with NestJS, ExpressJS or any other.
+
 ## Conclusion
 
 EBX simplifies the process of building and running TypeScript code by providing a command-line interface. Its customizable options make it a versatile tool for various development workflows, and its ability to watch for changes and run the compiled program makes it suitable for both development and testing purposes.

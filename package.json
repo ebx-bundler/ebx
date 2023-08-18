@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "packageManager": "yarn@3.6.1",
   "type": "module",
   "main": "cli.js",
@@ -24,6 +24,7 @@
     "nestjs",
     "awesome-nestjs",
     "awesome-express",
+    "awesome-esbuild",
     "pnp"
   ],
   "scripts": {
