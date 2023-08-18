@@ -20,7 +20,11 @@
     "bundler",
     "es6",
     "modules",
-    "nodejs"
+    "nodejs",
+    "nestjs",
+    "awesome-nestjs",
+    "awesome-express",
+    "pnp"
   ],
   "scripts": {
     "dev": "rollup -c -w",
