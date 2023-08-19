@@ -6,6 +6,7 @@ import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress.js";
 import { run } from "./plugins/run.js";
 import { tscForkPlugin } from "./plugins/tsc/index.js";
+import { esm } from "./plugins/esm";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
@@ -20,6 +21,7 @@ export async function createConfig(filename: string, option: CliOption) {
   if (option.clean) {
     clean(dir);
   }
+  const format = getFormat();
 
   const plugins: Plugin[] = [];
 
@@ -36,12 +38,16 @@ export async function createConfig(filename: string, option: CliOption) {
     plugins.push(run());
   }
 
+  if (format === "esm") {
+    plugins.push(esm());
+  }
+
   const config: ConfigOption = {
     entryPoints: [filename],
     bundle: true,
     target: getTarget(),
     platform: "node",
-    format: getFormat(),
+    format,
     outdir: dir,
     minify: option.minify,
     sourcemap: option.sourcemap,
