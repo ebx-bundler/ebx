@@ -6,7 +6,6 @@ import { relativeId } from "../path";
 import { getResetScreen } from "../screen";
 import { stderr } from "../logging";
 import { getEntry } from "../utils";
-import chalk from "chalk";
 
 interface ProgressOption {
   message?: string;

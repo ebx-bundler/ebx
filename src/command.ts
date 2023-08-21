@@ -8,6 +8,7 @@ export interface CliOption {
   tsconfig?: string;
   minify?: boolean;
   ignoreTypes: boolean;
+  reset: boolean;
 }
 program.version(version);
 
@@ -34,6 +35,7 @@ program.option(
   "Path to a custom TypeScript configuration file (tsconfig.json)."
 );
 program.option("-m --minify", "Minify the output JavaScript code.");
+program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
 
 program.argument("filename");

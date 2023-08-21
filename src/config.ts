@@ -1,11 +1,11 @@
-import { getDestination, getFormat, getTarget } from "./package.js";
-import { type CliOption } from "./command.js";
-import { clean } from "./fs.js";
+import { getDestination, getFormat, getTarget } from "./package";
+import { type CliOption } from "./command";
+import { clean } from "./fs";
 import type { BuildOptions, Plugin } from "esbuild";
 import { nodeExternalsPlugin } from "esbuild-node-externals";
-import { progress } from "./plugins/progress.js";
-import { run } from "./plugins/run.js";
-import { tscForkPlugin } from "./plugins/tsc/index.js";
+import { progress } from "./plugins/progress";
+import { run } from "./plugins/run";
+import { tscForkPlugin } from "./plugins/tsc/index";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
@@ -29,7 +29,7 @@ export async function createConfig(filename: string, option: CliOption) {
     if (!option.ignoreTypes) {
       plugins.push(tscForkPlugin());
     }
-    plugins.push(progress({ dist: dir }));
+    plugins.push(progress({ dist: dir, clear: option.reset }));
   }
 
   if (option.run) {
