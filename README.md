@@ -86,6 +86,26 @@ EBX provides several options that you can use to customize the build and run pro
 
 EBX supports ES Modules by default. To use ES Modules in your project, simply add the `"type": "module"` field to your package.json file.
 
+## Polyfills for ESM Compatibility
+
+When working with ECMAScript Modules (ESM), you might encounter compatibility issues, such as `require`, `__filename` and `__dirname` not being defined.
+
+To address these you can use a polyfill.
+
+### Adding Polyfills
+
+To add the necessary polyfills for ESM compatibility, follow these steps:
+
+1. Open your `package.json` file.
+
+2. Inside the JSON structure, add a key named `"polyfills"` and specify an array of polyfill names. In this case, we're using `"cjs"` to include CommonJS-related polyfills.
+
+   ```json
+   "polyfills": ["cjs"]
+   ```
+
+By adding this configuration, you ensure that the specified polyfills are loaded when your ESM code runs, addressing compatibility issues related to `__filename`, `require` and `__dirname`.
+
 ### Output Directory
 
 By default, EBX outputs the compiled JavaScript code to the `dist` directory. You can change the output directory by defining the `"main"` field in your package.json file.
