@@ -1,14 +1,19 @@
-# **EBX: for Building and Running TypeScript Code**
+# **EBX: A Tool for Building and Running TypeScript Code**
 
 ## Introduction
 
+EBX is a command-line tool that simplifies the process of building and running TypeScript code. It is designed to work with ECMAScript Modules (ESM) and takes advantage of the lightning-fast build tool esbuild: https://esbuild.github.io/.
+
+### Features
+
+- Supports ES Modules (ESM) by default.
+- Asynchronous type checking: EBX offloads type checking to a child process, so you can continue working on your code without interruptions.
+- Watch mode: EBX can watch for changes in your TypeScript files and automatically rebuild and run the program when changes are detected.
+- Can be used to bundle both TypeScript and JavaScript code.
+- Provides a variety of options to customize the bundling process, such as minification, sourcemaps, and tree shaking.
+- Can be integrated with popular Node.js frameworks, such as NestJS and ExpressJS.
+
 **EBX** stands for ES Module Build and Execute and works well with CommonJS (CJS).
-
-**EBX** is a powerful tool designed to simplify the process of building and running TypeScript code within a Node.js environment. With a focus on ECMAScript Modules (ESM), **EBX** streamlines the development workflow, automating essential tasks while requiring zero configuration from developers.
-
-**EBX** takes advantage of the lightning-fast build tool [esbuild](https://esbuild.github.io/) as its foundation.
-
-The standout feature of **EBX** is its parallel type checking mechanism. Unlike traditional methods that halt the development process until type checking completes, our approach offloads type checking to a child process. This asynchronous approach frees developers to continue working on their code without interruptions.
 
 ## Installation
 
@@ -79,11 +84,12 @@ EBX provides several options that you can use to customize the build and run pro
 
 ### ES Modules
 
-Modern JavaScript development often involves utilizing **ES6** module syntax, which provides a more organized and efficient way to structure and manage code dependencies. To facilitate this, Node.js introduced support for ES Modules _(ESM)_ in its ecosystem. By default, Node.js uses CommonJS (CJS) module syntax, but with the addition of the `"type": "module"` field in the package.json, it will transpile codes into ESM syntax.
+EBX supports ES Modules by default. To use ES Modules in your project, simply add the `"type": "module"` field to your package.json file.
 
-###
+### Output Directory
 
-Default output directory is `dist`, if you want to change to something else define main in `package.json`
+By default, EBX outputs the compiled JavaScript code to the `dist` directory. You can change the output directory by defining the `"main"` field in your package.json file.
+
 ex: `"main": "lib/app.js"` it will now compile and run `app.js` in `lib` directory
 
 ### Integration with NestJS
@@ -141,4 +147,4 @@ Harness the power of EBX to bundle and optimize your Node.js backend application
 
 ## Conclusion
 
-EBX simplifies the process of building and running TypeScript code by providing a command-line interface. Its customizable options make it a versatile tool for various development workflows, and its ability to watch for changes and run the compiled program makes it suitable for both development and testing purposes.
+EBX is a powerful tool that can help you simplify the process of bundling and optimizing JavaScript code for Node.js applications. It is a versatile tool that can be used for both development and production environments.
