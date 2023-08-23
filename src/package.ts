@@ -7,6 +7,7 @@ export interface PackageInfo {
   name?: string;
   type: "module" | "commonjs";
   main?: string;
+  polyfills?: string[];
   engines?: {
     node?: string;
   };
@@ -57,4 +58,21 @@ export function getTarget(prefix = "node") {
     throw new Error(`Invalid node version selected (${info.engines.node})`);
   }
   return `${prefix}${version.version}`;
+}
+
+export async function getPolyfills() {
+  if (!info.polyfills) {
+    return [];
+  }
+
+  const polyfills = info.polyfills.map(async (name) => {
+    switch (name) {
+      case "cjs":
+        const { cjs } = await import("./plugins/cjs-polyfill");
+        return cjs();
+      default:
+        throw new Error(`Unknown polyfill ${name}`);
+    }
+  });
+  return Promise.all(polyfills);
 }

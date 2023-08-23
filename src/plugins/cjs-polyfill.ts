@@ -1,20 +1,20 @@
 import type { Plugin } from "esbuild";
-
-export function esm(): Plugin {
+export function cjs(): Plugin {
   return {
-    name: "esm",
+    name: "cjs-polyfill",
     setup({ onLoad, onResolve, initialOptions }) {
+      const namespace = "cjs-polyfill";
       if (!initialOptions.inject) {
         initialOptions.inject = [];
       }
-      initialOptions.inject.push("polyfill:esm");
-      onResolve({ filter: /^polyfill:esm$/ }, (args) => {
+      initialOptions.inject.push("cjs:virtual");
+      onResolve({ filter: /^cjs:virtual$/ }, (args) => {
         return {
           path: args.path,
-          namespace: "esm-polyfill",
+          namespace,
         };
       });
-      onLoad({ filter: /.*/, namespace: "esm-polyfill" }, () => {
+      onLoad({ filter: /.*/, namespace }, () => {
         return {
           loader: "js",
           contents: `import { URL, fileURLToPath } from 'url';

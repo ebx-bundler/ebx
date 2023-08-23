@@ -1,4 +1,9 @@
-import { getDestination, getFormat, getTarget } from "./package.js";
+import {
+  getDestination,
+  getFormat,
+  getPolyfills,
+  getTarget,
+} from "./package.js";
 import { type CliOption } from "./command.js";
 import { clean } from "./fs.js";
 import type { BuildOptions, Plugin } from "esbuild";
@@ -6,7 +11,6 @@ import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress.js";
 import { run } from "./plugins/run.js";
 import { tscForkPlugin } from "./plugins/tsc/index.js";
-import { esm } from "./plugins/esm";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
@@ -23,7 +27,7 @@ export async function createConfig(filename: string, option: CliOption) {
   }
   const format = getFormat();
 
-  const plugins: Plugin[] = [];
+  const plugins: Plugin[] = [...(await getPolyfills())];
 
   plugins.push(nodeExternalsPlugin());
 
@@ -36,10 +40,6 @@ export async function createConfig(filename: string, option: CliOption) {
 
   if (option.run) {
     plugins.push(run());
-  }
-
-  if (format === "esm") {
-    plugins.push(esm());
   }
 
   const config: ConfigOption = {
