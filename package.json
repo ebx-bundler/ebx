@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "packageManager": "yarn@3.6.1",
   "type": "module",
   "main": "cli.js",
