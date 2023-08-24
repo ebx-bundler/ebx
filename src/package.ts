@@ -11,6 +11,7 @@ export interface PackageInfo {
   engines?: {
     node?: string;
   };
+  inject?: string[];
 }
 
 const info = parseInfo();
@@ -75,4 +76,8 @@ export async function getPolyfills() {
     }
   });
   return Promise.all(polyfills);
+}
+
+export function getInject() {
+  return info.inject ?? [];
 }
