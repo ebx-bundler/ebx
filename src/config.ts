@@ -28,7 +28,9 @@ export async function createConfig(filename: string, option: CliOption) {
   }
   const format = getFormat();
 
-  const plugins: Plugin[] = [...(await getPolyfills())];
+  const polyfills = await getPolyfills();
+
+  const plugins: Plugin[] = [...polyfills];
 
   plugins.push(nodeExternalsPlugin());
 
