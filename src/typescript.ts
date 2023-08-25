@@ -12,5 +12,6 @@ export async function dumpConfig(name: string) {
   if (packageInfo.type === "module") {
     stub.compilerOptions.module = "ESNext";
   }
+  delete stub.$schema;
   write(name, JSON.stringify(stub, null, 2));
 }

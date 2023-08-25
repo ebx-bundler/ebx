@@ -84,3 +84,7 @@ export function getImportPath(
       : "./" + relativePath
     : ".";
 }
+
+export function isCurrent(dir: string) {
+  return process.cwd() === dir;
+}
