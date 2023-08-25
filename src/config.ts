@@ -11,7 +11,7 @@ import type { BuildOptions, Plugin } from "esbuild";
 import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress";
 import { run } from "./plugins/run";
-import { tsCheckPlugin } from "./plugins/typescript/index";
+import { tsCheckPlugin } from "./plugins/typescript";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };

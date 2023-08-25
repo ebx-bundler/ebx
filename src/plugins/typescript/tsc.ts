@@ -11,10 +11,9 @@ interface TSCOptions {
 }
 export function tsc(opt: TSCOptions) {
   const p = tscPath();
-  const args = ["--noEmit", "--pretty"];
+  let args = ["--noEmit", "--pretty"];
   if (opt.config) {
-    args.push("-p");
-    args.push(opt.config);
+    args = [...args, "-p", opt.config];
   }
   if (opt.watch) {
     args.push("--watch");

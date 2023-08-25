@@ -73,7 +73,7 @@ export async function getPolyfills(opt: CliOption) {
         const { cjs } = await import("./plugins/cjs-polyfill");
         return cjs();
       case "decorators":
-        const { default: decorators } = await import("esbuild-plugin-tsc");
+        const { decorators } = await import("./plugins/decorator-polyfill");
         return decorators({
           tsconfigPath: opt.tsconfig,
         });
