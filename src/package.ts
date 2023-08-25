@@ -2,6 +2,7 @@ import { readFileSync as readFile } from "node:fs";
 import { dirname, join, resolve, basename } from "node:path";
 import { ensureCase } from "./utils";
 import semver from "semver";
+import type { CliOption } from "./command";
 
 export interface PackageInfo {
   name?: string;
@@ -61,7 +62,7 @@ export function getTarget(prefix = "node") {
   return `${prefix}${version.version}`;
 }
 
-export async function getPolyfills() {
+export async function getPolyfills(opt: CliOption) {
   if (!info.polyfills) {
     return [];
   }
@@ -73,7 +74,9 @@ export async function getPolyfills() {
         return cjs();
       case "decorators":
         const { default: decorators } = await import("esbuild-plugin-tsc");
-        return decorators();
+        return decorators({
+          tsconfigPath: opt.tsconfig,
+        });
       default:
         throw new Error(`Unknown polyfill ${name}`);
     }

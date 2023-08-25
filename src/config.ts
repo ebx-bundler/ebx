@@ -11,7 +11,7 @@ import type { BuildOptions, Plugin } from "esbuild";
 import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress";
 import { run } from "./plugins/run";
-import { tscForkPlugin } from "./plugins/tsc/index";
+import { tsCheckPlugin } from "./plugins/typescript/index";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
@@ -28,7 +28,7 @@ export async function createConfig(filename: string, option: CliOption) {
   }
   const format = getFormat();
 
-  const polyfills = await getPolyfills();
+  const polyfills = await getPolyfills(option);
 
   const plugins: Plugin[] = [...polyfills];
 
@@ -36,7 +36,7 @@ export async function createConfig(filename: string, option: CliOption) {
 
   if (option.watch) {
     if (!option.ignoreTypes) {
-      plugins.push(tscForkPlugin());
+      plugins.push(tsCheckPlugin());
     }
     plugins.push(progress({ dist: dir, clear: option.reset }));
   }

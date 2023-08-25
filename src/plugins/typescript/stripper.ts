@@ -1,17 +1,5 @@
-import { type Plugin } from "esbuild";
 import { Transform, type TransformCallback } from "node:stream";
-import { tsc } from "../../tsc";
 import { EOL } from "node:os";
-
-export function tscForkPlugin(): Plugin {
-  return {
-    name: "ts-type-check",
-    async setup() {
-      const subprocess = tsc({ watch: true });
-      subprocess.pipe(new Strip()).pipe(process.stdin);
-    },
-  };
-}
 
 class Strip extends Transform {
   clearBuf = Buffer.from("\x1Bc");
@@ -63,4 +51,8 @@ class Strip extends Transform {
       yield chunk.subarray(lineStart);
     }
   }
+}
+
+export function strip() {
+  return new Strip();
 }

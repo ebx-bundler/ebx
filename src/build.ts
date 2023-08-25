@@ -5,10 +5,11 @@ import { stderr } from "./logging";
 import { type ConfigOption } from "./config";
 import esbuild from "esbuild";
 import { getEntry } from "./utils";
-import { tsc } from "./tsc";
+import { tsc } from "./plugins/typescript/tsc";
 import ora from "ora";
 import { EOL } from "os";
 import type { CliOption } from "./command";
+import { printTimings } from "./timings";
 
 async function typeCheck(config?: string) {
   let hasError = false;
@@ -37,7 +38,5 @@ export default async function build(
   }
   spinner.text = "bundling..." + EOL;
   await esbuild.build(inputOptions);
-  spinner.succeed(
-    green(`created ${bold(files)} in ${bold(ms(Date.now() - start))}`)
-  );
+  spinner.succeed(green(`created ${bold(files)} in ${printTimings(start)}`));
 }

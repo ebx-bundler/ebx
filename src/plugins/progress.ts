@@ -1,11 +1,11 @@
 import { type Plugin } from "esbuild";
 import ora from "ora";
 import { bold, cyan, dim, green } from "../colors";
-import ms from "pretty-ms";
 import { relativeId } from "../path";
 import { getResetScreen } from "../screen";
 import { stderr } from "../logging";
 import { getEntry } from "../utils";
+import { printTimings } from "../timings";
 
 interface ProgressOption {
   message?: string;
@@ -37,7 +37,7 @@ export function progress({ clear = true, ...options }: ProgressOption): Plugin {
               }`
             )
           : spinner.succeed(
-              green(`created ${bold(dist)} in ${ms(Date.now() - started)}`)
+              green(`created ${bold(dist)} in ${printTimings(started)}`)
             );
         console.log(dim(`⧖ waiting for changes...`));
       });
