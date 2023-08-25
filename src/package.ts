@@ -71,6 +71,9 @@ export async function getPolyfills() {
       case "cjs":
         const { cjs } = await import("./plugins/cjs-polyfill");
         return cjs();
+      case "decorators":
+        const { default: decorators } = await import("esbuild-plugin-tsc");
+        return decorators();
       default:
         throw new Error(`Unknown polyfill ${name}`);
     }

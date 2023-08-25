@@ -734,6 +734,7 @@ __metadata:
     date-time: ^4.0.0
     esbuild: ^0.19.2
     esbuild-node-externals: ^1.8.0
+    esbuild-plugin-tsc: ^0.4.0
     execa: ^7.2.0
     ora: ^7.0.1
     pretty-bytes: ^6.1.1
@@ -800,6 +801,17 @@ __metadata:
   peerDependencies:
     esbuild: 0.12 - 0.18
   checksum: 6d1cb4e1c6877c33fc7cae9f901944d0867610f293649bdfae3a99a8b3a658b471ad7c350660c198ce31d33a1ae852de407ed3336d58a4e05b9b0856dbda1837
+  languageName: node
+  linkType: hard
+
+"esbuild-plugin-tsc@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "esbuild-plugin-tsc@npm:0.4.0"
+  dependencies:
+    strip-comments: ^2.0.1
+  peerDependencies:
+    typescript: ^4.0.0 || ^5.0.0
+  checksum: 080675ae2766b53c2bd2c423c3bae5dd6d1e5af03a06b79129eca6426d9eb358b49077f58a1dc1bc25a299aa8fccd4123f6afb18957b9273b9737e3c7bb38ce4
   languageName: node
   linkType: hard
 
@@ -1988,6 +2000,13 @@ __metadata:
   dependencies:
     ansi-regex: ^6.0.1
   checksum: 859c73fcf27869c22a4e4d8c6acfe690064659e84bef9458aa6d13719d09ca88dcfd40cbf31fd0be63518ea1a643fe070b4827d353e09533a5b0b9fd4553d64d
+  languageName: node
+  linkType: hard
+
+"strip-comments@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "strip-comments@npm:2.0.1"
+  checksum: 36cd122e1c27b5be69df87e1687770a62fe183bdee9f3ff5cf85d30bbc98280afc012581f2fd50c7ad077c90f656f272560c9d2e520d28604b8b7ea3bc87d6f9
   languageName: node
   linkType: hard
 
