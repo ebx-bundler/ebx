@@ -106,6 +106,11 @@ To add the necessary polyfills for ESM compatibility, follow these steps:
 
 By adding this configuration, you ensure that the specified polyfills are loaded when your ESM code runs, addressing compatibility issues related to `__filename`, `require` and `__dirname`.
 
+#### Available polyfills
+
+1. `cjs` - to add cjs
+2. `decorators` - enable ts decorators
+
 ### Output Directory
 
 By default, EBX outputs the compiled JavaScript code to the `dist` directory. You can change the output directory by defining the `"main"` field in your package.json file.

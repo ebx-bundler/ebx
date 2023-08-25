@@ -17,8 +17,8 @@ export function cjs(): Plugin {
       onLoad({ filter: /.*/, namespace }, () => {
         return {
           loader: "js",
-          contents: `import { URL, fileURLToPath } from 'url';
-          import { dirname } from 'path';
+          contents: `import { URL, fileURLToPath } from 'node:url';
+          import { dirname } from 'node:path';
           import { createRequire } from 'node:module';
           const currentModuleURL = new URL(import.meta.url);
           const currentModulePath = fileURLToPath(currentModuleURL);

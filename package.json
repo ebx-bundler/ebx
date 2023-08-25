@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "packageManager": "yarn@3.6.3",
   "type": "module",
   "main": "cli.js",
@@ -49,6 +49,7 @@
     "commander": "^11.0.0",
     "date-time": "^4.0.0",
     "esbuild-node-externals": "^1.8.0",
+    "esbuild-plugin-tsc": "^0.4.0",
     "execa": "^7.2.0",
     "ora": "^7.0.1",
     "pretty-bytes": "^6.1.1",

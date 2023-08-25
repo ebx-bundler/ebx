@@ -1,4 +1,10 @@
-import { getDestination, getFormat, getPolyfills, getTarget } from "./package";
+import {
+  getDestination,
+  getFormat,
+  getInject,
+  getPolyfills,
+  getTarget,
+} from "./package";
 import { type CliOption } from "./command";
 import { clean } from "./fs";
 import type { BuildOptions, Plugin } from "esbuild";
@@ -22,7 +28,9 @@ export async function createConfig(filename: string, option: CliOption) {
   }
   const format = getFormat();
 
-  const plugins: Plugin[] = [...(await getPolyfills())];
+  const polyfills = await getPolyfills();
+
+  const plugins: Plugin[] = [...polyfills];
 
   plugins.push(nodeExternalsPlugin());
 
@@ -40,6 +48,7 @@ export async function createConfig(filename: string, option: CliOption) {
   const config: ConfigOption = {
     entryPoints: [filename],
     bundle: true,
+    inject: getInject(),
     target: getTarget(),
     platform: "node",
     format,
