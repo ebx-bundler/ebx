@@ -1,7 +1,7 @@
 {
   "name": "ebx",
   "version": "0.0.9",
-  "packageManager": "yarn@3.6.1",
+  "packageManager": "yarn@3.6.3",
   "type": "module",
   "main": "cli.js",
   "description": "Command Line Tool for Building and Running TypeScript Code",
