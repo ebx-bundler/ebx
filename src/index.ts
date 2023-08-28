@@ -1,4 +1,4 @@
-import build from "./build";
+import { build } from "./build";
 import { type CliOption, onAction } from "./command";
 import { createConfig } from "./config";
 import { dumpConfig, isTypescript } from "./typescript";

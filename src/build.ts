@@ -1,4 +1,3 @@
-import ms from "pretty-ms";
 import { bold, cyan, green } from "./colors";
 import { relativeId } from "./path";
 import { stderr } from "./logging";
@@ -22,7 +21,7 @@ async function typeCheck(config?: string) {
   }
 }
 
-export default async function build(
+export async function build(
   inputOptions: ConfigOption,
   option: CliOption
 ): Promise<any> {

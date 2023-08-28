@@ -78,7 +78,7 @@ export async function getPolyfills(opt: CliOption) {
           tsconfigPath: opt.tsconfig,
         });
       default:
-        throw new Error(`Unknown polyfill ${name}`);
+        throw new Error(`Unknown polyfill "${name}"`);
     }
   });
   return Promise.all(polyfills);

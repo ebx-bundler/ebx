@@ -12,7 +12,7 @@ import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { progress } from "./plugins/progress";
 import { run } from "./plugins/run";
 import { tsCheckPlugin } from "./plugins/typescript";
-import { isCurrent } from "./path";
+import { isCurrentPath } from "./path";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
@@ -20,7 +20,7 @@ export type { Plugin };
 export async function createConfig(filename: string, option: CliOption) {
   const [dir] = getDestination();
 
-  if (isCurrent(dir)) {
+  if (isCurrentPath(dir)) {
     option.clean = false;
   }
 
