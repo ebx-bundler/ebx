@@ -142,6 +142,8 @@ To integrate EBX with your NestJS project, follow these steps:
    }
    ```
 
+   > note: decorators are partially supported, if you want full support for decorators, enable `decorators` polyfill.
+
 2. Update `tsconfig.json` file:
 
    ```json

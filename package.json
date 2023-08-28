@@ -3,6 +3,7 @@
   "version": "0.0.11",
   "packageManager": "yarn@3.6.3",
   "type": "module",
+  "license": "MIT",
   "main": "cli.js",
   "description": "Command Line Tool for Building and Running TypeScript Code",
   "homepage": "https://github.com/ebx-bundler/ebx.git",
