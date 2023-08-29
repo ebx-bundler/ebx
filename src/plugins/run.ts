@@ -1,32 +1,35 @@
-import type { BuildOptions, Plugin } from "esbuild";
+import type { BuildOptions, Plugin, PluginBuild } from "esbuild";
 import { type ExecaChildProcess as Process, execaNode as node } from "execa";
-import { basename, extname, join } from "node:path";
-import { getEntry } from "../utils";
+import { getEntry, getOutputFilename } from "../utils";
 import { bold, dim } from "../colors";
 import { EOL } from "node:os";
 
-function getOutputFilename(opt: BuildOptions) {
-  const outdir = opt.outdir!;
-  let filename = basename(getEntry(opt), ".js");
-  filename = filename.replace(extname(filename), ".js");
-  return join(outdir, filename);
-}
 interface RunOption {
   filename?: string;
+  nodeOptions: string[];
 }
-export function run({ filename }: RunOption = {}): Plugin {
+export function run(opt: RunOption): Plugin {
   return {
     name: "plugin-run",
-    async setup(build) {
-      const fname = filename ?? getOutputFilename(build.initialOptions);
-      const execute = createRunner(fname, build.initialOptions);
-      build.onEnd(() => {
-        console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
-        execute();
-      });
-      onRestart(execute);
-    },
+    setup: (arg) => setup(arg, opt),
   };
+}
+
+async function setup(build: PluginBuild, { filename, nodeOptions }: RunOption) {
+  const fname =
+    filename ??
+    getOutputFilename(
+      getEntry(build.initialOptions),
+      build.initialOptions.outdir!
+    );
+  const execute = createRunner(fname, nodeOptions, build.initialOptions);
+  build.onEnd(({ errors }) => {
+    console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
+    if (!errors.length) {
+      execute();
+    }
+  });
+  onRestart(execute);
 }
 
 function onRestart(execute: ReturnType<typeof createRunner>) {
@@ -38,13 +41,14 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
   });
 }
 
-function createRunner(file: string, opt: BuildOptions) {
+function createRunner(file: string, nodeOptions: string[], opt: BuildOptions) {
   let p: Process | null = null;
+
+  if (opt.sourcemap) {
+    nodeOptions.push("--enable-source-maps");
+  }
+
   function run() {
-    const nodeOptions: string[] = [];
-    if (opt.sourcemap) {
-      nodeOptions.push("--enable-source-maps");
-    }
     return node(file, {
       stdio: "inherit",
       nodeOptions,

@@ -10,9 +10,9 @@ import { printTimings } from "../timings";
 interface ProgressOption {
   message?: string;
   dist: string;
-  clear?: boolean;
+  clear: boolean;
 }
-export function progress({ clear = true, ...options }: ProgressOption): Plugin {
+export function progress({ clear, ...options }: ProgressOption): Plugin {
   const message = options.message || "Building";
   const spinner = ora();
   const dist = relativeId(options.dist);

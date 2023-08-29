@@ -1,6 +1,6 @@
 import { extname } from "node:path";
 import { isExists, write } from "./fs";
-import { packageInfo } from "./package";
+import { packageInfo } from "./project";
 
 export function isTypescript(fname: string) {
   return extname(fname) === ".ts";

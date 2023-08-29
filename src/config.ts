@@ -1,10 +1,11 @@
 import {
   getDestination,
+  getExternal,
   getFormat,
   getInject,
   getPolyfills,
   getTarget,
-} from "./package";
+} from "./project";
 import { type CliOption } from "./command";
 import { clean } from "./fs";
 import type { BuildOptions, Plugin } from "esbuild";
@@ -30,10 +31,15 @@ export async function createConfig(filename: string, option: CliOption) {
   const format = getFormat();
 
   const polyfills = await getPolyfills(option);
+  const external = getExternal();
 
   const plugins: Plugin[] = [...polyfills];
 
-  plugins.push(nodeExternalsPlugin());
+  plugins.push(
+    nodeExternalsPlugin({
+      allowList: external.include,
+    })
+  );
 
   if (option.watch) {
     if (!option.ignoreTypes) {
@@ -43,7 +49,12 @@ export async function createConfig(filename: string, option: CliOption) {
   }
 
   if (option.run) {
-    plugins.push(run());
+    plugins.push(
+      run({
+        nodeOptions: option.nodeOption,
+        filename: option.run === true ? undefined : option.run,
+      })
+    );
   }
 
   const config: ConfigOption = {

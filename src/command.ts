@@ -1,7 +1,7 @@
 import { program } from "commander";
 import { version } from "../package.json";
 export interface CliOption {
-  run: boolean;
+  run: boolean | string;
   watch: boolean;
   clean: boolean;
   sourcemap: boolean;
@@ -9,6 +9,7 @@ export interface CliOption {
   minify?: boolean;
   ignoreTypes: boolean;
   reset: boolean;
+  nodeOption: string[];
 }
 program.version(version);
 
@@ -19,7 +20,7 @@ program.option(
   "Watch for changes in the source files and automatically rebuild when changes are detected."
 );
 program.option(
-  "-r --run",
+  "-r --run [filename]",
   "Run the compiled program after a successful build."
 );
 program.option(
@@ -37,6 +38,13 @@ program.option(
 program.option("-m --minify", "Minify the output JavaScript code.");
 program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
+
+program.option(
+  "--node-option <options>",
+  "node options",
+  (a, b: string[] = []) => [...b, a],
+  []
+);
 
 program.argument("filename");
 

@@ -4,6 +4,9 @@ import { ensureCase } from "./utils";
 import semver from "semver";
 import type { CliOption } from "./command";
 
+interface External {
+  include: string[];
+}
 export interface PackageInfo {
   name?: string;
   type: "module" | "commonjs";
@@ -13,6 +16,7 @@ export interface PackageInfo {
     node?: string;
   };
   inject?: string[];
+  external?: Partial<External>;
 }
 
 const info = parseInfo();
@@ -86,4 +90,13 @@ export async function getPolyfills(opt: CliOption) {
 
 export function getInject() {
   return info.inject ?? [];
+}
+
+export function getExternal(): External {
+  if (!info.external) {
+    return { include: [] };
+  }
+  return {
+    include: info.external.include ?? [],
+  };
 }

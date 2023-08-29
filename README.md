@@ -117,6 +117,20 @@ By default, EBX outputs the compiled JavaScript code to the `dist` directory. Yo
 
 ex: `"main": "lib/app.js"` it will now compile and run `app.js` in `lib` directory
 
+### Externals
+
+every modules will be considered as external and it won't bundle, if you want to include
+
+add following in `package.json`
+
+```json
+   "external": {
+      "include": ["lodash"]
+   }
+```
+
+now lodash will be include in the compiled bundle.
+
 ### Integration with NestJS
 
 #### Step 1: Installation
