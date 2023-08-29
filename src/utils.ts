@@ -23,6 +23,6 @@ export function getEntry(opt: BuildOptions) {
 
 export function getOutputFilename(src: string, outdir: string) {
   const ext = extname(src);
-  let filename = basename(src, ext);
+  const filename = basename(src, ext);
   return join(outdir, filename) + ".js";
 }

@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "packageManager": "yarn@3.6.3",
   "type": "module",
   "license": "MIT",
@@ -55,6 +55,7 @@
     "pretty-bytes": "^6.1.1",
     "pretty-ms": "^8.0.0",
     "rollup": "^3.27.0",
+    "rollup-plugin-cleanup": "^3.2.1",
     "semver": "^7.5.4",
     "tslib": "^2.6.1"
   },
