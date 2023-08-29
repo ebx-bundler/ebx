@@ -14,7 +14,7 @@ async function typeCheck(config?: string) {
   let hasError = false;
   for await (const log of tsc({ config })) {
     hasError = true;
-    process.stdout.write(log);
+    process.stderr.write(log);
   }
   if (hasError) {
     process.exit(1);

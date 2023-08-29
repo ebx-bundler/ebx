@@ -1,9 +1,7 @@
 import { createRequire } from "node:module";
 import { execaNode as node } from "execa";
 const require = createRequire(import.meta.url);
-export const tscPath = () => {
-  return require.resolve("typescript/lib/tsc.js");
-};
+export const tscPath = () => require.resolve("typescript/lib/tsc.js");
 
 interface TSCOptions {
   watch?: boolean;
