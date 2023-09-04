@@ -1,7 +1,8 @@
 import { readFileSync as readFile } from "node:fs";
 import { dirname, join, resolve, basename } from "node:path";
-import { ensureCase } from "./utils";
 import semver from "semver";
+
+import { ensureCase } from "./utils";
 import type { CliOption } from "./command";
 
 interface External {

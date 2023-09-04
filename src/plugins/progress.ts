@@ -1,5 +1,6 @@
 import { type Plugin } from "esbuild";
 import ora from "ora";
+
 import { bold, cyan, dim, green } from "../colors";
 import { relativeId } from "../path";
 import { getResetScreen } from "../screen";

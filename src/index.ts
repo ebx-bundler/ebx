@@ -3,6 +3,7 @@ import { type CliOption, onAction } from "./command";
 import { createConfig } from "./config";
 import { dumpConfig, isTypescript } from "./typescript";
 import { watch } from "./watch";
+
 async function handleAction(filename: string, opt: CliOption) {
   if (isTypescript(filename)) {
     if (!opt.tsconfig) {

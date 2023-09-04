@@ -6,6 +6,9 @@
     "esModuleInterop": true,
     "strict": true,
     "moduleResolution": "Bundler",
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "noImplicitReturns": true,
+    "useUnknownInCatchVariables": true,
+    "noImplicitThis": true
   }
 }

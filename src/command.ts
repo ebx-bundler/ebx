@@ -1,5 +1,6 @@
 import { program } from "commander";
 import { version } from "../package.json";
+
 export interface CliOption {
   run: boolean | string;
   watch: boolean;

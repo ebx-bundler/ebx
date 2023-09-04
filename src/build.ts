@@ -1,12 +1,13 @@
+import { EOL } from "node:os";
+import esbuild from "esbuild";
+import ora from "ora";
+
 import { bold, cyan, green } from "./colors";
 import { relativeId } from "./path";
 import { stderr } from "./logging";
 import { type ConfigOption } from "./config";
-import esbuild from "esbuild";
 import { getEntry } from "./utils";
 import { tsc } from "./plugins/typescript/tsc";
-import ora from "ora";
-import { EOL } from "os";
 import type { CliOption } from "./command";
 import { printTimings } from "./timings";
 
