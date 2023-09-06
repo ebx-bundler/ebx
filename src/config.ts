@@ -14,12 +14,13 @@ import { progress } from "./plugins/progress";
 import { run } from "./plugins/run";
 import { tsCheckPlugin } from "./plugins/typescript";
 import { isCurrentPath } from "./path";
+import { getOutputFilename } from "./utils";
 
 export type ConfigOption = BuildOptions;
 export type { Plugin };
 
 export async function createConfig(filename: string, option: CliOption) {
-  const [dir] = getDestination();
+  const [dir, ext] = getDestination();
 
   if (isCurrentPath(dir)) {
     option.clean = false;
@@ -49,10 +50,14 @@ export async function createConfig(filename: string, option: CliOption) {
   }
 
   if (option.run) {
+    if (option.run === true) {
+      option.run = getOutputFilename(filename, dir, ext);
+    }
+
     plugins.push(
       run({
         nodeOptions: option.nodeOption,
-        filename: option.run === true ? undefined : option.run,
+        filename: option.run,
       })
     );
   }
@@ -63,6 +68,7 @@ export async function createConfig(filename: string, option: CliOption) {
     inject: getInject(),
     target: getTarget(),
     platform: "node",
+    outExtension: { ".js": ext },
     format,
     outdir: dir,
     minify: option.minify,

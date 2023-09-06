@@ -1,8 +1,8 @@
 import { readFileSync as readFile } from "node:fs";
-import { dirname, join, resolve, basename } from "node:path";
+import { dirname, join, resolve, basename, extname } from "node:path";
+import { ensureCase } from "./utils";
 import semver from "semver";
 
-import { ensureCase } from "./utils";
 import type { CliOption } from "./command";
 
 interface External {
@@ -39,12 +39,12 @@ function parseInfo(): PackageInfo {
   }
 }
 
-export function getDestination(): [string, string?] {
+export function getDestination(): [string, string] {
   if (!info.main) {
-    return [resolve("dist")];
+    return [resolve("dist"), ".js"];
   }
   const resolved = resolve(info.main);
-  return [dirname(resolved), basename(resolved)];
+  return [dirname(resolved), extname(resolved)];
 }
 
 export function getFormat() {

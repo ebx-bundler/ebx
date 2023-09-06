@@ -1,11 +1,10 @@
 import type { BuildOptions, Plugin, PluginBuild } from "esbuild";
 import { type ExecaChildProcess as Process, execaNode as node } from "execa";
-import { getEntry, getOutputFilename } from "../utils";
 import { bold, dim } from "../colors";
 import { EOL } from "node:os";
 
 interface RunOption {
-  filename?: string;
+  filename: string;
   nodeOptions: string[];
 }
 export function run(opt: RunOption): Plugin {
@@ -16,13 +15,7 @@ export function run(opt: RunOption): Plugin {
 }
 
 async function setup(build: PluginBuild, { filename, nodeOptions }: RunOption) {
-  const fname =
-    filename ??
-    getOutputFilename(
-      getEntry(build.initialOptions),
-      build.initialOptions.outdir!
-    );
-  const execute = createRunner(fname, nodeOptions, build.initialOptions);
+  const execute = createRunner(filename, nodeOptions, build.initialOptions);
   build.onEnd(({ errors }) => {
     console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
     if (!errors.length) {
