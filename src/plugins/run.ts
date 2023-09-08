@@ -1,4 +1,4 @@
-import type { BuildOptions, Plugin, PluginBuild } from "esbuild";
+import type { Plugin, PluginBuild } from "esbuild";
 import { type ExecaChildProcess as Process, execaNode as node } from "execa";
 import { bold, dim } from "../colors";
 import { EOL } from "node:os";
@@ -15,7 +15,10 @@ export function run(opt: RunOption): Plugin {
 }
 
 async function setup(build: PluginBuild, { filename, nodeOptions }: RunOption) {
-  const execute = createRunner(filename, nodeOptions, build.initialOptions);
+  if (build.initialOptions.sourcemap) {
+    nodeOptions.push("--enable-source-maps");
+  }
+  const execute = createRunner(filename, nodeOptions);
   build.onEnd(({ errors }) => {
     console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
     if (!errors.length) {
@@ -34,11 +37,8 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
   });
 }
 
-function createRunner(file: string, nodeOptions: string[], opt: BuildOptions) {
+function createRunner(file: string, nodeOptions: string[]) {
   let p: Process | null = null;
-  if (opt.sourcemap) {
-    nodeOptions.push("--enable-source-maps");
-  }
 
   function run() {
     return node(file, {
