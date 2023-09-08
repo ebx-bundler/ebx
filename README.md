@@ -110,6 +110,7 @@ By adding this configuration, you ensure that the specified polyfills are loaded
 
 1. `cjs` - to add cjs
 2. `decorators` - enable ts decorators
+3. `nestjs` - enable nestjs support (decorators and more)
 
 ### Output Directory
 

@@ -1,5 +1,5 @@
 import { readFileSync as readFile } from "node:fs";
-import { dirname, join, resolve, basename, extname } from "node:path";
+import { dirname, join, resolve, extname } from "node:path";
 import { ensureCase } from "./utils";
 import semver from "semver";
 
@@ -77,11 +77,19 @@ export async function getPolyfills(opt: CliOption) {
       case "cjs":
         const { cjs } = await import("./plugins/cjs-polyfill");
         return cjs();
-      case "decorators":
+      case "decorators": {
         const { decorators } = await import("./plugins/decorator-polyfill");
         return decorators({
           tsconfigPath: opt.tsconfig,
         });
+      }
+      case "nestjs": {
+        const { decorators } = await import("./plugins/decorator-polyfill");
+        return decorators({
+          tsconfigPath: opt.tsconfig,
+          force: true,
+        });
+      }
       default:
         throw new Error(`Unknown polyfill "${name}"`);
     }
