@@ -56,7 +56,7 @@ export async function createConfig(filename: string, option: CliOption) {
 
     plugins.push(
       run({
-        nodeOptions: option.nodeOption,
+        nodeOptions: option.nodeOptions?.split(" ") ?? [],
         filename: option.run,
       })
     );

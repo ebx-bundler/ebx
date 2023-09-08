@@ -10,7 +10,7 @@ export interface CliOption {
   minify?: boolean;
   ignoreTypes: boolean;
   reset: boolean;
-  nodeOption: string[];
+  nodeOptions?: string;
 }
 program.version(version);
 
@@ -40,12 +40,7 @@ program.option("-m --minify", "Minify the output JavaScript code.");
 program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
 
-program.option(
-  "--node-option <options>",
-  "node options",
-  (a, b: string[] = []) => [...b, a],
-  []
-);
+program.option("--node-options <options>", "node options");
 
 program.argument("filename");
 
