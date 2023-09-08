@@ -44,6 +44,7 @@ EBX provides several options that you can use to customize the build and run pro
 - `--tsconfig <tsconfig>`: Path to a custom TypeScript configuration file (tsconfig.json).
 - `-m, --minify`: Minify the output JavaScript code.
 - `--ignore-types`: Ignore type errors.
+- `--node-options`: Add node options to runner.
 
 ## Example Usage
 

@@ -14,6 +14,13 @@ export function ensureCase<T extends Data>(data: T, ...args: (keyof T)[]): T {
   return data;
 }
 
+export function getEntry(opt: BuildOptions) {
+  if (!Array.isArray(opt.entryPoints) || opt.entryPoints.length === 0) {
+    throw new Error("invalid entry");
+  }
+  return opt.entryPoints[0] as string;
+}
+
 export function getOutputFilename(src: string, outdir: string, ext: string) {
   const filename = basename(src, extname(src));
   return join(outdir, filename) + ext;

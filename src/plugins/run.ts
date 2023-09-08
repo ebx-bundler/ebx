@@ -36,7 +36,6 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
 
 function createRunner(file: string, nodeOptions: string[], opt: BuildOptions) {
   let p: Process | null = null;
-
   if (opt.sourcemap) {
     nodeOptions.push("--enable-source-maps");
   }
