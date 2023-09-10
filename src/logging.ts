@@ -26,9 +26,8 @@ export function successMessage(
   startedAt: number
 ) {
   const timings = printTimings(startedAt);
-  return green(
-    `created ${bold(outdir)} (${getBytes(metafile!)}) in ${timings}`
-  );
+  const bytes = getBytes(metafile);
+  return green(`created ${bold(outdir)} (${bytes}) in ${timings}`);
 }
 
 export function errorMessage(errors: unknown[]) {

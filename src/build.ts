@@ -36,10 +36,10 @@ export async function build(
     await typeCheck(inputOptions.tsconfig);
   }
   spinner.text = "bundling..." + EOL;
-  const { errors, metafile } = await esbuild.build(inputOptions);
-  if (errors.length) {
-    spinner.fail(errorMessage(errors));
-    return;
+  try {
+    const { metafile } = await esbuild.build(inputOptions);
+    spinner.succeed(successMessage(files, metafile!, start));
+  } catch (err: any) {
+    spinner.fail(err.errors ? errorMessage(err.errors) : err.message);
   }
-  spinner.succeed(successMessage(files, metafile!, start));
 }
