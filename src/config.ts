@@ -74,6 +74,7 @@ export async function createConfig(filename: string, option: CliOption) {
     minify: option.minify,
     sourcemap: option.sourcemap,
     tsconfig: option.tsconfig,
+    metafile: true,
     plugins,
   };
 

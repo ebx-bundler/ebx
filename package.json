@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.15",
+  "version": "0.0.15-dev",
   "packageManager": "yarn@3.6.3",
   "type": "module",
   "license": "MIT",

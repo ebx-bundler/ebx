@@ -1,12 +1,11 @@
 import { type Plugin } from "esbuild";
 import ora from "ora";
 
-import { bold, cyan, dim, green } from "../colors";
+import { bold, cyan, dim } from "../colors";
 import { relativeId } from "../path";
 import { getResetScreen } from "../screen";
-import { stderr } from "../logging";
+import { errorMessage, stderr, successMessage } from "../logging";
 import { getEntry } from "../utils";
-import { printTimings } from "../timings";
 
 interface ProgressOption {
   message?: string;
@@ -32,14 +31,8 @@ export function progress({ clear, ...options }: ProgressOption): Plugin {
       });
       build.onEnd((result) => {
         result.errors.length
-          ? spinner.fail(
-              `Build failed. ${result.errors.length} error${
-                result.errors.length > 1 ? "s" : ""
-              }`
-            )
-          : spinner.succeed(
-              green(`created ${bold(dist)} in ${printTimings(started)}`)
-            );
+          ? spinner.fail(errorMessage(result.errors))
+          : spinner.succeed(successMessage(dist, result.metafile!, started));
         console.log(dim(`⧖ waiting for changes...`));
       });
     },

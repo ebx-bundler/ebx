@@ -2,14 +2,13 @@ import { EOL } from "node:os";
 import esbuild from "esbuild";
 import ora from "ora";
 
-import { bold, cyan, green } from "./colors";
+import { bold, cyan } from "./colors";
 import { relativeId } from "./path";
-import { stderr } from "./logging";
+import { errorMessage, stderr, successMessage } from "./logging";
 import { type ConfigOption } from "./config";
 import { getEntry } from "./utils";
 import { tsc } from "./plugins/typescript/tsc";
 import type { CliOption } from "./command";
-import { printTimings } from "./timings";
 
 async function typeCheck(config?: string) {
   let hasError = false;
@@ -37,6 +36,10 @@ export async function build(
     await typeCheck(inputOptions.tsconfig);
   }
   spinner.text = "bundling..." + EOL;
-  await esbuild.build(inputOptions);
-  spinner.succeed(green(`created ${bold(files)} in ${printTimings(start)}`));
+  const { errors, metafile } = await esbuild.build(inputOptions);
+  if (errors.length) {
+    spinner.fail(errorMessage(errors));
+    return;
+  }
+  spinner.succeed(successMessage(files, metafile!, start));
 }
