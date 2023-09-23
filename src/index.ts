@@ -1,6 +1,8 @@
 import { build } from "./build";
+import { red } from "./colors";
 import { type CliOption, onAction } from "./command";
 import { createConfig } from "./config";
+import { stderr } from "./logging";
 import { dumpConfig, isTypescript } from "./typescript";
 import { watch } from "./watch";
 
@@ -12,11 +14,20 @@ async function handleAction(filename: string, opt: CliOption) {
   } else {
     opt.ignoreTypes = true;
   }
-  const config = await createConfig(filename, opt);
-  if (opt.watch) {
-    return watch(config);
+
+  try {
+    const config = await createConfig(filename, opt);
+    if (opt.watch) {
+      return watch(config);
+    }
+    return build(config, opt);
+  } catch (err) {
+    if (err instanceof Error) {
+      stderr(red("✘ " + err.message));
+    } else {
+      stderr(err);
+    }
   }
-  return build(config, opt);
 }
 
 export function run() {
