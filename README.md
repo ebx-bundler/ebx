@@ -2,26 +2,68 @@
 
 ## Introduction
 
-EBX is a command-line tool that simplifies the process of building and running TypeScript code. It is designed to work with ECMAScript Modules (ESM) and takes advantage of the lightning-fast build tool esbuild: https://esbuild.github.io/.
+EBX is a versatile and powerful tool for bundling TypeScript and JavaScript code. With zero configuration required, it offers a seamless experience for developers. It supports ES Modules (ESM) by default, making it suitable for modern NodeJS development. EBX also features asynchronous type checking, a watch mode for automatic rebuilding and re-run application, and a wide range of customization options.
 
-### Features
+## Getting Started
 
-- Supports ES Modules (ESM) by default.
-- Asynchronous type checking: EBX offloads type checking to a child process, so you can continue working on your code without interruptions.
-- Watch mode: EBX can watch for changes in your TypeScript files and automatically rebuild and run the program when changes are detected.
-- Can be used to bundle both TypeScript and JavaScript code.
-- Provides a variety of options to customize the bundling process, such as minification, sourcemaps, and tree shaking.
-- Can be integrated with popular Node.js frameworks, such as NestJS and ExpressJS.
+To get started with EBX, you can follow these simple steps:
 
-**EBX** stands for ES Module Build and Execute and works well with CommonJS (CJS).
+1. **Installation**: Install EBX using npm or yarn. Detailed installation instructions can be found in the [Installation](#installation) section.
+2. **Usage**: Learn how to use EBX to bundle your TypeScript and JavaScript code. See the [Usage](#usage) section for examples and guidelines.
+3. **Configuration**: Customize the bundling process to suit your needs. Refer to the [Configuration](#configuration) section for details.
+4. **Integration**: Integrate EBX with your Node.js frameworks, such as NestJS and ExpressJS. Instructions can be found in the [Integration with Node.js Frameworks](#integration-with-nodejs-frameworks) section.
+
+## Features
+
+### Zero Config Required
+
+EBX is designed to work out of the box with minimal setup. You can start using it with zero configuration, saving you time and effort.
+
+### Support for ES Modules (ESM)
+
+EBX provides native support for ES Modules (ESM). This makes it suitable for modern JavaScript and TypeScript development, allowing you to use the latest language features and module syntax.
+
+### Asynchronous Type Checking
+
+EBX offloads type checking to a child process, enabling asynchronous type checking. This means you can continue working on your code without interruptions while EBX takes care of type checking in the background.
+
+### Watch Mode
+
+EBX offers a watch mode that monitors changes in your TypeScript files. When it detects file modifications, it automatically rebuilds and runs the program, making development more efficient.
+
+### Bundling TypeScript and JavaScript
+
+EBX is not limited to TypeScript; it can also bundle JavaScript code. This flexibility allows you to manage both TypeScript and JavaScript projects with a single tool.
+
+### Integration with Node.js Frameworks
+
+EBX is compatible with popular Node.js frameworks, such as NestJS and ExpressJS. You can seamlessly integrate EBX into your framework of choice for a smooth development experience.
 
 ## Installation
 
-You can install **EBX** globally using the following command:
+To install EBX, use npm or yarn:
+
+```bash
+npm install -D ebx
+# or
+yarn add -D ebx
+```
+
+or install globally
 
 ```bash
 npm install -g ebx
+# or
+yarn global add ebx
 ```
+
+Once installed, you can use the `ebx` command globally.
+
+This command will bundle your TypeScript or JavaScript code, automatically handle type checking, and generate the output in the specified configuration.
+
+For more advanced usage and options, refer to the [Examples](#examples) section.
+
+For practical examples and advanced usage scenarios, please visit the [Examples](#examples) section in the documentation.
 
 ## Usage
 
@@ -33,9 +75,7 @@ ebx [options] <filename>
 
 Where `<filename>` is the name of the TypeScript file you want to build and run.
 
-## Options
-
-EBX provides several options that you can use to customize the build and run process:
+### Customization Options
 
 - `-w, --watch`: Watch for changes in the source files and automatically rebuild when changes are detected.
 - `-r, --run`: Run the compiled program after a successful build.
@@ -46,7 +86,7 @@ EBX provides several options that you can use to customize the build and run pro
 - `--ignore-types`: Ignore type errors.
 - `--node-options`: Add node options to runner.
 
-## Example Usage
+## Examples
 
 1. **Basic Build and Run:**
 
@@ -191,3 +231,15 @@ Harness the power of EBX to bundle and optimize your Node.js backend application
 ## Conclusion
 
 EBX is a powerful tool that can help you simplify the process of bundling and optimizing JavaScript code for Node.js applications. It is a versatile tool that can be used for both development and production environments.
+
+## License
+
+EBX is released under the [MIT License](https://opensource.org/licenses/MIT). You can find the full license text in the project repository.
+
+## Contributing
+
+We welcome contributions from the community. If you would like to contribute to EBX, please follow the guidelines in the [Contributing](#contributing) section.
+
+Thank you for choosing EBX! If you have any questions or need assistance, feel free to reach out to our support team or visit our website for more information and resources. Happy coding!
+
+[GitHub Repository](https://github.com/ebx-bundler/ebx)
