@@ -48,14 +48,14 @@ function createRunner(file: string, nodeOptions: string[]) {
   }
 
   return function execute() {
-    if (!p) {
+    if (!p || p.exitCode !== null) {
       p = run();
       return;
     }
-    p.kill("SIGTERM", {
-      forceKillAfterTimeout: 2000,
+    p.kill();
+    p.on("exit", () => {
+      p = null;
+      execute();
     });
-    p = null;
-    execute();
   };
 }
