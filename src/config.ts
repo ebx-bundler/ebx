@@ -58,6 +58,7 @@ export async function createConfig(filename: string, option: CliOption) {
       run({
         nodeOptions: option.nodeOptions?.split(" ") ?? [],
         filename: option.run,
+        killSignal: option.killSignal,
       })
     );
   }

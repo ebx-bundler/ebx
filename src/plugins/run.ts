@@ -6,6 +6,7 @@ import { EOL } from "node:os";
 interface RunOption {
   filename: string;
   nodeOptions: string[];
+  killSignal?: string;
 }
 export function run(opt: RunOption): Plugin {
   return {
@@ -14,11 +15,11 @@ export function run(opt: RunOption): Plugin {
   };
 }
 
-async function setup(build: PluginBuild, { filename, nodeOptions }: RunOption) {
+async function setup(build: PluginBuild, opts: RunOption) {
   if (build.initialOptions.sourcemap) {
-    nodeOptions.push("--enable-source-maps");
+    opts.nodeOptions.push("--enable-source-maps");
   }
-  const execute = createRunner(filename, nodeOptions);
+  const execute = createRunner(opts);
   build.onEnd(({ errors }) => {
     console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
     if (!errors.length) {
@@ -37,7 +38,7 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
   });
 }
 
-function createRunner(file: string, nodeOptions: string[]) {
+function createRunner({ filename: file, nodeOptions, killSignal }: RunOption) {
   let p: Process | null = null;
 
   function run() {
@@ -52,7 +53,7 @@ function createRunner(file: string, nodeOptions: string[]) {
       p = run();
       return;
     }
-    p.kill();
+    p.kill(killSignal);
     p.on("exit", () => {
       p = null;
       execute();

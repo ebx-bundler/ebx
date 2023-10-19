@@ -11,6 +11,7 @@ export interface CliOption {
   ignoreTypes: boolean;
   reset: boolean;
   nodeOptions?: string;
+  killSignal?: string;
 }
 program.version(version);
 
@@ -41,6 +42,10 @@ program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
 
 program.option("--node-options <options>", "node options");
+program.option(
+  "--kill-signal <signal>",
+  "specify kill signal before restarting"
+);
 
 program.argument("filename");
 
