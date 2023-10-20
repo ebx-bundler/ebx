@@ -12,6 +12,7 @@ export interface CliOption {
   reset: boolean;
   nodeOptions?: string;
   killSignal?: string;
+  grace: boolean;
 }
 program.version(version);
 
@@ -41,10 +42,18 @@ program.option("-m --minify", "Minify the output JavaScript code.");
 program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
 
-program.option("--node-options <options>", "node options");
+program.option(
+  "--node-options <options>",
+  "Specify Node.js options that should be used when running the program."
+);
 program.option(
   "--kill-signal <signal>",
-  "specify kill signal before restarting"
+  "Specify the signal that will be sent to the program before restarting it."
+);
+
+program.option(
+  "--no-grace",
+  "This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted."
 );
 
 program.argument("filename");

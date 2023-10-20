@@ -21,7 +21,9 @@ export type { Plugin };
 
 export async function createConfig(filename: string, option: CliOption) {
   const [dir, ext] = getDestination();
-
+  if (!option.grace) {
+    option.killSignal = "SIGKILL";
+  }
   if (isCurrentPath(dir)) {
     option.clean = false;
   }
