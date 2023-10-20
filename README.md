@@ -4,14 +4,15 @@
 
 EBX is a versatile and powerful tool for bundling TypeScript and JavaScript code. With zero configuration required, it offers a seamless experience for developers. It supports ES Modules (ESM) by default, making it suitable for modern NodeJS development. EBX also features asynchronous type checking, a watch mode for automatic rebuilding and re-run application, and a wide range of customization options.
 
+It will exclusively bundle the code you've authored, excluding any external modules, resulting in a slightly faster startup time for your application.
+
 ## Getting Started
 
 To get started with EBX, you can follow these simple steps:
 
 1. **Installation**: Install EBX using npm or yarn. Detailed installation instructions can be found in the [Installation](#installation) section.
 2. **Usage**: Learn how to use EBX to bundle your TypeScript and JavaScript code. See the [Usage](#usage) section for examples and guidelines.
-3. **Configuration**: Customize the bundling process to suit your needs. Refer to the [Configuration](#configuration) section for details.
-4. **Integration**: Integrate EBX with your Node.js frameworks, such as NestJS and ExpressJS. Instructions can be found in the [Integration with Node.js Frameworks](#integration-with-nodejs-frameworks) section.
+3. **Integration**: Integrate EBX with your Node.js frameworks, such as NestJS and ExpressJS. Instructions can be found in the [Integration with Node.js Frameworks](#integration-with-nodejs-frameworks) section.
 
 ## Features
 
@@ -21,7 +22,7 @@ EBX is designed to work out of the box with minimal setup. You can start using i
 
 ### Support for ES Modules (ESM)
 
-EBX provides native support for ES Modules (ESM). This makes it suitable for modern JavaScript and TypeScript development, allowing you to use the latest language features and module syntax.
+EBX provides native support for ES Modules (ESM). This makes it suitable for modern JavaScript and TypeScript development, allowing you to use the latest language features and module syntax. Instructions can be found in the [ES Modules](#es-modules)
 
 ### Asynchronous Type Checking
 
@@ -34,10 +35,6 @@ EBX offers a watch mode that monitors changes in your TypeScript files. When it 
 ### Bundling TypeScript and JavaScript
 
 EBX is not limited to TypeScript; it can also bundle JavaScript code. This flexibility allows you to manage both TypeScript and JavaScript projects with a single tool.
-
-### Integration with Node.js Frameworks
-
-EBX is compatible with popular Node.js frameworks, such as NestJS and ExpressJS. You can seamlessly integrate EBX into your framework of choice for a smooth development experience.
 
 ## Installation
 
@@ -61,8 +58,6 @@ Once installed, you can use the `ebx` command globally.
 
 This command will bundle your TypeScript or JavaScript code, automatically handle type checking, and generate the output in the specified configuration.
 
-For more advanced usage and options, refer to the [Examples](#examples) section.
-
 For practical examples and advanced usage scenarios, please visit the [Examples](#examples) section in the documentation.
 
 ## Usage
@@ -75,7 +70,7 @@ ebx [options] <filename>
 
 Where `<filename>` is the name of the TypeScript file you want to build and run.
 
-### Customization Options
+### Options
 
 - `-w, --watch`: Watch for changes in the source files and automatically rebuild when changes are detected.
 - `-r, --run`: Run the compiled program after a successful build.
@@ -85,6 +80,8 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
 - `-m, --minify`: Minify the output JavaScript code.
 - `--ignore-types`: Ignore type errors.
 - `--node-options`: Add node options to runner.
+- `--kill-signal <signal>`: Specify the signal that will be sent to the program before restarting it.
+- `--no-grace`: This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted.
 
 ## Examples
 
@@ -96,8 +93,7 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
    ebx -r app.ts
    ```
 
-   To build ES Modules _(ESM)_
-   just add `"type": "module"` in your `package.json` file
+   To enable ES Modules (ESM), add `"type": "module"` to your `package.json` file.
 
 2. **Watching Changes:**
 
@@ -107,7 +103,7 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
    ebx -w -r app.ts
    ```
 
-3. **Custom Configuration:**
+3. **Custom Typescript Configuration:**
 
    To use a custom TypeScript configuration file named `tsconfig.custom.json` and generate sourcemaps:
 
@@ -123,9 +119,9 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
    ebx -m app.ts
    ```
 
-### ES Modules
+## ES Modules
 
-EBX supports ES Modules by default. To use ES Modules in your project, simply add the `"type": "module"` field to your package.json file.
+To transpile your code into ES module syntax, incorporate the `"type": "module"` configuration into your `package.json` file.
 
 ## Polyfills for ESM Compatibility
 
@@ -161,9 +157,7 @@ ex: `"main": "lib/app.js"` it will now compile and run `app.js` in `lib` directo
 
 ### Externals
 
-every modules will be considered as external and it won't bundle, if you want to include
-
-add following in `package.json`
+All modules will be treated as external and won't be bundled. If you want to include them, add the following to your `package.json`.
 
 ```json
    "external": {
@@ -171,7 +165,7 @@ add following in `package.json`
    }
 ```
 
-now lodash will be include in the compiled bundle.
+Now, lodash will be included in the compiled bundle.
 
 ### Integration with NestJS
 
@@ -194,11 +188,10 @@ To integrate EBX with your NestJS project, follow these steps:
      "scripts": {
        "start:dev": "ebx src/main.ts --watch --run --sourcemap",
        "build": "ebx src/main.ts"
-     }
+     },
+     "polyfills": ["nestjs"]
    }
    ```
-
-   > note: decorators are partially supported, if you want full support for decorators, enable `decorators` polyfill.
 
 2. Update `tsconfig.json` file:
 
@@ -224,7 +217,7 @@ For a practical example of integrating EBX with NestJS, you can refer to the fol
 
 ### Integration with ExpressJS
 
-[EBX Example ExpressJS with PNP](https://github.com/ebx-bundler/ebx-example-express-pnp)
+- [EBX Example ExpressJS with PNP](https://github.com/ebx-bundler/ebx-example-express-pnp)
 
 Harness the power of EBX to bundle and optimize your Node.js backend applications built with NestJS, ExpressJS or any other.
 

@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "packageManager": "yarn@3.6.3",
   "type": "module",
   "license": "MIT",
@@ -35,7 +35,7 @@
   "bin": "cli.js",
   "dependencies": {
     "esbuild": "^0.19.3",
-    "typescript": ">=5.0.0"
+    "typescript": "*"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
