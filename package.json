@@ -1,6 +1,6 @@
 {
   "name": "ebx",
-  "version": "0.0.19",
+  "version": "0.1.0",
   "packageManager": "yarn@3.6.3",
   "type": "module",
   "license": "MIT",
@@ -34,8 +34,8 @@
   },
   "bin": "cli.js",
   "dependencies": {
-    "esbuild": "^0.19.3",
-    "typescript": "*"
+    "esbuild": "^0.19.5",
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
@@ -47,18 +47,18 @@
     "@types/semver": "^7.5.0",
     "@types/yargs": "^17.0.24",
     "chalk": "^5.3.0",
-    "commander": "^11.0.0",
+    "commander": "^11.1.0",
     "date-time": "^4.0.0",
     "esbuild-node-externals": "^1.9.0",
     "esbuild-plugin-tsc": "^0.4.0",
-    "execa": "^7.2.0",
+    "execa": "^8.0.1",
     "ora": "^7.0.1",
     "pretty-bytes": "^6.1.1",
     "pretty-ms": "^8.0.0",
-    "rollup": "^3.27.0",
+    "rollup": "^4.1.4",
     "rollup-plugin-cleanup": "^3.2.1",
     "semver": "^7.5.4",
-    "tslib": "^2.6.1"
+    "tslib": "^2.6.2"
   },
   "files": [
     "dist"
