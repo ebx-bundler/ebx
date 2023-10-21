@@ -2,7 +2,11 @@
 
 ## Introduction
 
-EBX is a versatile and powerful tool for bundling TypeScript and JavaScript code. With zero configuration required, it offers a seamless experience for developers. It supports ES Modules (ESM) by default, making it suitable for modern NodeJS development. EBX also features asynchronous type checking, a watch mode for automatic rebuilding and re-run application, and a wide range of customization options.
+EBX is specifically designed for **NodeJS**, serving as a versatile and powerful tool for bundling TypeScript and JavaScript code. It provides a hassle-free experience for developers without any configuration needed.
+
+It includes CommonJS polyfills for ES Modules (ESM), making it suitable for modern NodeJS development.
+
+EBX also features asynchronous type checking, a watch mode for automatic rebuilding and re-run application, and a wide range of [customization](#configuration) options.
 
 It will exclusively bundle the code you've authored, excluding any external modules, resulting in a slightly faster startup time for your application.
 
@@ -12,7 +16,7 @@ To get started with EBX, you can follow these simple steps:
 
 1. **Installation**: Install EBX using npm or yarn. Detailed installation instructions can be found in the [Installation](#installation) section.
 2. **Usage**: Learn how to use EBX to bundle your TypeScript and JavaScript code. See the [Usage](#usage) section for examples and guidelines.
-3. **Integration**: Integrate EBX with your Node.js frameworks, such as NestJS and ExpressJS. Instructions can be found in the [Integration with Node.js Frameworks](#integration-with-nodejs-frameworks) section.
+3. **Integration**: Integrate EBX with your Node.js frameworks, such as NestJS and ExpressJS. Instructions can be found in the [Integration](#integrations) section.
 
 ## Features
 
@@ -22,11 +26,13 @@ EBX is designed to work out of the box with minimal setup. You can start using i
 
 ### Support for ES Modules (ESM)
 
-EBX provides native support for ES Modules (ESM). This makes it suitable for modern JavaScript and TypeScript development, allowing you to use the latest language features and module syntax. Instructions can be found in the [ES Modules](#es-modules)
+EBX provides native support for ES Modules (ESM). Allowing you to use the latest language features and module syntax. Instructions can be found in the [ES Modules](#es-modules)
 
-### Asynchronous Type Checking
+### Performance and Asynchronous Type Checking
 
-EBX offloads type checking to a child process, enabling asynchronous type checking. This means you can continue working on your code without interruptions while EBX takes care of type checking in the background.
+EBX is built on top of [Esbuild](https://esbuild.github.io/) and is faster than most other bundlers, including tsc and babel.
+
+Offloads type checking to a child process, enabling asynchronous type checking. This means you can continue working on your code without interruptions while EBX takes care of type checking in the background.
 
 ### Watch Mode
 
@@ -121,25 +127,45 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
 
 ## ES Modules
 
-To transpile your code into ES module syntax, incorporate the `"type": "module"` configuration into your `package.json` file.
+Have you explored working with ES modules in Node.js using TypeScript? It can sometimes be cumbersome, like adding `.js` when importing `.ts` files
 
-## Polyfills for ESM Compatibility
+and transforming CommonJS imports as `import { a } from "pkg";` to `import pkg from "pkg"; const { a } = pkg;`
 
-When working with ECMAScript Modules (ESM), you might encounter compatibility issues, such as `require`, `__filename` and `__dirname` not being defined.
+This is where EBX comes into action.
 
-To address these you can use a polyfill.
+To transpile your code into ES module syntax, add the `"type": "module"` configuration to your `package.json` file.
 
-### Adding Polyfills
+When working with ESM, you may come across compatibility issues like the absence of `require`, `__filename`, and `__dirname`. To resolve these issues, consider using `cjs` polyfills.
 
-To add the necessary polyfills for ESM compatibility, follow these steps:
+- Learn more [about Polyfills](#polyfills)
+- For further information on ESM (ECMAScript Modules) support for Node.js, check out the [Node.js ESM Documentation](https://nodejs.org/en/docs/es6).
+- Advantages of ES Modules over CommonJS [ES Modules and CommonJS: An Overview](https://dev.to/costamatheus97/es-modules-and-commonjs-an-overview-1i4b)
 
-1. Open your `package.json` file.
+## Configuration
 
-2. Inside the JSON structure, add a key named `"polyfills"` and specify an array of polyfill names. In this case, we're using `"cjs"` to include CommonJS-related polyfills.
+No external `rc` files are required; we automatically include existing configuration files like `package.json` and `tsconfig` for configuring your project.
 
-   ```json
-   "polyfills": ["cjs"]
-   ```
+Here's an example of how it can be set up within your `package.json`:
+
+```json
+{
+  "name": "awesome-app", // package name
+  "main": "lib/app.js", // outdir: lib
+  "type": "module", // Produces ES Module output
+  "polyfills": ["cjs", "nestjs"], // Enable __dirname support in ES modules and activate decorators for NestJS
+  "external": {
+    "include": ["lodash"] // Included lodash in the compiled bundle.
+  }
+}
+```
+
+### Polyfills
+
+in `package.json`:
+
+```json
+"polyfills": ["cjs"]
+```
 
 By adding this configuration, you ensure that the specified polyfills are loaded when your ESM code runs, addressing compatibility issues related to `__filename`, `require` and `__dirname`.
 
@@ -155,7 +181,7 @@ By default, EBX outputs the compiled JavaScript code to the `dist` directory. Yo
 
 ex: `"main": "lib/app.js"` it will now compile and run `app.js` in `lib` directory
 
-### Externals
+### External
 
 All modules will be treated as external and won't be bundled. If you want to include them, add the following to your `package.json`.
 
@@ -166,6 +192,8 @@ All modules will be treated as external and won't be bundled. If you want to inc
 ```
 
 Now, lodash will be included in the compiled bundle.
+
+## Integrations
 
 ### Integration with NestJS
 
