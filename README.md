@@ -34,13 +34,9 @@ EBX is built on top of [Esbuild](https://esbuild.github.io/) and is faster than 
 
 Offloads type checking to a child process, enabling asynchronous type checking. This means you can continue working on your code without interruptions while EBX takes care of type checking in the background.
 
-### Watch Mode
+### Watch and Run
 
-EBX offers a watch mode that monitors changes in your TypeScript files. When it detects file modifications, it automatically rebuilds and runs the program, making development more efficient.
-
-### Bundling TypeScript and JavaScript
-
-EBX is not limited to TypeScript; it can also bundle JavaScript code. This flexibility allows you to manage both TypeScript and JavaScript projects with a single tool.
+No need for **nodemon** or **ts-node**; EBX offers a watch mode that keeps an eye on changes in your source files. Whenever it detects file modifications, it automatically rebuilds and runs the program.
 
 ## Installation
 
