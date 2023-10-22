@@ -1,4 +1,6 @@
-# **EBX: A Tool for Building and Running TypeScript Code**
+# EBX: A Tool for Building and Running TypeScript Code
+
+**An extremely fast bundler for the Node.js**
 
 ## Introduction
 
