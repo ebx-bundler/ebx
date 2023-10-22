@@ -43,16 +43,16 @@ program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
 
 program.option(
-  "--node-options <options>",
+  "-no --node-options <options>",
   "Specify Node.js options that should be used when running the program."
 );
 program.option(
   "--kill-signal <signal>",
-  "Specify the signal that will be sent to the program before restarting it."
+  "Specify the signal that will be sent to the program before restarting it. Default: SIGTERM"
 );
 
 program.option(
-  "--no-grace",
+  "-ng --no-grace",
   "This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted."
 );
 

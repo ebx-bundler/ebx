@@ -2,13 +2,7 @@
 
 ## Introduction
 
-EBX is specifically designed for **NodeJS**, serving as a versatile and powerful tool for bundling TypeScript and JavaScript code. It provides a hassle-free experience for developers without any configuration needed.
-
-It includes CommonJS polyfills for ES Modules (ESM), making it suitable for modern NodeJS development.
-
-EBX also features asynchronous type checking, a watch mode for automatic rebuilding and re-run application, and a wide range of [customization](#configuration) options.
-
-It will exclusively bundle the code you've authored, excluding any external modules, resulting in a slightly faster startup time for your application.
+EBX is specifically designed for **NodeJS**, serving as a versatile and powerful tool for bundling TypeScript and JavaScript code. It provides a hassle-free experience for developers and [asynchronous type checking](#performance-and-asynchronous-type-checking) without any configuration needed.
 
 ## Getting Started
 
@@ -26,17 +20,21 @@ EBX is designed to work out of the box with minimal setup. You can start using i
 
 ### Support for ES Modules (ESM)
 
-EBX provides native support for ES Modules (ESM). Allowing you to use the latest language features and module syntax. Instructions can be found in the [ES Modules](#es-modules)
+It includes CommonJS polyfills for ES Modules (ESM), making it suitable for modern NodeJS development. [ES Modules](#es-modules)
 
 ### Performance and Asynchronous Type Checking
 
-EBX is built on top of [Esbuild](https://esbuild.github.io/) and is faster than most other bundlers, including tsc and babel.
+EBX is built on top of [ESBuild](https://esbuild.github.io/) and is faster than most other bundlers, including tsc and babel.
 
 Offloads type checking to a child process, enabling asynchronous type checking. This means you can continue working on your code without interruptions while EBX takes care of type checking in the background.
 
 ### Watch and Run
 
 No need for **nodemon** or **ts-node**; EBX offers a watch mode that keeps an eye on changes in your source files. Whenever it detects file modifications, it automatically rebuilds and runs the program.
+
+### Bundling
+
+It will exclusively bundle the code you've authored, excluding any external modules, resulting in a slightly faster startup time for your application.
 
 ## Installation
 
@@ -75,15 +73,15 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
 ### Options
 
 - `-w, --watch`: Watch for changes in the source files and automatically rebuild when changes are detected.
-- `-r, --run`: Run the compiled program after a successful build.
+- `-r, --run [filename]`: Run the compiled program after a successful build.
 - `-nc, --no-clean`: Do not clean the build output directory before building.
 - `-s, --sourcemap`: Generate sourcemaps for the compiled JavaScript code.
 - `--tsconfig <tsconfig>`: Path to a custom TypeScript configuration file (tsconfig.json).
 - `-m, --minify`: Minify the output JavaScript code.
 - `--ignore-types`: Ignore type errors.
-- `--node-options`: Add node options to runner.
-- `--kill-signal <signal>`: Specify the signal that will be sent to the program before restarting it.
-- `--no-grace`: This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted.
+- `-no, --node-options <options>`: Add node options to runner.
+- `--kill-signal <signal>`: Specify the signal that will be sent to the program before restarting it. Default: `SIGTERM`.
+- `-ng, --no-grace`: This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted.
 
 ## Examples
 
