@@ -759,7 +759,7 @@ __metadata:
     rollup-plugin-cleanup: ^3.2.1
     semver: ^7.5.4
     tslib: ^2.6.2
-    typescript: ^5.2.2
+    typescript: "*"
   bin:
     ebx: cli.js
   languageName: unknown
@@ -2139,7 +2139,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.2.2":
+"typescript@npm:*":
   version: 5.2.2
   resolution: "typescript@npm:5.2.2"
   bin:
@@ -2149,7 +2149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
+"typescript@patch:typescript@*#~builtin<compat/typescript>":
   version: 5.2.2
   resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"
   bin:

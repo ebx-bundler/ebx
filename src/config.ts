@@ -3,6 +3,7 @@ import {
   getExternal,
   getFormat,
   getInject,
+  getLoader,
   getPolyfills,
   getTarget,
 } from "./project";
@@ -79,6 +80,7 @@ export async function createConfig(filename: string, option: CliOption) {
     tsconfig: option.tsconfig,
     metafile: true,
     plugins,
+    loader: getLoader(),
   };
 
   if (config.format === "esm") {

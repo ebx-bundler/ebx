@@ -4,7 +4,7 @@
 
 ## Introduction
 
-EBX is specifically designed for **NodeJS**, serving as a versatile and powerful tool for bundling TypeScript and JavaScript code. It provides a hassle-free experience for developers and [asynchronous type checking](#performance-and-asynchronous-type-checking) without any configuration needed.
+EBX is specifically designed for **NodeJS** backend development, serving as a versatile and powerful tool for bundling/running TypeScript code. It provides a hassle-free experience for developers and [asynchronous type checking](#performance-and-asynchronous-type-checking) without any configuration needed.
 
 ## Getting Started
 
@@ -67,7 +67,7 @@ For practical examples and advanced usage scenarios, please visit the [Examples]
 After installing EBX, you can use it from the command line as follows:
 
 ```bash
-ebx [options] <filename>
+ebx <filename> [options]
 ```
 
 Where `<filename>` is the name of the TypeScript file you want to build and run.
@@ -92,7 +92,7 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
    To build and run a TypeScript file named `app.ts`, use the following command:
 
    ```bash
-   ebx -r app.ts
+   ebx app.ts -r
    ```
 
    To enable ES Modules (ESM), add `"type": "module"` to your `package.json` file.
@@ -102,7 +102,7 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
    To watch for changes in the `app.ts` file and automatically rebuild and run it when changes occur:
 
    ```bash
-   ebx -w -r app.ts
+   ebx app.ts -w -r
    ```
 
 3. **Custom Typescript Configuration:**
@@ -110,7 +110,7 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
    To use a custom TypeScript configuration file named `tsconfig.custom.json` and generate sourcemaps:
 
    ```bash
-   ebx -s --tsconfig tsconfig.custom.json -r app.ts
+   ebx app.ts -s --tsconfig tsconfig.custom.json -r
    ```
 
 4. **Minification:**
@@ -118,7 +118,7 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
    To enable minification building and running `app.ts`:
 
    ```bash
-   ebx -m app.ts
+   ebx app.ts -m
    ```
 
 ## ES Modules
@@ -151,6 +151,9 @@ Here's an example of how it can be set up within your `package.json`:
   "polyfills": ["cjs", "nestjs"], // Enable __dirname support in ES modules and activate decorators for NestJS
   "external": {
     "include": ["lodash"] // Included lodash in the compiled bundle.
+  },
+  "loader": {
+    ".graphql": "text" // Load graphql as text file.
   }
 }
 ```

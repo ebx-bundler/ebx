@@ -17,13 +17,14 @@ export interface CliOption {
 program.version(version);
 
 type Callback = (filename: string, opt: CliOption) => void;
+program.argument("filename");
 
 program.option(
   "-w --watch",
   "Watch for changes in the source files and automatically rebuild when changes are detected."
 );
 program.option(
-  "-r --run [filename]",
+  "-r --run",
   "Run the compiled program after a successful build."
 );
 program.option(
@@ -55,8 +56,6 @@ program.option(
   "-ng --no-grace",
   "This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted."
 );
-
-program.argument("filename");
 
 export function onAction(callback: Callback) {
   program.action(callback);
