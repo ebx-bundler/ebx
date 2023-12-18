@@ -248,6 +248,20 @@ For a practical example of integrating EBX with NestJS, you can refer to the fol
 
 Harness the power of EBX to bundle and optimize your Node.js backend applications built with NestJS, ExpressJS or any other.
 
+### Integration with Concurrently
+
+To make EBX run-mode work with [Concurrently](https://www.npmjs.com/package/concurrently) runner, you have to pass `--raw` parameter in concurrently script.
+
+```json
+// package.json
+{
+  "scripts": {
+    //...
+    "dev": "concurrently --raw 'npm:dev:frontend' 'npm:dev:backend'"
+  }
+}
+```
+
 ## Conclusion
 
 EBX is a powerful tool that can help you simplify the process of bundling and optimizing JavaScript code for Node.js applications. It is a versatile tool that can be used for both development and production environments.
