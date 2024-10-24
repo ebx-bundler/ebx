@@ -1,7 +1,31 @@
 import type { Plugin, PluginBuild } from "esbuild";
-import { type ExecaChildProcess as Process, execaNode as node } from "execa";
+import { type ResultPromise as Process, execaNode, ExecaError } from "execa";
 import { bold, dim } from "../colors";
 import { EOL } from "node:os";
+
+export function node(filename: string, nodeOptions: string[]) {
+  let isStopping = false;
+  let proc: Process;
+  const promise = new Promise<void>(async (resolve) => {
+    proc = execaNode(filename, { nodeOptions, stdio: "inherit" });
+    await proc.catch((err) => {
+      if (!(err instanceof ExecaError)) {
+        throw err;
+      }
+    });
+    resolve();
+  });
+
+  function stop() {
+    if (isStopping) {
+      return promise;
+    }
+    isStopping = true;
+    proc.kill("SIGTERM");
+    return promise;
+  }
+  return stop;
+}
 
 interface RunOption {
   filename: string;
@@ -37,25 +61,15 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
   });
 }
 
-function createRunner(file: string, nodeOptions: string[]) {
-  let p: Process | null = null;
-
-  function run() {
-    return node(file, {
-      stdio: "inherit",
-      nodeOptions,
-    });
-  }
-
-  return function execute() {
-    if (!p) {
-      p = run();
-      return;
-    }
-    p.kill("SIGTERM", {
-      forceKillAfterTimeout: 2000,
-    });
-    p = null;
-    execute();
+export function createRunner(filename: string, nodeOptions: string[]) {
+  let stopProcess: ReturnType<typeof node> | null = null;
+  let pendingTask: (() => void) | null = null;
+  return async function execute() {
+    pendingTask = () => {
+      stopProcess = node(filename, nodeOptions);
+      pendingTask = null;
+    };
+    await stopProcess?.();
+    pendingTask?.();
   };
 }
