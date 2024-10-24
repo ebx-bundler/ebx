@@ -3,6 +3,7 @@ import {
   getExternal,
   getFormat,
   getInject,
+  getLoader,
   getPolyfills,
   getTarget,
 } from "./project";
@@ -21,7 +22,9 @@ export type { Plugin };
 
 export async function createConfig(filename: string, option: CliOption) {
   const [dir, ext] = getDestination();
-
+  if (!option.grace) {
+    option.killSignal = "SIGKILL";
+  }
   if (isCurrentPath(dir)) {
     option.clean = false;
   }
@@ -58,6 +61,7 @@ export async function createConfig(filename: string, option: CliOption) {
       run({
         nodeOptions: option.nodeOptions?.split(" ") ?? [],
         filename: option.run,
+        killSignal: option.killSignal,
       })
     );
   }
@@ -76,6 +80,7 @@ export async function createConfig(filename: string, option: CliOption) {
     tsconfig: option.tsconfig,
     metafile: true,
     plugins,
+    loader: getLoader(),
   };
 
   if (config.format === "esm") {

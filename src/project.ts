@@ -4,6 +4,7 @@ import { ensureCase } from "./utils";
 import semver from "semver";
 
 import type { CliOption } from "./command";
+import type { Loader } from "esbuild";
 
 interface External {
   include: string[];
@@ -18,6 +19,7 @@ export interface PackageInfo {
   };
   inject?: string[];
   external?: Partial<External>;
+  loader?: Record<string, Loader>;
 }
 
 const info = parseInfo();
@@ -108,4 +110,8 @@ export function getExternal(): External {
   return {
     include: info.external.include ?? [],
   };
+}
+
+export function getLoader() {
+  return info.loader;
 }
