@@ -1,16 +1,22 @@
 import { Transform, type TransformCallback } from "node:stream";
 import { EOL } from "node:os";
+import { lines, startsWith } from "./buffer";
 
 class Strip extends Transform {
-  clearBuf = Buffer.from("\x1Bc");
+  clearBuf = [
+    Buffer.from(EOL),
+    Buffer.from([
+      0x1b, 0x5b, 0x32, 0x4a, 0x1b, 0x5b, 0x33, 0x4a, 0x1b, 0x5b, 0x48,
+    ]),
+    Buffer.from("\x1Bc"), // for older versions
+  ];
   infoBuf = Buffer.from("[\x1B[90m");
   _transform(
     chunks: Buffer,
     encoding: BufferEncoding,
     callback: TransformCallback
   ): void {
-    const splitted = this.splitChunks(chunks);
-    for (const chunk of splitted) {
+    for (const chunk of lines(chunks)) {
       if (this.skip(chunk)) {
         continue;
       }
@@ -19,37 +25,13 @@ class Strip extends Transform {
     callback();
   }
   skip(chunk: Buffer) {
-    if (this.clearBuf.equals(chunk) || chunk.equals(Buffer.from(EOL))) {
+    if (this.clearBuf.some((buf) => buf.equals(chunk))) {
       return true;
     }
-    if (this.buffersStartWith(chunk, this.infoBuf)) {
+    if (startsWith(chunk, this.infoBuf)) {
       return true;
     }
     return false;
-  }
-  buffersStartWith(buffer1: Buffer, buffer2: Buffer) {
-    if (buffer1.length < buffer2.length) {
-      return false;
-    }
-    for (let i = 0; i < buffer2.length; i++) {
-      if (buffer1[i] !== buffer2[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  *splitChunks(chunk: Buffer) {
-    let lineStart = 0;
-    for (let i = 0; i < chunk.length; i++) {
-      if (chunk[i] === 10) {
-        yield chunk.subarray(lineStart, i + 1);
-        lineStart = i + 1;
-      }
-    }
-    if (lineStart < chunk.length) {
-      yield chunk.subarray(lineStart);
-    }
   }
 }
 
