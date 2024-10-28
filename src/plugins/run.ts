@@ -31,7 +31,7 @@ async function setup(build: PluginBuild, opts: RunOption) {
 }
 
 function onRestart(execute: ReturnType<typeof createRunner>) {
-  process.stdout.on("data", (buf) => {
+  process.stdin.on("data", (buf) => {
     const txt = buf.toString().trim();
     if (txt === "rs") {
       execute();
