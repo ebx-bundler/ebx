@@ -1,7 +1,7 @@
 import type { Plugin, PluginBuild } from "esbuild";
 import { EOL } from "node:os";
-import { runNode } from "./helpers/node-runner";
-import { bold, dim } from "../colors";
+import { runNode } from "./node-runner";
+import { bold, dim } from "../../colors";
 
 interface RunOption {
   filename: string;

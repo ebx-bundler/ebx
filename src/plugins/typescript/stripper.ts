@@ -1,6 +1,6 @@
 import { Transform, type TransformCallback } from "node:stream";
 import { EOL } from "node:os";
-import { lines, startsWith } from "./buffer";
+import { lines, startsWith } from "../helpers/buffer";
 
 class Strip extends Transform {
   clearBuf = [

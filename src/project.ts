@@ -85,13 +85,6 @@ export async function getPolyfills(opt: CliOption) {
           tsconfigPath: opt.tsconfig,
         });
       }
-      case "nestjs": {
-        const { decorators } = await import("./plugins/decorator-polyfill");
-        return decorators({
-          tsconfigPath: opt.tsconfig,
-          force: true,
-        });
-      }
       default:
         throw new Error(`Unknown polyfill "${name}"`);
     }

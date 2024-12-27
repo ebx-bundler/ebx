@@ -57,17 +57,28 @@ export async function createConfig(filename: string, option: CliOption) {
       option.run = getOutputFilename(filename, dir, ext);
     }
 
+    const nodeOptions = option.nodeOptions?.split(" ") ?? [];
+
+    option.import?.forEach((x) => {
+      nodeOptions.push("--import", getOutputFilename(x, dir, ext));
+    });
+
     plugins.push(
       run({
-        nodeOptions: option.nodeOptions?.split(" ") ?? [],
+        nodeOptions,
         filename: option.run,
         killSignal: option.killSignal,
       })
     );
   }
 
+  const entryPoints = [filename];
+  if (option.import) {
+    entryPoints.push(...option.import);
+  }
+
   const config: ConfigOption = {
-    entryPoints: [filename],
+    entryPoints,
     bundle: true,
     inject: getInject(),
     target: getTarget(),

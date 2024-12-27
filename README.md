@@ -158,6 +158,28 @@ Here's an example of how it can be set up within your `package.json`:
 }
 ```
 
+Here’s a refactored version of the documentation for clarity and consistency:
+
+---
+
+### Importing Loader Script
+
+To import the loader script in your project, use the following command:
+
+```bash
+ebx ./src/index.ts --import=./src/loader.ts -wr
+```
+
+After running the above command, the final output will look like this:
+
+```bash
+node --import=./dist/loader.js ./dist/index.js
+```
+
+---
+
+This version provides clear instructions and separates the code from the explanation for better readability. Let me know if you’d like any additional details or formatting changes!
+
 ### Polyfills
 
 in `package.json`:

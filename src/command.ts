@@ -13,6 +13,7 @@ export interface CliOption {
   nodeOptions?: string;
   killSignal?: NodeJS.Signals;
   grace: boolean;
+  import?: string[];
 }
 program.version(version);
 
@@ -23,6 +24,7 @@ program.option(
   "-w --watch",
   "Watch for changes in the source files and automatically rebuild when changes are detected."
 );
+program.option("-i --import <import...>", "Import additional files");
 program.option(
   "-r --run",
   "Run the compiled program after a successful build."
