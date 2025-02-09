@@ -5,6 +5,7 @@
   "type": "module",
   "license": "MIT",
   "main": "cli.js",
+  "types": "./types.d.ts",
   "description": "Command Line Tool for Building and Running TypeScript Code",
   "homepage": "https://github.com/ebx-bundler/ebx.git",
   "author": {
@@ -60,6 +61,7 @@
     "semver": "^7.6.3"
   },
   "files": [
-    "dist"
+    "dist",
+    "types.d.ts"
   ]
 }

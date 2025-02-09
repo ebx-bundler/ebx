@@ -3,12 +3,9 @@ import { dirname, join, resolve, extname } from "node:path";
 import { ensureCase } from "./utils";
 import semver from "semver";
 
-import type { CliOption } from "./command";
 import type { Loader } from "esbuild";
+import type { ConfigOption, NodeExternal } from "./types";
 
-interface External {
-  include: string[];
-}
 export interface PackageInfo {
   name?: string;
   type: "module" | "commonjs";
@@ -18,7 +15,7 @@ export interface PackageInfo {
     node?: string;
   };
   inject?: string[];
-  external?: Partial<External>;
+  external?: Partial<NodeExternal>;
   loader?: Record<string, Loader>;
 }
 
@@ -69,12 +66,15 @@ export function getTarget(prefix = "node") {
   return `${prefix}${version.version}`;
 }
 
-export async function getPolyfills(opt: CliOption) {
-  if (!info.polyfills) {
+export async function getPolyfills(
+  polyfills: string[] | undefined = info.polyfills,
+  opt: ConfigOption
+) {
+  if (!polyfills) {
     return [];
   }
 
-  const polyfills = info.polyfills.map(async (name) => {
+  const polyfillsPromise = polyfills.map(async (name) => {
     switch (name) {
       case "cjs":
         const { cjs } = await import("./plugins/cjs-polyfill");
@@ -89,14 +89,14 @@ export async function getPolyfills(opt: CliOption) {
         throw new Error(`Unknown polyfill "${name}"`);
     }
   });
-  return Promise.all(polyfills);
+  return Promise.all(polyfillsPromise);
 }
 
 export function getInject() {
   return info.inject ?? [];
 }
 
-export function getExternal(): External {
+export function getExternal(): NodeExternal {
   if (!info.external) {
     return { include: [] };
   }

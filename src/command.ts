@@ -2,17 +2,18 @@ import { program } from "commander";
 import { version } from "../package.json";
 
 export interface CliOption {
-  run: boolean | string;
-  watch: boolean;
-  clean: boolean;
-  sourcemap: boolean;
+  config?: string;
+  run?: boolean | string;
+  watch?: boolean;
+  clean?: boolean;
+  sourcemap?: boolean;
   tsconfig?: string;
   minify?: boolean;
-  ignoreTypes: boolean;
-  reset: boolean;
+  ignoreTypes?: boolean;
+  reset?: boolean;
   nodeOptions?: string;
   killSignal?: NodeJS.Signals;
-  grace: boolean;
+  grace?: boolean;
   import?: string[];
 }
 program.version(version);
@@ -43,7 +44,8 @@ program.option(
 );
 program.option("-m --minify", "Minify the output JavaScript code.");
 program.option("--no-reset", "Do not reset screen after build");
-program.option("--ignore-types", "Ignores type errors.", false);
+program.option("--ignore-types", "Ignores type errors.");
+program.option("-c --config <config>", "config file");
 
 program.option(
   "-no --node-options <options>",

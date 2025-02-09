@@ -1,11 +1,10 @@
 import { EOL } from "node:os";
-import esbuild from "esbuild";
+import esbuild, { type BuildOptions } from "esbuild";
 import ora from "ora";
 
 import { bold, cyan } from "./colors";
 import { relativeId } from "./path";
 import { errorMessage, stderr, successMessage } from "./logging";
-import { type ConfigOption } from "./config";
 import { getEntry } from "./utils";
 import { tsc } from "./plugins/typescript/tsc";
 import type { CliOption } from "./command";
@@ -22,7 +21,7 @@ async function typeCheck(config?: string) {
 }
 
 export async function build(
-  inputOptions: ConfigOption,
+  inputOptions: BuildOptions,
   option: CliOption
 ): Promise<any> {
   const start = Date.now();

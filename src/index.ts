@@ -1,12 +1,14 @@
 import { build } from "./build";
 import { red } from "./colors";
 import { type CliOption, onAction } from "./command";
-import { createConfig } from "./config";
+import { createConfig, loadConfigs } from "./config";
 import { stderr } from "./logging";
 import { dumpConfig, isTypescript } from "./typescript";
 import { watch } from "./watch";
+export * from "./types";
 
-async function handleAction(filename: string, opt: CliOption) {
+async function handleAction(filename: string, cliOption: CliOption) {
+  const [base, opt] = await loadConfigs(cliOption);
   if (isTypescript(filename)) {
     if (!opt.tsconfig) {
       await dumpConfig("tsconfig.json");
@@ -16,7 +18,10 @@ async function handleAction(filename: string, opt: CliOption) {
   }
 
   try {
-    const config = await createConfig(filename, opt);
+    const config = { ...base, ...(await createConfig(filename, opt)) };
+    if (base.plugins) {
+      config.plugins?.unshift(...base.plugins);
+    }
     if (opt.watch) {
       return watch(config);
     }

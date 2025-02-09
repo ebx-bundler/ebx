@@ -2,7 +2,6 @@ import {
   getDestination,
   getExternal,
   getFormat,
-  getInject,
   getLoader,
   getPolyfills,
   getTarget,
@@ -16,11 +15,60 @@ import { run } from "./plugins/run";
 import { tsCheckPlugin } from "./plugins/typescript";
 import { isCurrentPath } from "./path";
 import { getOutputFilename } from "./utils";
+import { loadOptions, loadOptionsStrict } from "./load-options";
+import type { ConfigOption } from "./types";
 
-export type ConfigOption = BuildOptions;
 export type { Plugin };
 
-export async function createConfig(filename: string, option: CliOption) {
+export async function loadConfigs({
+  config: configFile,
+  ...options
+}: CliOption): Promise<[BuildOptions, ConfigOption]> {
+  const configs = configFile
+    ? await loadOptionsStrict(configFile)
+    : await loadOptions("ebx.config", ["js", "mjs"]);
+
+  const {
+    run,
+    watch,
+    clean,
+    sourcemap,
+    tsconfig,
+    minify,
+    ignoreTypes,
+    reset,
+    nodeOptions,
+    killSignal,
+    grace,
+    import: imports,
+    loader = getLoader(),
+    plugins = [],
+    polyfills = [],
+    nodeExternal,
+    ...base
+  } = configs;
+
+  return [
+    base,
+    {
+      run,
+      watch,
+      clean,
+      tsconfig,
+      minify,
+      ignoreTypes,
+      nodeOptions,
+      killSignal,
+      grace,
+      import: imports,
+      nodeExternal,
+      polyfills,
+      ...options,
+    },
+  ];
+}
+
+export async function createConfig(filename: string, option: ConfigOption) {
   const [dir, ext] = getDestination();
   if (!option.grace) {
     option.killSignal = "SIGKILL";
@@ -33,23 +81,24 @@ export async function createConfig(filename: string, option: CliOption) {
     clean(dir);
   }
   const format = getFormat();
-
-  const polyfills = await getPolyfills(option);
-  const external = getExternal();
+  const polyfills = await getPolyfills(option.polyfills, option);
+  const external = { ...getExternal(), ...option.nodeExternal };
 
   const plugins: Plugin[] = [...polyfills];
 
-  plugins.push(
-    nodeExternalsPlugin({
-      allowList: external.include,
-    })
-  );
+  if (external.include !== "*") {
+    plugins.push(
+      nodeExternalsPlugin({
+        allowList: external.include,
+      })
+    );
+  }
 
   if (option.watch) {
     if (!option.ignoreTypes) {
       plugins.push(tsCheckPlugin());
     }
-    plugins.push(progress({ dist: dir, clear: option.reset }));
+    plugins.push(progress({ dist: dir, clear: false }));
   }
 
   if (option.run) {
@@ -77,21 +126,18 @@ export async function createConfig(filename: string, option: CliOption) {
     entryPoints.push(...option.import);
   }
 
-  const config: ConfigOption = {
+  const config: BuildOptions = {
     entryPoints,
     bundle: true,
-    inject: getInject(),
     target: getTarget(),
     platform: "node",
     outExtension: { ".js": ext },
     format,
     outdir: dir,
     minify: option.minify,
-    sourcemap: option.sourcemap,
     tsconfig: option.tsconfig,
     metafile: true,
     plugins,
-    loader: getLoader(),
   };
 
   if (config.format === "esm") {
