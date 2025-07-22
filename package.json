@@ -1,10 +1,10 @@
 {
   "name": "ebx",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "packageManager": "yarn@4.5.3",
   "type": "module",
   "license": "MIT",
-  "main": "cli.js",
+  "main": "./cli.js",
   "description": "Command Line Tool for Building and Running TypeScript Code",
   "homepage": "https://github.com/ebx-bundler/ebx.git",
   "author": {
@@ -30,34 +30,38 @@
   ],
   "scripts": {
     "dev": "rollup -c -w",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "release": "rimraf dist && yarn build && changeset publish"
   },
   "bin": "cli.js",
   "dependencies": {
-    "esbuild": "^0.24.2",
-    "typescript": "^5.7.2"
+    "esbuild": "^0.25.8",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.2",
+    "@changesets/cli": "^2.29.5",
+    "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^16.0.0",
-    "@rollup/plugin-typescript": "^12.1.2",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
     "@types/chalk": "^2.2.4",
-    "@types/node": "^22.10.2",
-    "@types/semver": "^7.5.8",
+    "@types/node": "^24.1.0",
+    "@types/semver": "^7.7.0",
     "@types/yargs": "^17.0.33",
     "chalk": "^5.4.1",
-    "commander": "^12.1.0",
+    "commander": "^14.0.0",
     "date-time": "^4.0.0",
-    "esbuild-node-externals": "^1.16.0",
-    "esbuild-plugin-tsc": "^0.4.0",
-    "execa": "^9.5.2",
-    "ora": "^8.1.1",
-    "pretty-bytes": "^6.1.1",
+    "esbuild-node-externals": "^1.18.0",
+    "esbuild-plugin-tsc": "^0.5.0",
+    "execa": "^9.6.0",
+    "ora": "^8.2.0",
+    "pretty-bytes": "^7.0.0",
     "pretty-ms": "^9.2.0",
-    "rollup": "^4.29.1",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.45.1",
     "rollup-plugin-cleanup": "^3.2.1",
-    "semver": "^7.6.3"
+    "semver": "^7.7.2",
+    "tslib": "^2.8.1"
   },
   "files": [
     "dist"
