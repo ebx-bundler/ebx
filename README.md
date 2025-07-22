@@ -194,7 +194,6 @@ By adding this configuration, you ensure that the specified polyfills are loaded
 
 1. `cjs` - to add cjs
 2. `decorators` - enable ts decorators
-3. `nestjs` - enable nestjs support (decorators and more)
 
 ### Output Directory
 
@@ -238,7 +237,7 @@ To integrate EBX with your NestJS project, follow these steps:
        "start:dev": "ebx src/main.ts --watch --run --sourcemap",
        "build": "ebx src/main.ts"
      },
-     "polyfills": ["nestjs"]
+     "polyfills": ["cjs"]
    }
    ```
 
@@ -259,10 +258,6 @@ To integrate EBX with your NestJS project, follow these steps:
 3. If you want to use ES modules (ESM), ensure that you have `"type": "module"` in your `package.json` file.
 
 #### Step 3: Example
-
-For a practical example of integrating EBX with NestJS, you can refer to the following GitHub repository:
-
-- [EBX Example NestJS](https://github.com/ebx-bundler/ebx-example-nestjs)
 
 ### Integration with ExpressJS
 

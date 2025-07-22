@@ -30,7 +30,7 @@ program.option(
   "Run the compiled program after a successful build."
 );
 program.option(
-  "-nc --no-clean",
+  "--nc --no-clean",
   "Do not clean the build output directory before building."
 );
 program.option(
@@ -46,7 +46,7 @@ program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
 
 program.option(
-  "-no --node-options <options>",
+  "--no --node-options <options>",
   "Specify Node.js options that should be used when running the program."
 );
 program.option(
@@ -55,7 +55,7 @@ program.option(
 );
 
 program.option(
-  "-ng --no-grace",
+  "--ng --no-grace",
   "This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted."
 );
 
