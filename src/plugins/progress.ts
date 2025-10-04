@@ -5,7 +5,7 @@ import { bold, cyan, dim } from "../colors";
 import { relativeId } from "../path";
 import { getResetScreen } from "../screen";
 import { errorMessage, stderr, successMessage } from "../logging";
-import { getEntry } from "../utils";
+import { getEntry } from "../utils/utils";
 
 interface ProgressOption {
   message?: string;

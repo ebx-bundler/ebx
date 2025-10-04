@@ -1,24 +1,19 @@
 import { program } from "commander";
 import { version } from "../package.json";
-
-export interface CliOption {
-  run: boolean | string;
-  watch: boolean;
-  clean: boolean;
-  sourcemap: boolean;
-  tsconfig?: string;
-  minify?: boolean;
-  ignoreTypes: boolean;
-  reset: boolean;
-  nodeOptions?: string;
-  killSignal?: NodeJS.Signals;
-  grace: boolean;
-  import?: string[];
-}
+import { handleInit } from "./init";
+import type { CliOption } from "./config/types";
+import { handleAction } from "./esbuild";
+export type { CliOption };
 program.version(version);
 
-type Callback = (filename: string, opt: CliOption) => void;
-program.argument("filename");
+program
+  .command("init")
+  .description(
+    "Initialize project with config files (ebx.config.js/mjs and tsconfig.json)"
+  )
+  .action(handleInit);
+
+program.argument("[filename]");
 
 program.option(
   "-w --watch",
@@ -46,7 +41,7 @@ program.option("--no-reset", "Do not reset screen after build");
 program.option("--ignore-types", "Ignores type errors.", false);
 
 program.option(
-  "--no --node-options <options>",
+  "--no --node-options <options...>",
   "Specify Node.js options that should be used when running the program."
 );
 program.option(
@@ -59,7 +54,19 @@ program.option(
   "This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted."
 );
 
-export function onAction(callback: Callback) {
-  program.action(callback);
+// Config override options
+program.option("-o --outdir <outdir>", "Override output directory from config");
+program.option("-f --format <format>", "Override module format (esm or cjs)");
+program.option(
+  "-p --polyfills <polyfills...>",
+  "Override polyfills from config (e.g., cjs, decorators)"
+);
+program.option(
+  "-t --target <target>",
+  "Override target environment (e.g., node18)"
+);
+
+program.action(handleAction);
+export function start() {
   program.parse();
 }

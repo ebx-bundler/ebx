@@ -1,0 +1,58 @@
+/**
+ * EBX Configuration
+ * @type {import('ebx').EBXConfig}
+ */
+const config = {
+  /**
+   * Output directory for compiled files
+   * @default "dist"
+   */
+  outdir: "./dist",
+
+  /**
+   * Output file extension
+   * @default ".js",
+   */
+  //  outExtension: '.js',
+
+  /**
+   * Module format: "module" for ESM, "commonjs" for CJS
+   * @default "commonjs"
+   */
+  //  type: "module",
+
+  /**
+   * Polyfills to enable
+   * - "cjs": Adds __dirname, __filename, and require support in ESM
+   * - "decorators": Enables TypeScript decorators
+   */
+  polyfills: [],
+
+  /**
+   * Node.js version target
+   * @example { node: ">=18.0.0" }
+   */
+  engines: {
+    // node: ">=18.0.0"
+  },
+
+  /**
+   * Files to inject into the bundle
+   */
+  inject: [],
+
+  /**
+   * External module configuration
+   * By default, all modules are external.
+   * Use "include" to bundle specific modules.
+   */
+  external: {},
+
+  /**
+   * Custom loaders for file extensions
+   * @example { ".graphql": "text", ".txt": "text" }
+   */
+  loader: {},
+};
+
+export default config;
