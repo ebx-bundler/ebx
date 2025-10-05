@@ -1,11 +1,10 @@
-import type { ConfigR } from "./types";
+import type { BaseConfig } from "./types";
 
-export const defaults: ConfigR = {
+export const defaults: BaseConfig = {
   outdir: "dist",
-  outExtension: ".js",
+  ext: ".js",
   polyfills: [],
   inject: [],
-  external: { include: [] },
   loader: {},
   clean: true,
   format: "cjs",
@@ -18,6 +17,5 @@ export const defaults: ConfigR = {
   run: false,
   tsconfig: "tsconfig.json",
   sourcemap: false,
-  target: "",
   watch: false,
 };

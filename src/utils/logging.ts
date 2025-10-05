@@ -4,11 +4,11 @@ import type { Metafile } from "esbuild";
 import ms from "pretty-ms";
 import prettyBytes from "pretty-bytes";
 
-export function printTimings(start: number) {
+function printTimings(start: number) {
   return bold(ms(Date.now() - start));
 }
 
-export function getBytes(metafile: Metafile) {
+function getBytes(metafile: Metafile) {
   const size = Object.entries(metafile.outputs).reduce(
     (size, file) => size + file[1].bytes,
     0
@@ -19,6 +19,9 @@ export function getBytes(metafile: Metafile) {
 export const stderr = (...parameters: readonly unknown[]) => {
   return std.write(`${parameters.join("")}\n`);
 };
+
+export const log = console.log;
+export const clear = console.clear;
 
 export function successMessage(
   outdir: string,

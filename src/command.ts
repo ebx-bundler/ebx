@@ -8,62 +8,46 @@ program.version(version);
 
 program
   .command("init")
-  .description(
-    "Initialize project with config files (ebx.config.js/mjs and tsconfig.json)"
-  )
+  .description("Initialize project with config files")
   .action(handleInit);
 
 program.argument("[filename]");
 
+program.option("-w --watch", "Watch for changes and rebuild automatically");
 program.option(
-  "-w --watch",
-  "Watch for changes in the source files and automatically rebuild when changes are detected."
+  "-i --import <import...>",
+  "Import additional files before entry"
 );
-program.option("-i --import <import...>", "Import additional files");
-program.option(
-  "-r --run",
-  "Run the compiled program after a successful build."
-);
-program.option(
-  "--nc --no-clean",
-  "Do not clean the build output directory before building."
-);
-program.option(
-  "-s --sourcemap",
-  "Generate sourcemaps for the compiled JavaScript code."
-);
-program.option(
-  "--tsconfig <tsconfig>",
-  "Path to a custom TypeScript configuration file (tsconfig.json)."
-);
-program.option("-m --minify", "Minify the output JavaScript code.");
-program.option("--no-reset", "Do not reset screen after build");
-program.option("--ignore-types", "Ignores type errors.", false);
+program.option("-r --run", "Run the program after build");
+program.option("--no-clean", "Skip cleaning output directory");
+program.option("-s --sourcemap", "Generate sourcemaps");
+program.option("--tsconfig <tsconfig>", "Path to custom tsconfig.json");
+program.option("-m --minify", "Minify output code");
+program.option("--no-reset", "Skip screen reset after build");
+program.option("--ignore-types", "Ignore type errors");
 
 program.option(
   "--no --node-options <options...>",
-  "Specify Node.js options that should be used when running the program."
+  "Pass options to Node.js runtime"
 );
 program.option(
   "--kill-signal <signal>",
-  "Specify the signal that will be sent to the program before restarting it. Default: SIGTERM"
+  "Signal to send before restart (default: SIGTERM)"
 );
 
-program.option(
-  "--ng --no-grace",
-  "This option forces the program to be abruptly terminated without any graceful shutdown procedure and then immediately restarted."
-);
+program.option("--no-grace", "Force restart without graceful shutdown");
 
 // Config override options
 program.option("-o --outdir <outdir>", "Override output directory from config");
 program.option("-f --format <format>", "Override module format (esm or cjs)");
+program.option("--ext <ext>", "Output extension");
 program.option(
   "-p --polyfills <polyfills...>",
-  "Override polyfills from config (e.g., cjs, decorators)"
+  "Override polyfills (cjs, decorators)"
 );
 program.option(
   "-t --target <target>",
-  "Override target environment (e.g., node18)"
+  "Override target environment (node18, etc)"
 );
 
 program.action(handleAction);

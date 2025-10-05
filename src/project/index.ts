@@ -1,12 +1,10 @@
 import type { Format } from "esbuild";
-import { parsePackageInfo } from "./info";
+export { parsePackageInfo } from "./info";
+import { type PackageInfo } from "./info";
 import { dirname, resolve, extname } from "node:path";
 import semver from "semver";
 
-export const packageInfo = await parsePackageInfo();
-const info = packageInfo;
-
-export function getTarget(prefix = "node") {
+export function getTarget(info: PackageInfo, prefix = "node") {
   if (!info.engines?.node) {
     return;
   }
@@ -17,7 +15,7 @@ export function getTarget(prefix = "node") {
   return `${prefix}${version.version}`;
 }
 
-export function getDestination(): [string, string] {
+export function getDestination(info: PackageInfo): [string, string] {
   if (!info.main) {
     return [resolve("dist"), ".js"];
   }
@@ -25,7 +23,7 @@ export function getDestination(): [string, string] {
   return [dirname(resolved), extname(resolved)];
 }
 
-export function getFormat(): Format {
+export function getFormat(info: PackageInfo): Format {
   switch (info.type) {
     case "module":
       return "esm";

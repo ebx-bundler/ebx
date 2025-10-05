@@ -1,15 +1,15 @@
 import { type BuildOptions } from "esbuild";
 import { basename, extname, join } from "node:path";
 
-interface Data {
-  [key: string]: any;
-}
-export function ensureCase<T extends Data>(data: T, ...args: (keyof T)[]): T {
+export function ensureCase<T extends Record<string, any>>(data: T, ...args: (keyof T)[]): T {
   for (const name of args) {
-    if (!data[name]) {
+    const value = data[name];
+    if (!value) {
       continue;
     }
-    data[name] = data[name].toLowerCase();
+    if (typeof value === "string") {
+      data[name] = value.toLowerCase() as T[keyof T];
+    }
   }
   return data;
 }

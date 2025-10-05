@@ -1,15 +1,16 @@
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import type { Config, ConfigR } from "./types";
+import type { Config } from "./types";
 import { defaults } from "./defaults";
 import type { CliOption } from "../command";
 import { getDestination, getFormat, getTarget } from "../project";
+import { parsePackageInfo } from "../project/info";
 
-export type { Config, ConfigR };
+export type { Config };
 
-export async function loadConfig(overrides: CliOption = {}): Promise<ConfigR> {
-  let config: Config = {};
-
+export async function loadConfig(cliOption: CliOption = {}): Promise<Config> {
+  let config: Partial<Config> = {};
+  const packageInfo = parsePackageInfo();
   // Try loading ebx.config.js or ebx.config.mjs
   for (const ext of ["js", "mjs"]) {
     try {
@@ -20,19 +21,23 @@ export async function loadConfig(overrides: CliOption = {}): Promise<ConfigR> {
       break;
     } catch {}
   }
-  const [outdir, outExt] = getDestination();
-  config.target ??= getTarget();
-  config.outExtension ??= outExt;
-  config.outdir ??= outdir;
-  config.format ??= getFormat();
+  const [outdir, outExt] = getDestination(packageInfo);
 
-  const { grace, ...other } = overrides;
-  if (!grace) {
+  config.target ??= getTarget(packageInfo);
+  config.format ??= getFormat(packageInfo);
+  config.outdir ??= outdir;
+  config.ext ??= outExt;
+
+  const { grace, ...cliOverrides } = cliOption;
+
+  // Handle grace special case
+  if (grace === false) {
     config.killSignal = "SIGKILL";
   }
+
   return {
     ...defaults,
     ...config,
-    ...other,
+    ...cliOverrides,
   };
 }

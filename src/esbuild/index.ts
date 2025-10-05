@@ -1,13 +1,26 @@
-import { red } from "../colors";
+import type { Command } from "commander";
 import type { CliOption } from "../command";
 import { loadConfig } from "../config";
 import { isTypescript } from "../init/typescript";
-import { stderr } from "../logging";
+import { handleError } from "../utils";
 import { build } from "./build";
 import { buildEsbuildConfig } from "./builder";
 import { watch } from "./watch";
 
-export async function handleAction(filename: string, opt: CliOption) {
+function removeDefaults(opt: CliOption, cmd: Command): CliOption {
+  return Object.fromEntries(
+    Object.entries(opt).filter(
+      ([key]) => cmd.getOptionValueSource(key) !== "default"
+    )
+  );
+}
+
+export async function handleAction(
+  filename: string,
+  opt: CliOption,
+  cmd: Command
+) {
+  opt = removeDefaults(opt, cmd);
   if (!isTypescript(filename)) {
     opt.ignoreTypes = true;
   }
@@ -19,10 +32,6 @@ export async function handleAction(filename: string, opt: CliOption) {
     }
     return build(option, config);
   } catch (err) {
-    if (err instanceof Error) {
-      stderr(red("✘ " + err.message));
-    } else {
-      stderr(err);
-    }
+    handleError(err);
   }
 }

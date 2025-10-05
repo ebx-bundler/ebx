@@ -1,24 +1,22 @@
 import type { BuildOptions } from "esbuild";
-import { type ConfigR } from "../config";
+import { type Config } from "../config";
 import { clean } from "../utils/fs";
-import { isCurrentPath } from "../path";
+import { isCurrentPath } from "../utils/path";
 import { buildPlugins } from "./plugins";
 
 export async function buildEsbuildConfig(
   filename: string,
-  config: ConfigR
+  config: Config
 ): Promise<BuildOptions> {
-  const { outdir, outExtension, format, inject, loader } = config;
+  const { outdir, ext: outExtension, format, inject, loader } = config;
   if (isCurrentPath(outdir)) config.clean = false;
   if (config.clean) clean(outdir);
   const plugins = await buildPlugins(config, filename);
   const entryPoints = [filename, ...config.import];
-  const target = config.target;
   const buildConfig: BuildOptions = {
     entryPoints,
     bundle: true,
     inject,
-    target,
     platform: "node",
     outExtension: { ".js": outExtension },
     format,
@@ -30,6 +28,9 @@ export async function buildEsbuildConfig(
     plugins,
     loader,
   };
+  if (config.target) {
+    buildConfig.target = config.target;
+  }
   if (format === "esm") buildConfig.splitting = true;
   return buildConfig;
 }

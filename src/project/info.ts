@@ -11,11 +11,11 @@ export interface PackageInfo {
   };
 }
 
-export async function parsePackageInfo(): Promise<PackageInfo> {
+export function parsePackageInfo(): PackageInfo {
   try {
     const cwd = process.cwd();
     const packagePath = join(cwd, "package.json");
-    const info = await loadJSON<PackageInfo>(packagePath);
+    const info = loadJSON<PackageInfo>(packagePath);
     if (!info.type) {
       info.type = "commonjs";
     }

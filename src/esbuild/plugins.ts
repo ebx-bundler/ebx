@@ -1,5 +1,5 @@
 import type { Plugin } from "esbuild";
-import type { ConfigR } from "../config";
+import type { Config } from "../config";
 import { getOutputFilename } from "../utils/utils";
 import { progress } from "../plugins/progress";
 import { run } from "../plugins/run";
@@ -7,10 +7,10 @@ import { tsCheckPlugin } from "../plugins/typescript";
 import { nodeExternalsPlugin } from "esbuild-node-externals";
 
 export async function buildPlugins(
-  config: ConfigR,
+  config: Config,
   filename: string
 ): Promise<Plugin[]> {
-  const { outdir, outExtension } = config;
+  const { outdir, ext: outExtension } = config;
 
   const plugins: Plugin[] = [];
 
@@ -25,7 +25,7 @@ export async function buildPlugins(
     }
   }
 
-  plugins.push(nodeExternalsPlugin({ allowList: config.external.include }));
+  plugins.push(nodeExternalsPlugin({ allowList: config.external?.include }));
 
   if (config.watch) {
     if (!config.ignoreTypes) plugins.push(tsCheckPlugin());
@@ -37,7 +37,7 @@ export async function buildPlugins(
       config.run = getOutputFilename(filename, outdir, outExtension);
     }
     const nodeOptions = config.nodeOptions;
-    config.import?.forEach((x) => {
+    config.import.forEach((x) => {
       nodeOptions.push("--import", getOutputFilename(x, outdir, outExtension));
     });
     plugins.push(

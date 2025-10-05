@@ -1,10 +1,10 @@
 import { type Plugin } from "esbuild";
 import ora from "ora";
 
-import { bold, cyan, dim } from "../colors";
-import { relativeId } from "../path";
-import { getResetScreen } from "../screen";
-import { errorMessage, stderr, successMessage } from "../logging";
+import { bold, cyan, dim } from "../utils/colors";
+import { relativeId } from "../utils/path";
+import { getResetScreen } from "../utils/screen";
+import { errorMessage, log, stderr, successMessage } from "../utils/logging";
 import { getEntry } from "../utils/utils";
 
 interface ProgressOption {
@@ -33,7 +33,7 @@ export function progress({ clear, ...options }: ProgressOption): Plugin {
         result.errors.length
           ? spinner.fail(errorMessage(result.errors))
           : spinner.succeed(successMessage(dist, result.metafile!, started));
-        console.log(dim(`⧖ waiting for changes...`));
+        log(dim(`⧖ waiting for changes...`));
       });
     },
   };
