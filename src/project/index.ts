@@ -1,3 +1,4 @@
+import type { Format } from "esbuild";
 import { parsePackageInfo } from "./info";
 import { dirname, resolve, extname } from "node:path";
 import semver from "semver";
@@ -24,7 +25,7 @@ export function getDestination(): [string, string] {
   return [dirname(resolved), extname(resolved)];
 }
 
-export function getFormat() {
+export function getFormat(): Format {
   switch (info.type) {
     case "module":
       return "esm";

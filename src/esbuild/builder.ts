@@ -8,16 +8,11 @@ export async function buildEsbuildConfig(
   filename: string,
   config: ConfigR
 ): Promise<BuildOptions> {
-  const { outdir, outExtension, type, inject, loader } = config;
-
+  const { outdir, outExtension, format, inject, loader } = config;
   if (isCurrentPath(outdir)) config.clean = false;
-
   if (config.clean) clean(outdir);
-
-  const format = type === "module" ? "esm" : "cjs";
-
   const plugins = await buildPlugins(config, filename);
-  const entryPoints = [filename, ...(config.import || [])];
+  const entryPoints = [filename, ...config.import];
   const target = config.target;
   const buildConfig: BuildOptions = {
     entryPoints,

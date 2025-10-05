@@ -14,7 +14,7 @@ export async function handleAction(filename: string, opt: CliOption) {
   const config = await loadConfig(opt);
   try {
     const option = await buildEsbuildConfig(filename, config);
-    if (opt.watch) {
+    if (config.watch) {
       return watch(option);
     }
     return build(option, config);

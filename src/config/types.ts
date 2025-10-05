@@ -1,5 +1,5 @@
 export type Polyfil = "cjs" | "decorators";
-import type { Loader } from "esbuild";
+import type { Format, Loader } from "esbuild";
 
 export interface BaseConfig {
   run?: boolean | string;
@@ -14,9 +14,8 @@ export interface BaseConfig {
   killSignal?: NodeJS.Signals;
   import?: string[];
   outdir?: string;
-  format?: "esm" | "cjs";
+  format?: Format;
   outExtension?: string;
-  type?: "module" | "commonjs";
   polyfills?: Polyfil[];
   inject?: string[];
   external?: { include?: string[] };

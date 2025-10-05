@@ -1,58 +1,65 @@
+import type { Loader } from "esbuild";
+
 /**
  * EBX Configuration
- * @type {import('ebx').EBXConfig}
+ * Use in ebx.config.js:
+ *
+ * @example
+ * ```js
+ * /**
+ *  * @type {import('ebx').Config}
+ *  *\/
+ * export default {
+ *   outdir: "dist",
+ *   type: "module",
+ *   polyfills: ["cjs"]
+ * };
+ * ```
  */
-const config = {
+export interface Config {
   /**
    * Output directory for compiled files
    * @default "dist"
    */
-  outdir: "./dist",
+  outdir?: string;
 
   /**
    * Output file extension
-   * @default ".js",
+   * @default ".js"
    */
-  //  outExtension: '.js',
+  outExtension?: string;
 
   /**
    * Module format: "module" for ESM, "commonjs" for CJS
    * @default "commonjs"
    */
-  //  type: "module",
+  type?: "module" | "commonjs";
 
   /**
    * Polyfills to enable
    * - "cjs": Adds __dirname, __filename, and require support in ESM
    * - "decorators": Enables TypeScript decorators
    */
-  polyfills: [],
-
-  /**
-   * Node.js version target
-   * @example { node: ">=18.0.0" }
-   */
-  engines: {
-    // node: ">=18.0.0"
-  },
+  polyfills?: Array<"cjs" | "decorators">;
 
   /**
    * Files to inject into the bundle
    */
-  inject: [],
+  inject?: string[];
 
   /**
    * External module configuration
    * By default, all modules are external.
    * Use "include" to bundle specific modules.
+   * @example { include: ["lodash"] }
    */
-  external: {},
+  external?: {
+    include?: string[];
+  };
 
   /**
    * Custom loaders for file extensions
-   * @example { ".graphql": "text", ".txt": "text" }
+   * @example { ".graphql": "text", ".html": "text" }
    */
-  loader: {},
-};
-
-export default config;
+  loader?: Record<string, Loader>;
+}

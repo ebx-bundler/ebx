@@ -3,7 +3,6 @@ import type { ConfigR } from "./types";
 export const defaults: ConfigR = {
   outdir: "dist",
   outExtension: ".js",
-  type: "commonjs",
   polyfills: [],
   inject: [],
   external: { include: [] },
