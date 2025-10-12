@@ -1,7 +1,8 @@
 import type { Plugin, PluginBuild } from "esbuild";
 import { EOL } from "node:os";
 import { runNode } from "./node-runner";
-import { bold, dim } from "../../colors";
+import { bold, dim } from "../../utils/colors";
+import { log } from "../../utils/logging";
 
 interface RunOption {
   filename: string;
@@ -22,7 +23,7 @@ async function setup(build: PluginBuild, opts: RunOption) {
   }
   const execute = createRunner(opts);
   build.onEnd(({ errors }) => {
-    console.log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
+    log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
     if (!errors.length) {
       execute();
     }

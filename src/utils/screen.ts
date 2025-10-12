@@ -1,8 +1,10 @@
+import { clear, log } from "./logging";
+
 export function getResetScreen(): (heading?: string) => void {
   return (heading) => {
-    console.clear();
+    clear();
     if (heading) {
-      console.log(heading);
+      log(heading);
     }
   };
 }
