@@ -11,8 +11,9 @@ EBX is specifically designed for **NodeJS** backend development, serving as a ve
 To get started with EBX, you can follow these simple steps:
 
 1. **Installation**: Install EBX using npm or yarn. Detailed installation instructions can be found in the [Installation](#installation) section.
-2. **Usage**: Learn how to use EBX to bundle your TypeScript and JavaScript code. See the [Usage](#usage) section for examples and guidelines.
-3. **Integration**: Integrate EBX with your Node.js frameworks, such as NestJS and ExpressJS. Instructions can be found in the [Integration](#integrations) section.
+2. **Initialize**: Run `ebx init` to generate configuration files (optional but recommended).
+3. **Usage**: Learn how to use EBX to bundle your TypeScript and JavaScript code. See the [Usage](#usage) section for examples and guidelines.
+4. **Integration**: Integrate EBX with your Node.js frameworks, such as NestJS and ExpressJS. Instructions can be found in the [Integration](#integrations) section.
 
 ## Features
 
@@ -58,7 +59,19 @@ yarn global add ebx
 
 Once installed, you can use the `ebx` command globally.
 
-This command will bundle your TypeScript or JavaScript code, automatically handle type checking, and generate the output in the specified configuration.
+### Quick Start
+
+Initialize a new project with configuration files:
+
+```bash
+ebx init
+```
+
+This command generates:
+- `ebx.config.js` - EBX configuration file with TypeScript type hints
+- `tsconfig.json` - TypeScript configuration (if it doesn't exist)
+
+After initialization, you can customize the generated config files to match your project needs.
 
 For practical examples and advanced usage scenarios, please visit the [Examples](#examples) section in the documentation.
 
@@ -72,10 +85,34 @@ ebx <filename> [options]
 
 Where `<filename>` is the name of the TypeScript file you want to build and run.
 
+### Commands
+
+#### `ebx init`
+
+Initialize a new project with configuration files:
+
+```bash
+ebx init
+```
+
+Generates:
+- `ebx.config.js` - Configuration file with TypeScript intellisense support
+- `tsconfig.json` - TypeScript configuration (only if it doesn't already exist)
+
+This is the recommended way to start a new project with EBX.
+
+#### `ebx <filename> [options]`
+
+Build and optionally run your TypeScript/JavaScript files:
+
+```bash
+ebx src/app.ts -wr
+```
+
 ### Options
 
 - `-w, --watch`: Watch for changes in the source files and automatically rebuild when changes are detected.
-- `-r, --run [filename]`: Run the compiled program after a successful build.
+- `-r, --run [filename]`: Run the compiled program after a successful build. Can be used as a flag (`-r`) to run the generated output file, or with a filename argument (`-r custom.js`) to run a specific file instead.
 - `-nc, --no-clean`: Do not clean the build output directory before building.
 - `-s, --sourcemap`: Generate sourcemaps for the compiled JavaScript code.
 - `--tsconfig <tsconfig>`: Path to a custom TypeScript configuration file (tsconfig.json).
@@ -93,6 +130,14 @@ Where `<filename>` is the name of the TypeScript file you want to build and run.
 
    ```bash
    ebx app.ts -r
+   ```
+
+   This will compile `app.ts` and run the generated output file.
+
+   To run a different file after compilation:
+
+   ```bash
+   ebx app.ts -r dist/server.js
    ```
 
    To enable ES Modules (ESM), add `"type": "module"` to your `package.json` file.
@@ -139,26 +184,109 @@ When working with ESM, you may come across compatibility issues like the absence
 
 ## Configuration
 
-No external `rc` files are required; we automatically include existing configuration files like `package.json` and `tsconfig` for configuring your project.
+EBX supports multiple configuration methods with the following priority order:
 
-Here's an example of how it can be set up within your `package.json`:
+1. **CLI flags** (highest priority) - Override any config
+2. **ebx.config.js/mjs** - Dedicated configuration file (recommended)
+3. **package.json** - Legacy configuration (still supported)
+4. **Defaults** - Built-in defaults
+
+### Using ebx.config.js
+
+Create an `ebx.config.js` or `ebx.config.mjs` file in your project root:
+
+```javascript
+/**
+ * @type {import('ebx').Config}
+ */
+export default {
+  // Output directory for compiled files
+  outdir: "dist",
+
+  // Output format: "esm" or "cjs"
+  format: "esm",
+
+  // Output file extension
+  ext: ".js",
+
+  // Enable polyfills
+  polyfills: ["cjs", "decorators"],
+
+  // Generate source maps
+  sourcemap: true,
+
+  // Minify output
+  minify: false,
+
+  // Custom TypeScript config
+  tsconfig: "tsconfig.json",
+
+  // External module configuration
+  external: {
+    include: ["lodash"] // Bundle these modules instead of keeping external
+  },
+
+  // Custom loaders for file extensions
+  loader: {
+    ".graphql": "text",
+    ".html": "text"
+  },
+
+  // Files to inject into the bundle
+  inject: [],
+
+  // Target environment
+  target: "node18"
+};
+```
+
+### Configuration Options
+
+All options are optional and have sensible defaults:
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `run` | `boolean \| string` | `false` | Run the compiled output after build. `true` runs the generated file, or provide a string to run a specific file |
+| `watch` | `boolean` | `false` | Watch for changes and rebuild automatically |
+| `clean` | `boolean` | `false` | Clean output directory before build |
+| `sourcemap` | `boolean` | `false` | Generate source maps |
+| `tsconfig` | `string` | `"tsconfig.json"` | Path to TypeScript config file |
+| `minify` | `boolean` | `false` | Minify the output |
+| `ignoreTypes` | `boolean` | `false` | Ignore TypeScript type errors |
+| `reset` | `boolean` | `false` | Reset/restart on changes (watch mode) |
+| `nodeOptions` | `string[]` | `[]` | Node.js options to pass when running |
+| `killSignal` | `NodeJS.Signals` | `"SIGTERM"` | Signal to send when killing process |
+| `import` | `string[]` | `[]` | Modules to import before running |
+| `outdir` | `string` | `"dist"` | Output directory |
+| `format` | `"esm" \| "cjs"` | `"cjs"` | Output format |
+| `ext` | `string` | `".js"` | Output file extension |
+| `polyfills` | `("cjs" \| "decorators")[]` | `[]` | Polyfills to enable |
+| `inject` | `string[]` | `[]` | Files to inject into bundle |
+| `loader` | `Record<string, Loader>` | `{}` | Custom file loaders |
+| `target` | `string` | auto-detected | Target environment (e.g., "node18") |
+| `external.include` | `string[]` | `[]` | Modules to bundle (others stay external) |
+
+### Using package.json (Limited Support)
+
+EBX can read basic configuration from your `package.json`. **Note: Only the following fields are supported:**
 
 ```json
 {
-  "name": "awesome-app", // package name
-  "main": "lib/app.js", // outdir: lib
-  "type": "module", // Produces ES Module output
-  "polyfills": ["cjs", "nestjs"], // Enable __dirname support in ES modules and activate decorators for NestJS
-  "external": {
-    "include": ["lodash"] // Included lodash in the compiled bundle.
-  },
-  "loader": {
-    ".graphql": "text" // Load graphql as text file.
+  "name": "awesome-app",
+  "main": "lib/app.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
 ```
 
-Here’s a refactored version of the documentation for clarity and consistency:
+**Supported package.json fields:**
+- `main` - Determines output directory and file extension (e.g., "lib/app.js" → outdir: "lib", ext: ".js")
+- `type` - Sets module format ("module" → ESM, "commonjs" or omitted → CJS)
+- `engines.node` - Sets target Node.js version (e.g., ">=18.0.0" → target: "node18.0.0")
+
+**For advanced configuration** (polyfills, loaders, external modules, etc.), use `ebx.config.js` instead. When both exist, `ebx.config.js` takes precedence.
 
 ---
 
@@ -229,19 +357,31 @@ To integrate EBX with your NestJS project, follow these steps:
 
 #### Step 2: Configuration
 
-1. Add the following scripts to your `package.json` file:
+1. Create an `ebx.config.js` file in your project root:
+
+   ```javascript
+   /**
+    * @type {import('ebx').Config}
+    */
+   export default {
+     format: "esm",
+     polyfills: ["cjs", "decorators"],
+     sourcemap: true
+   };
+   ```
+
+2. Add the following scripts to your `package.json` file:
 
    ```json
    {
      "scripts": {
-       "start:dev": "ebx src/main.ts --watch --run --sourcemap",
+       "start:dev": "ebx src/main.ts --watch --run",
        "build": "ebx src/main.ts"
-     },
-     "polyfills": ["cjs"]
+     }
    }
    ```
 
-2. Update `tsconfig.json` file:
+3. Update `tsconfig.json` file:
 
    ```json
    {
@@ -252,10 +392,9 @@ To integrate EBX with your NestJS project, follow these steps:
    }
    ```
 
-   - The `start:dev` script uses EBX to watch the `src/main.ts` file, run the development server, and generate source maps for debugging purposes.
+   - The `start:dev` script uses EBX to watch the `src/main.ts` file, run the development server, and generate source maps for debugging.
    - The `build` script uses EBX to build your project.
-
-3. If you want to use ES modules (ESM), ensure that you have `"type": "module"` in your `package.json` file.
+   - Configuration in `ebx.config.js` enables ES modules with CJS polyfills and TypeScript decorators support.
 
 #### Step 3: Example
 

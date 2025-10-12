@@ -1,5 +1,1 @@
-import { start } from "./command";
-
-export function run() {
-  start();
-}
+export { run } from "./command";

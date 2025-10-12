@@ -16,11 +16,7 @@ export function loadPkg(): PkgInfo {
   try {
     const cwd = process.cwd();
     const packagePath = join(cwd, "package.json");
-    const info = loadJSON<PkgInfo>(packagePath);
-    if (!info.type) {
-      info.type = "commonjs";
-    }
-    return ensureCase(info, "type");
+    return ensureCase(loadJSON<PkgInfo>(packagePath), "type");
   } catch (err) {
     return {};
   }

@@ -51,6 +51,6 @@ program.option(
 );
 
 program.action(handleAction);
-export function start() {
+export function run() {
   program.parse();
 }
