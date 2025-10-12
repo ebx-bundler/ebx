@@ -3,11 +3,13 @@ import { EOL } from "node:os";
 import { runNode } from "./node-runner";
 import { bold, dim } from "../../utils/colors";
 import { log } from "../../utils/logging";
+import { loadEnvFile } from "../../utils/utils";
 
 interface RunOption {
   filename: string;
   nodeOptions: string[];
   killSignal?: NodeJS.Signals;
+  envFile?: string;
 }
 
 export function run(opt: RunOption): Plugin {
@@ -17,14 +19,16 @@ export function run(opt: RunOption): Plugin {
   };
 }
 
+let restartListenerAttached = false;
+
 async function setup(build: PluginBuild, opts: RunOption) {
   if (build.initialOptions.sourcemap) {
     opts.nodeOptions.push("--enable-source-maps");
   }
   const execute = createRunner(opts);
   build.onEnd(({ errors }) => {
-    log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
     if (!errors.length) {
+      log(dim(`↺ ${bold("rs")} ⏎ to restart${EOL}`));
       execute();
     }
   });
@@ -32,6 +36,10 @@ async function setup(build: PluginBuild, opts: RunOption) {
 }
 
 function onRestart(execute: ReturnType<typeof createRunner>) {
+  // Prevent duplicate listeners in watch mode
+  if (restartListenerAttached) return;
+  restartListenerAttached = true;
+
   process.stdout.on("data", (buf) => {
     const txt = buf.toString().trim();
     if (txt === "rs") {
@@ -43,12 +51,25 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
 export function createRunner(option: RunOption) {
   let stopProcess: ReturnType<typeof runNode> | null = null;
   let pendingTask: (() => void) | null = null;
+  let isExecuting = false;
+
+  // Load env file once when runner is created
+  const envVars = option.envFile ? loadEnvFile(option.envFile) : undefined;
+
   return async function execute() {
-    pendingTask = () => {
-      stopProcess = runNode(option.filename, option.nodeOptions);
-      pendingTask = null;
-    };
-    await stopProcess?.(option.killSignal);
-    pendingTask?.();
+    // Prevent race conditions from rapid consecutive calls
+    if (isExecuting) return;
+    isExecuting = true;
+
+    try {
+      pendingTask = () => {
+        stopProcess = runNode(option.filename, option.nodeOptions, envVars);
+        pendingTask = null;
+      };
+      await stopProcess?.(option.killSignal);
+      pendingTask?.();
+    } finally {
+      isExecuting = false;
+    }
   };
 }

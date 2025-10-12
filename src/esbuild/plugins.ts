@@ -5,6 +5,8 @@ import { progress } from "../plugins/progress";
 import { run } from "../plugins/run";
 import { tsCheckPlugin } from "../plugins/typescript";
 import { nodeExternalsPlugin } from "esbuild-node-externals";
+import { yellow } from "../utils/colors";
+import { log } from "../utils/logging";
 
 export async function buildPlugins(
   config: Config,
@@ -32,16 +34,29 @@ export async function buildPlugins(
     plugins.push(progress({ dist: outdir, clear: config.reset }));
   }
 
+  // Warn if --env-file is used without --run
+  if (config.envFile && !config.run) {
+    log(yellow("Warning: --env-file has no effect without --run option"));
+  }
+
   if (config.run) {
     if (config.run === true) {
       config.run = getOutputFilename(filename, outdir, outExtension);
     }
-    const nodeOptions = config.nodeOptions;
+
+    // Create a copy to avoid mutating the original config
+    const nodeOptions = [...config.nodeOptions];
     config.import.forEach((x) => {
       nodeOptions.push("--import", getOutputFilename(x, outdir, outExtension));
     });
+
     plugins.push(
-      run({ nodeOptions, filename: config.run, killSignal: config.killSignal })
+      run({
+        nodeOptions,
+        filename: config.run,
+        killSignal: config.killSignal,
+        envFile: config.envFile,
+      })
     );
   }
 
