@@ -38,6 +38,18 @@ program.option(
 
 program.option("--no-grace", "Force restart without graceful shutdown");
 
+// New features
+program.option(
+  "--log-level <level>",
+  "Set log level: error, warn, info, debug (default: info)"
+);
+program.option("--repl", "Start interactive TypeScript REPL");
+program.option("--test", "Run tests");
+program.option("--test-pattern <pattern>", "Test file pattern (default: **/*.test.{ts,js})");
+program.option("--inspect [port]", "Enable Node.js debugger");
+program.option("--inspect-brk [port]", "Enable debugger and break before user code starts");
+program.option("--parallel", "Build multiple entries in parallel");
+
 // Config override options
 program.option("-o --outdir <outdir>", "Override output directory from config");
 program.option("-f --format <format>", "Override module format (esm or cjs)");

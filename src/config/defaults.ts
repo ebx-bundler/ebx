@@ -18,4 +18,11 @@ export const defaults: BaseConfig = {
   tsconfig: "tsconfig.json",
   sourcemap: false,
   watch: false,
+  logLevel: "info",
+  repl: false,
+  test: false,
+  testPattern: "**/*.test.{ts,js}",
+  inspect: false,
+  inspectBrk: false,
+  parallel: false,
 };

@@ -7,6 +7,7 @@ import { tsCheckPlugin } from "../plugins/typescript";
 import { nodeExternalsPlugin } from "esbuild-node-externals";
 import { yellow } from "../utils/colors";
 import { log } from "../utils/logging";
+import { getDebuggerOptions } from "../utils/debugger";
 
 export async function buildPlugins(
   config: Config,
@@ -46,6 +47,11 @@ export async function buildPlugins(
 
     // Create a copy to avoid mutating the original config
     const nodeOptions = [...config.nodeOptions];
+
+    // Add debugger options
+    const debuggerOptions = getDebuggerOptions(config);
+    nodeOptions.push(...debuggerOptions);
+
     config.import.forEach((x) => {
       nodeOptions.push("--import", getOutputFilename(x, outdir, outExtension));
     });
