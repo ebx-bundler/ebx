@@ -50,24 +50,17 @@ function onRestart(execute: ReturnType<typeof createRunner>) {
 
 export function createRunner(option: RunOption) {
   let stopProcess: ReturnType<typeof runNode> | null = null;
-  let pendingTask: (() => void) | null = null;
   let isExecuting = false;
 
   // Load env file once when runner is created
   const envVars = option.envFile ? loadEnvFile(option.envFile) : undefined;
 
   return async function execute() {
-    // Prevent race conditions from rapid consecutive calls
     if (isExecuting) return;
     isExecuting = true;
-
     try {
-      pendingTask = () => {
-        stopProcess = runNode(option.filename, option.nodeOptions, envVars);
-        pendingTask = null;
-      };
       await stopProcess?.(option.killSignal);
-      pendingTask?.();
+      stopProcess = runNode(option.filename, option.nodeOptions, envVars);
     } finally {
       isExecuting = false;
     }
