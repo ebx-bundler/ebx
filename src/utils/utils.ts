@@ -4,7 +4,10 @@ import { config as dotenvConfig } from "dotenv";
 import dotenvExpand from "dotenv-expand";
 import { resolve, isAbsolute } from "node:path";
 
-export function ensureCase<T extends Record<string, any>>(data: T, ...args: (keyof T)[]): T {
+export function ensureCase<T extends Record<string, any>>(
+  data: T,
+  ...args: (keyof T)[]
+): T {
   for (const name of args) {
     const value = data[name];
     if (!value) {
@@ -30,27 +33,26 @@ export function getOutputFilename(src: string, outdir: string, ext: string) {
 }
 
 export function loadEnvFile(filepath: string): Record<string, string> {
-  // Resolve to absolute path from current working directory
+  console.log({ filepath });
   const absolutePath = isAbsolute(filepath)
     ? filepath
     : resolve(process.cwd(), filepath);
-
-  const result = dotenvConfig({ path: absolutePath });
-
+  const result = dotenvConfig({ path: absolutePath, quiet: true });
   if (result.error) {
-    // Let dotenv handle file validation, just provide better error messages
     const errorMsg = result.error.message;
     if (errorMsg.includes("ENOENT")) {
       throw new Error(`Environment file not found: ${absolutePath}`);
-    } else if (errorMsg.includes("EACCES")) {
-      throw new Error(`Permission denied reading environment file: ${absolutePath}`);
-    } else {
-      throw new Error(`Failed to parse environment file at ${absolutePath}: ${errorMsg}`);
     }
+    if (errorMsg.includes("EACCES")) {
+      throw new Error(
+        `Permission denied reading environment file: ${absolutePath}`
+      );
+    }
+    throw new Error(
+      `Failed to parse environment file at ${absolutePath}: ${errorMsg}`
+    );
   }
 
-  // Expand variables like ${VAR} or $VAR in the env file
   dotenvExpand.expand(result);
-
   return result.parsed || {};
 }

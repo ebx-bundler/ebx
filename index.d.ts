@@ -88,6 +88,14 @@ export interface Config {
   import?: string[];
 
   /**
+   * Path to .env file to load environment variables
+   * Only used with the `run` option
+   * CLI flag: --envfile
+   * @default undefined
+   */
+  envfile?: string;
+
+  /**
    * Output directory for compiled files
    * @default "dist"
    */

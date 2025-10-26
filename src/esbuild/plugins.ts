@@ -34,9 +34,9 @@ export async function buildPlugins(
     plugins.push(progress({ dist: outdir, clear: config.reset }));
   }
 
-  // Warn if --env-file is used without --run
-  if (config.envFile && !config.run) {
-    log(yellow("Warning: --env-file has no effect without --run option"));
+  // Warn if --envfile is used without --run
+  if (config.envfile && !config.run) {
+    log(yellow("Warning: --envfile has no effect without --run option"));
   }
 
   if (config.run) {
@@ -55,7 +55,7 @@ export async function buildPlugins(
         nodeOptions,
         filename: config.run,
         killSignal: config.killSignal,
-        envFile: config.envFile,
+        envFile: config.envfile,
       })
     );
   }
