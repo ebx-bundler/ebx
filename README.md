@@ -113,7 +113,7 @@ ebx src/app.ts -wr
 
 - `-w, --watch`: Watch for changes in the source files and automatically rebuild when changes are detected.
 - `-r, --run [filename]`: Run the compiled program after a successful build. Can be used as a flag (`-r`) to run the generated output file, or with a filename argument (`-r custom.js`) to run a specific file instead.
-- `--envfile <path>`: Path to .env file to load environment variables (only used with `--run`).
+- `--env-file <path>`: Path to .env file to load environment variables (only used with `--run`).
 - `-nc, --no-clean`: Do not clean the build output directory before building.
 - `-s, --sourcemap`: Generate sourcemaps for the compiled JavaScript code.
 - `--tsconfig <tsconfig>`: Path to a custom TypeScript configuration file (tsconfig.json).
@@ -172,13 +172,13 @@ ebx src/app.ts -wr
    To load environment variables from a `.env` file when running your application:
 
    ```bash
-   ebx app.ts -r --envfile .env
+   ebx app.ts -r --env-file .env
    ```
 
    Or with a custom env file path:
 
    ```bash
-   ebx app.ts -r --envfile .env.local
+   ebx app.ts -r --env-file .env.local
    ```
 
 ## ES Modules
@@ -263,7 +263,7 @@ All options are optional and have sensible defaults:
 |--------|------|---------|-------------|
 | `run` | `boolean \| string` | `false` | Run the compiled output after build. `true` runs the generated file, or provide a string to run a specific file |
 | `watch` | `boolean` | `false` | Watch for changes and rebuild automatically |
-| `envfile` | `string` | `undefined` | Path to .env file to load environment variables (only used with `run`) |
+| `envFile` | `string` | `undefined` | Path to .env file to load environment variables (only used with `run`) |
 | `clean` | `boolean` | `false` | Clean output directory before build |
 | `sourcemap` | `boolean` | `false` | Generate source maps |
 | `tsconfig` | `string` | `"tsconfig.json"` | Path to TypeScript config file |

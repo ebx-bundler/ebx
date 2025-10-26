@@ -20,7 +20,7 @@ export interface BaseConfig {
   inject: string[];
   loader: Record<string, Loader>;
   target?: string;
-  envfile?: string;
+  envFile?: string;
 }
 
 export interface CliOption extends Partial<BaseConfig> {

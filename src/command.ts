@@ -19,7 +19,7 @@ program.option(
   "Import additional files before entry"
 );
 program.option("-r --run", "Run the program after build");
-program.option("--envfile <path>", "Path to .env file (only used with --run)");
+program.option("--env-file <path>", "Path to .env file (only used with --run)");
 program.option("--no-clean", "Skip cleaning output directory");
 program.option("-s --sourcemap", "Generate sourcemaps");
 program.option("--tsconfig <tsconfig>", "Path to custom tsconfig.json");

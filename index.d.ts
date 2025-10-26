@@ -90,10 +90,10 @@ export interface Config {
   /**
    * Path to .env file to load environment variables
    * Only used with the `run` option
-   * CLI flag: --envfile
+   * CLI flag: --env-file
    * @default undefined
    */
-  envfile?: string;
+  envFile?: string;
 
   /**
    * Output directory for compiled files
