@@ -1,9 +1,9 @@
-import type { Plugin, PluginBuild } from "esbuild";
 import { EOL } from "node:os";
+import type { Plugin, PluginBuild } from "esbuild";
 import { runNode } from "./node-runner";
 import { bold, dim } from "../../utils/colors";
 import { log } from "../../utils/logging";
-import { loadEnvFile } from "../../utils/utils";
+import { loadEnvFile } from "../../utils/env";
 
 interface RunOption {
   filename: string;
@@ -36,7 +36,6 @@ async function setup(build: PluginBuild, opts: RunOption) {
 }
 
 function onRestart(execute: ReturnType<typeof createRunner>) {
-  // Prevent duplicate listeners in watch mode
   if (restartListenerAttached) return;
   restartListenerAttached = true;
 
@@ -52,7 +51,6 @@ export function createRunner(option: RunOption) {
   let stopProcess: ReturnType<typeof runNode> | null = null;
   let isExecuting = false;
 
-  // Load env file once when runner is created
   const envVars = option.envFile ? loadEnvFile(option.envFile) : undefined;
 
   return async function execute() {
