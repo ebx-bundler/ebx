@@ -1,5 +1,11 @@
 # ebx
 
+## 0.2.2
+
+### Patch Changes
+
+- fix relative import path
+
 ## 0.1.7
 
 ### Patch Changes

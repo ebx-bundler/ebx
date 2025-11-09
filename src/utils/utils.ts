@@ -1,5 +1,4 @@
 import { type BuildOptions } from "esbuild";
-import { basename, extname, join } from "node:path";
 
 export function ensureCase<T extends Record<string, any>>(
   data: T,
@@ -22,9 +21,4 @@ export function getEntry(opt: BuildOptions) {
     throw new Error("invalid entry");
   }
   return opt.entryPoints[0] as string;
-}
-
-export function getOutputFilename(src: string, outdir: string, ext: string) {
-  const filename = basename(src, extname(src));
-  return join(outdir, filename) + ext;
 }

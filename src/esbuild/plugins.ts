@@ -1,6 +1,6 @@
 import type { Plugin } from "esbuild";
 import type { Config } from "../config";
-import { getOutputFilename } from "../utils/utils";
+import { getOutputFilename } from "../utils/path";
 import { progress } from "../plugins/progress";
 import { run } from "../plugins/run";
 import { tsCheckPlugin } from "../plugins/typescript";
@@ -34,7 +34,6 @@ export async function buildPlugins(
     plugins.push(progress({ dist: outdir, clear: config.reset }));
   }
 
-  // Warn if --env-file is used without --run
   if (config.envFile && !config.run) {
     log(yellow("Warning: --env-file has no effect without --run option"));
   }
@@ -47,7 +46,8 @@ export async function buildPlugins(
     // Create a copy to avoid mutating the original config
     const nodeOptions = [...config.nodeOptions];
     config.import.forEach((x) => {
-      nodeOptions.push("--import", getOutputFilename(x, outdir, outExtension));
+      const filename = getOutputFilename(x, outdir, outExtension);
+      nodeOptions.push("--import", filename);
     });
 
     plugins.push(
